@@ -53,13 +53,17 @@ export const register = async (req, res) => {
 // Đăng nhập
 export const login = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
         // Tìm tài khoản
-        const account = await Account.findOne({ username }).populate('memberId');
+        const account = await Account.findOne({ email });
         if (!account) {
-            return res.status(404).json({ message: 'Tên người dùng không tồn tại' });
+            return res.status(404).json({ message: 'Tài khoản không tồn tại!' });
         }
+
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Nhập email hoặc mật khẩu.' });
+          }
 
         // Kiểm tra mật khẩu
         const isMatch = await bcrypt.compare(password, account.password);
@@ -74,7 +78,12 @@ export const login = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
+    
+    res.status(200).json({ message: 'Đăng nhập thành công!' });
+
 };
+
+
 
 // Lấy thông tin hồ sơ người dùng
 export const getProfile = async (req, res) => {
