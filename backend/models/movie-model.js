@@ -9,8 +9,12 @@ const movieSchema = new mongoose.Schema (
     rating: { type: String, required:true},
     limit_age: {type:Number, required:true},
     poster_url: {type:String, required:true},
-    showtimes: {type:String, required: true}
+    release_date:{type:Date,required:true},
+    showtimes: {type:mongoose.Types.ObjectId,ref:ShowtimeModel , required: true}
     }
 );
+movieSchema.index({ title: 1 }); 
+movieSchema.index({ genre: 1 }); 
+movieSchema.index({ releaseDate: -1 });
 const MovieModel = mongoose.model("movies", movieSchema);
 export default MovieModel
