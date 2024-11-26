@@ -10,17 +10,17 @@ function Filmlist(prop){
         <div className="center_ul" id="wrap-product-list">
             <div className="center_ul" id="product-list">
             <div className="wrap-nodata hide"></div>
-            {prop.data ? prop.data.map((d) => (
-                    <Product
-                        key={d.id}
-                        clickEvent = {()=>{}}
-                        id={d.id}
-                        img={d.img}
-                        type={d.type}
-                        length={d.length}
-                        name={d.title}
-                    />
-                )) : ""}
+            {prop.data && prop.data.length > 0 ? prop.data.map((d) => (
+                <Product
+                    key={d._id}
+                    clickEvent={() => {}}
+                    id={d._id}
+                    img={d.poster_url}
+                    type={d.genre}
+                    length={d.duration}
+                    name={d.title}
+                />
+            )) : <div>No data available</div>}
             </div>
             <button className="btn_cus" id="more_films"><p className="text_upper">Xem thêm</p></button>
         </div>
