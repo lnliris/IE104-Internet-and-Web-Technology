@@ -14,6 +14,24 @@ export const getAllMovies = async (req, res, next) => {
     }
     return res.status(200).json({ movies });
   };
+  
+  export const getMoviesInHomepage = async (req, res, next) => { 
+    let movies;
+  
+    try {
+      // Sử dụng phương thức limit(6) để lấy chỉ 6 bộ phim đầu tiên
+      movies = await Movie.find().limit(6);
+    } catch (err) {
+      return console.log(err);
+    }
+  
+    if (!movies || movies.length === 0) {
+      return res.status(500).json({ message: "Request Failed" });
+    }
+  
+    // Trả về dữ liệu với 6 bộ phim đầu tiên
+    return res.status(200).json({ movies });
+  };
 
 export const getMovieById = async (req, res, next) => {
   const id = req.params.id;
