@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Account from './Account';
+import Account from './account-model';
 
 const SessionSchema = new mongoose.Schema({
     userId: {

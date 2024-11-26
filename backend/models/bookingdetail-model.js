@@ -1,12 +1,10 @@
 import mongoose from "mongoose";
-import UserModel from './UserModel'
-import BookingModel from './BookingModel'
-import TicketModel from'./TicketModel'
-import FandBModel from './F&BModel'
+import BookingModel from './booking-model'
+import TicketModel from'./ticket-model'
+import FandBModel from './F&B-model'
 
 const BookingDetailSchema = new mongoose.Schema (
     {
-        user_id:{type:mongoose.Types.ObjectId, ref:UserModel, required:true},
         booking_id:{type:mongoose.Types.ObjectId,ref:BookingModel,required:true},
         retail_list:{
             ticket_id:{type:mongoose.Types.ObjectId,ref:TicketModel,required:true},
@@ -17,4 +15,4 @@ const BookingDetailSchema = new mongoose.Schema (
 )
 
 const BookingDetailModel= mongoose.model("bookingDetail",BookingDetailSchema)
-module.exports=BookingDetailModel
+export default BookingDetailModel

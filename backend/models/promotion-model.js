@@ -8,4 +8,4 @@ const PromotionSchema = new mongoose.Schema(
 )
 
 const PromotionModel= mongoose.model("promotions",PromotionSchema)
-module.exports=PromotionModel
+export default PromotionModel

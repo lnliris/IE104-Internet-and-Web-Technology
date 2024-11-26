@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import RoomModel from './ScreeningRoomMode'
-import MovieModel from './MovieModel'
+import RoomModel from './room-model'
+import MovieModel from './movie-model'
 
 const showtimeSchema = new mongoose.Schema (
     {
@@ -13,4 +13,4 @@ const showtimeSchema = new mongoose.Schema (
 )
 
 const ShowtimeModel= mongoose.model("showtimes",showtimeSchema)
-module.exports=ShowtimeModel
+export default ShowtimeModel

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import BookingModel from './BookingModel'
-import PaymentModel from './PaymentModel'
+import BookingModel from './booking-model'
+import PaymentModel from './payment-model'
 
 
 const TransactionSchema = new mongoose.Schema({

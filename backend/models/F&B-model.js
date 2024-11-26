@@ -9,4 +9,4 @@ const FandBSchema = new mongoose.Schema (
 )
 
 const FandBModel= mongoose.model("fandb",FandBSchema)
-module.exports=FandBModel
+export default FandBModel

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import UserModel from './UserModel'
-import MovieModel from './MovieModel'
+import Member from './member-model'
+import MovieModel from './movie-model'
 
 const ReviewSchema = new mongoose.Schema (
     {
-        user_id:{type:mongoose.Types.ObjectId,ref:UserModel,required:true},
+        user_id:{type:mongoose.Types.ObjectId,ref:Member,required:true},
         movie_id:{type:mongoose.Types.ObjectId,ref:MovieModel,required:true},
         rating:{type:Number,required:true},
         comment:{type:String,required:true}
@@ -12,4 +12,4 @@ const ReviewSchema = new mongoose.Schema (
 )
 
 const ReviewModel= mongoose.model("reviews",ReviewSchema)
-module.exports=ReviewModel
+export default ReviewModel

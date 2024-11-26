@@ -8,4 +8,4 @@ const TheaterBrandSchema = new mongoose.Schema (
 )
 
 const TheaterBrandModel= mongoose.model("theaterBrands",TheaterBrandSchema)
-module.exports=TheaterBrandModel
+export default TheaterBrandModel

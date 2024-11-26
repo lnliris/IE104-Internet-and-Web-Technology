@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import UserModel from './UserModel'
-import ShowtimeModel from './ShowtimesModel'
-import SeatModel from './SeatModel'
+import Member from './member-model'
+import ShowtimeModel from './showtime-model'
+import SeatModel from './seat-model'
 
 const TicketSchema = new mongoose.Schema (
     {
-       user_id:{type:mongoose.Types.ObjectId,ref:UserModel,required:true},
+       user_id:{type:mongoose.Types.ObjectId,ref:Member,required:true},
        showtime_id:{type:mongoose.Types.ObjectId,ref:ShowtimeModel,required:true},
        seat_number:{type:mongoose.Types.ObjectId,ref:SeatModel,required:true},
        payment_status:{type:Boolean,required:true},
@@ -14,4 +14,4 @@ const TicketSchema = new mongoose.Schema (
 )
 
 const TicketModel= mongoose.model("tickets",TicketSchema)
-module.exports=TicketModel
+export default TicketModel

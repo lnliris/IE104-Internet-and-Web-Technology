@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import BookingModel from './BookingModel'
+import BookingModel from './booking-model'
 
 const PaymentSchema = new mongoose.Schema (
     {
@@ -10,4 +10,4 @@ const PaymentSchema = new mongoose.Schema (
 )
 
 const PaymentModel= mongoose.model("payments",PaymentSchema)
-module.exports=PaymentModel
+export default PaymentModel

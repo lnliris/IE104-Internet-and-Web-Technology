@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import RoomModel  from './ScreeningRoomMode'
+import RoomModel  from './room-model'
 
 const SeatSchema = new mongoose.Schema (
     {
@@ -11,4 +11,4 @@ const SeatSchema = new mongoose.Schema (
 )
 
 const SeatModel= mongoose.model("seats",SeatSchema)
-module.exports=SeatModel
+export default SeatModel

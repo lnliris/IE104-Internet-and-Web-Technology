@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import TheaterModel from './TheaterModel'
+import TheaterModel from './theater-model'
 
 const RoomSchema = new mongoose.Schema (
     {
@@ -10,4 +10,4 @@ const RoomSchema = new mongoose.Schema (
 )
 
 const RoomModel= mongoose.model("rooms",RoomSchema)
-module.exports=RoomModel
+export default RoomModel
