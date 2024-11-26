@@ -1,11 +1,11 @@
-const mongoose= require ('mongoose')
-const BookingModel = require('./BookingModel')
+import mongoose from "mongoose";
+import BookingModel from './BookingModel'
 
 const PaymentSchema = new mongoose.Schema (
     {
         booking_id:{type:mongoose.Types.ObjectId,ref:BookingModel,required:true},
         method:{type:String,required:true},
-        time:{type:Date,required:true}.
+        time:{type:Date,required:true},
     }
 )
 

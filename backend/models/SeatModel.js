@@ -1,5 +1,5 @@
-const mongoose= require ('mongoose')
-const RoomModel = require('./ScreeningRoomMode')
+import mongoose from "mongoose";
+import RoomModel  from './ScreeningRoomMode'
 
 const SeatSchema = new mongoose.Schema (
     {

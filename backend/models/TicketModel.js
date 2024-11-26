@@ -1,7 +1,7 @@
-const mongoose= require ('mongoose')
-const UserModel = require('./UserModel')
-const ShowtimeModel = require('./ShowtimesModel')
-const SeatModel = require('./SeatModel')
+import mongoose from "mongoose";
+import UserModel from './UserModel'
+import ShowtimeModel from './ShowtimesModel'
+import SeatModel from './SeatModel'
 
 const TicketSchema = new mongoose.Schema (
     {

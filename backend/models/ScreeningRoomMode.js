@@ -1,5 +1,5 @@
-const mongoose= require ('mongoose')
-const TheaterModel = require('./TheaterModel')
+import mongoose from "mongoose";
+import TheaterModel from './TheaterModel'
 
 const RoomSchema = new mongoose.Schema (
     {

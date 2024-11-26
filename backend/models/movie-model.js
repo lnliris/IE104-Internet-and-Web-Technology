@@ -10,7 +10,6 @@ const movieSchema = new mongoose.Schema (
     limit_age: {type:Number, required:true},
     poster_url: {type:String, required:true},
     release_date:{type:Date,required:true},
-    showtimes: {type:mongoose.Types.ObjectId,ref:ShowtimeModel , required: true}
     }
 );
 movieSchema.index({ title: 1 }); 

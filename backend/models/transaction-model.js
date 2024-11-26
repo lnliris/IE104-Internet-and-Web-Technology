@@ -1,6 +1,6 @@
-const mongoose=require('mongoose')
-const BookingModel= require('./BookingModel')
-const PaymentModel=require('./PaymentModel')
+import mongoose from 'mongoose'
+import BookingModel from './BookingModel'
+import PaymentModel from './PaymentModel'
 
 
 const TransactionSchema = new mongoose.Schema({

@@ -1,8 +1,8 @@
-const mongoose= require ('mongoose')
-const UserModel = require('./UserModel')
-const BookingModel = require('./BookingModel')
-const TicketModel = require('./TicketModel')
-const FandBModel = require('./F&BModel')
+import mongoose from "mongoose";
+import UserModel from './UserModel'
+import BookingModel from './BookingModel'
+import TicketModel from'./TicketModel'
+import FandBModel from './F&BModel'
 
 const BookingDetailSchema = new mongoose.Schema (
     {

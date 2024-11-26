@@ -1,6 +1,6 @@
-const mongoose= require ('mongoose')
-const UserModel = require('./UserModel')
-const MovieModel = require('./MovieModel')
+import mongoose from "mongoose";
+import UserModel from './UserModel'
+import MovieModel from './MovieModel'
 
 const ReviewSchema = new mongoose.Schema (
     {

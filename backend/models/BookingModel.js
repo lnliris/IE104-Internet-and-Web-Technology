@@ -1,5 +1,5 @@
-const mongoose= require ('mongoose')
-const UserModel = require('./UserModel')
+import mongoose from "mongoose";
+import UserModel from './UserModel'
 
 const BookingSchema = new mongoose.Schema (
     {
