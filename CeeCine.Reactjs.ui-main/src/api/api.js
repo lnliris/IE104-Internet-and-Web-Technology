@@ -1,5 +1,5 @@
 import axios from "axios";
-export const getAllMovies = async () => {
+export const getMoviesInHomepage = async () => {
   const res = await axios.get("http://localhost:8081/movie").catch((err) => console.log(err));
 
   if (res.status !== 200) {

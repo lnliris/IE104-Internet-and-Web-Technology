@@ -5,14 +5,14 @@ import Filmlist from "../components/film_list";
 import FilterSearch from "../components/filter-search";
 import Header from "../components/header";
 import Promolist from "../components/promotion_list";
-import { getAllMovies } from "../api/api";
+import { getMoviesInHomepage } from "../api/api";
 
 function contentProductPage(){
 
     const [movies, setMovies] = useState()
     useEffect(() => {
         
-        getAllMovies()
+        getMoviesInHomepage()
           .then((data) => {setMovies(data.movies)
           })
           
