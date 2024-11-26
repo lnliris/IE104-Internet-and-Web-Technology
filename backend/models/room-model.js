@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import TheaterModel from './theater-model'
+import TheaterModel from './theater-model.js'
 
 const RoomSchema = new mongoose.Schema (
     {

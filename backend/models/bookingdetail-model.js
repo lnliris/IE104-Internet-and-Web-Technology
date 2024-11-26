@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import BookingModel from './booking-model'
-import TicketModel from'./ticket-model'
-import FandBModel from './F&B-model'
+import BookingModel from './booking-model.js'
+import TicketModel from'./ticket-model.js'
+import FandBModel from './F&B-model.js'
 
 const BookingDetailSchema = new mongoose.Schema (
     {

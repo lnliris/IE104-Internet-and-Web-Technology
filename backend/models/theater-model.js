@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import TheaterBrandModel from './theaterbrand-model'
+import TheaterBrandModel from './theaterbrand-model.js'
 
 const TheaterSchema = new mongoose.Schema (
     {

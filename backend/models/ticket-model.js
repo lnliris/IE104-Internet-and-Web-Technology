@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import Member from './member-model'
-import ShowtimeModel from './showtime-model'
-import SeatModel from './seat-model'
+import Member from './member-model.js'
+import ShowtimeModel from './showtime-model.js'
+import SeatModel from './seat-model.js'
 
 const TicketSchema = new mongoose.Schema (
     {

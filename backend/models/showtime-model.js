@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import RoomModel from './room-model'
-import MovieModel from './movie-model'
+import RoomModel from './room-model.js'
+import MovieModel from './movie-model.js'
 
 const showtimeSchema = new mongoose.Schema (
     {

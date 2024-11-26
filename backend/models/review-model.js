@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import Member from './member-model'
-import MovieModel from './movie-model'
+import Member from './member-model.js'
+import MovieModel from './movie-model.js'
 
 const ReviewSchema = new mongoose.Schema (
     {

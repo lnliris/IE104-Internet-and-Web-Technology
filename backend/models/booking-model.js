@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Member from './member-model'
+import Member from './member-model.js'
 
 const BookingSchema = new mongoose.Schema (
     {
