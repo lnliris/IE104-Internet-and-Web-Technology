@@ -24,6 +24,55 @@ export const getShowtimeByMovieId = async (req, res) => {
     }
 };
 
+
+export const addShowtime = async (req, res) => {
+    const { id: movieId } = req.params;  // Lấy movieId từ tham số URL
+    const { screening_room_id, date, language } = req.body;  // Lấy dữ liệu từ body
+
+    // Kiểm tra xem movieId có hợp lệ không
+    if (!mongoose.Types.ObjectId.isValid(movieId)) {
+        return res.status(400).json({ message: "Invalid Movie ID" });
+    }
+
+    // Kiểm tra xem các trường dữ liệu có hợp lệ không
+    if (!screening_room_id || !mongoose.Types.ObjectId.isValid(screening_room_id)) {
+        return res.status(400).json({ message: "Invalid Screening Room ID" });
+    }
+
+    if (!date || new Date(date).toString() === "Invalid Date") {
+        return res.status(400).json({ message: "Invalid Date" });
+    }
+
+    if (!language || language.trim() === "") {
+        return res.status(400).json({ message: "Language is required" });
+    }
+
+    try {
+        // Tạo đối tượng showtime mới
+        const newShowtime = new Showtime({
+            movie_id: movieId,  
+            screening_room_id: screening_room_id,
+            date: new Date(date),  
+            language: language.trim()  
+        });
+
+        // Lưu showtime mới vào cơ sở dữ liệu
+        const savedShowtime = await newShowtime.save();
+
+        // Trả về kết quả showtime đã được thêm mới
+        return res.status(201).json({
+            message: "Showtime added successfully",
+            showtime: savedShowtime
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Failed to add showtime",
+            error: error.message
+        });
+    }
+};
+
+
 export const editShowtime = async (req, res) => {
     const { id: movieId, showtimeId } = req.params;   // Lấy showtimeId từ tham số URL
     const { movie_id, screening_room_id, date, language } = req.body;  // Lấy dữ liệu từ body
