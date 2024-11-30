@@ -2,6 +2,8 @@ import Account from '../models/account-model.js';
 import Member from '../models/member-model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { sendEmail } from '../utils/email.js';
+import { generateOTP } from '../utils/OTP.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -129,9 +131,112 @@ export const logout = async (req, res) => {
         // Xóa token ở phía client, thông qua cookie (nếu sử dụng cookie)
         res.clearCookie('token', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
 
-        // Hoặc nếu bạn đang lưu token trong localStorage/sessionStorage thì thông báo xóa token đó
+        // Nếu đang lưu token trong localStorage/sessionStorage thì thông báo xóa token đó
         res.status(200).json({ message: 'Đã đăng xuất thành công' });
     } catch (err) {
         res.status(500).json({ error: 'Lỗi khi đăng xuất', message: err.message });
+    }
+};
+
+// Yêu cầu đặt lại mật khẩu
+export const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        // Tìm tài khoản theo email
+        const account = await Account.findOne({ username: email });
+        if (!account) {
+            return res.status(404).json({ message: 'Email không tồn tại.' });
+        }
+
+        // Tạo OTP ngẫu nhiên
+        const otp = generateOTP();
+
+        // Lưu OTP vào cơ sở dữ liệu và thời gian hết hạn
+        account.passwordResetToken = otp;
+        account.passwordResetExpires = Date.now() + 10 * 60 * 1000; // OTP hết hạn sau 10 phút
+        await account.save();
+        
+         // Gửi OTP qua email
+        const mailSubject = 'Đặt lại mật khẩu CeeCine';
+        const mailText = `Mã OTP của bạn là: ${otp}. Mã OTP sẽ hết hạn sau 10 phút.`;
+
+        try {
+            await sendEmail(email, mailSubject, mailText);
+            res.status(200).json({ message: 'Mã OTP đã được gửi tới email của bạn.' });
+        } catch (err) {
+            res.status(500).json({ message: 'Không thể gửi email', error });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Đã có lỗi xảy ra.' });
+      }
+};
+
+export const verifyOTP = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+
+        // Kiểm tra người dùng
+        const account = await Account.findOne({ username: email });
+        if (!account) {
+            return res.status(404).json({ message: 'Email không tồn tại.' });
+        }
+
+        // Kiểm tra OTP
+        if (account.passwordResetToken !== otp) {
+            return res.status(400).json({ message: 'OTP không chính xác.' });
+        }
+        
+        // Kiểm tra thời gian hết hạn của OTP
+        if (Date.now() > account.passwordResetExpires) {
+            return res.status(400).json({ message: 'Mã OTP đã hết hạn.' });
+        }
+
+        // Đánh dấu OTP đã xác minh
+        account.passwordResetToken = null;  // Xóa OTP sau khi đã sử dụng
+        account.passwordResetExpires = null;  // Xóa thời gian hết hạn
+        account.isOtpVerified = true;
+        await account.save();
+
+        console.log('verifyOtp called with:', req.body);
+        res.status(200).json({ message: 'OTP hợp lệ. Bạn có thể đặt lại mật khẩu.' });
+    } catch (err) {
+        console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export const resetPassword = async (req, res) => {
+    const {email, newPassword } = req.body;
+
+    try {
+        // Kiểm tra người dùng
+        const account = await Account.findOne({ username: email });
+        if (!account || !account.isOtpVerified) {
+            return res.status(400).json({ message: 'OTP chưa được xác minh.' });
+        }
+
+
+        // Kiểm tra độ mạnh của mật khẩu
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+        if (!passwordRegex.test(newPassword)) {
+            return res.status(400).json({
+                message: 'Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ hoa, chữ thường và ký tự đặc biệt.',
+            });
+        }
+
+        // Mã hóa mật khẩu mới
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Cập nhật mật khẩu mới
+        account.password = hashedPassword;
+        account.isOtpVerified = false;
+        await account.save();
+
+        res.status(200).json({ message: 'Mật khẩu đã được đặt lại thành công.' });
+
+    } catch (error) {
+        //console.error('Lỗi chi tiết:', error);
+        res.status(500).json({ error: 'Đã có lỗi xảy ra.'})
     }
 };

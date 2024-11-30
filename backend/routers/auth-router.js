@@ -1,5 +1,5 @@
 import express from "express";
-import { register, login, getProfile, logout } from '../controllers/auth-controller.js';
+import { register, login, getProfile, logout, forgotPassword, verifyOTP, resetPassword } from '../controllers/auth-controller.js';
 import authMiddleware from '../middlewares/auth-middlewares.js';
 import loginLimiter from '../middlewares/rate-limit-middleware.js';
 import upload from '../middlewares/uploadMiddleware.js';
@@ -10,5 +10,9 @@ AccountRouter.post('/register', upload.single('avatar'), register); // Đăng k�
 AccountRouter.post('/login', loginLimiter, login); // // Route đăng nhập (áp dụng giới hạn đăng nhập)
 AccountRouter.get('/profile', authMiddleware, getProfile)
 AccountRouter.post('/logout', logout);
+AccountRouter.post('/forgot-password', forgotPassword);
+AccountRouter.post('/verify-otp', verifyOTP );
+AccountRouter.post('/reset-password', resetPassword);
+
 
 export default AccountRouter;
