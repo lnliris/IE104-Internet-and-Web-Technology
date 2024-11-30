@@ -4,6 +4,7 @@ import Index from "./pages";
 import Loading from "./components/loading";
 import PopErr from "./components/PopErr";
 import PopSuc from "./components/PopSuc";
+import showtime from "./pages/showtime";
 function App() {
 
   return (
@@ -11,11 +12,11 @@ function App() {
     <Loading/>
     <PopErr/>
     <PopSuc/>
-    <BrowserRouter>
       <Routes>
         <Route path="/*" element={<Index />}/>
+        <Route path="/showtime" element={<showtime />} />
       </Routes>
-    </BrowserRouter>
+    
     </>
   )
 }
