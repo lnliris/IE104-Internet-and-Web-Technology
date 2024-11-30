@@ -50,22 +50,19 @@ export const getMovieById = async (req, res, next) => {
 };
 
 
-export const getSearchMovie = async (req, res, next) => {
-  const { title, genre } = req.query;
+export const getSearchMovie = async (req, res, next) => { 
+  const { title } = req.query; // Lấy chỉ `title` từ query
 
-  // Xây dựng đối tượng truy vấn dựa trên các tham số đã nhập
-  let query = {};
+  if (!title) {
+    return res.status(400).json({ message: "Cần có tiêu đề phim để tìm kiếm" });
+  }
 
-  if (title) {
-    query.title = { $regex: title, $options: "i" }; // $regex cho tìm kiếm không phân biệt chữ hoa/chữ thường
-  }
-  if (genre) {
-    query.genre = { $regex: genre, $options: "i" };
-  }
-  
+  // Xây dựng đối tượng truy vấn chỉ dựa vào `title`
+  let query = { title: { $regex: title, $options: "i" } }; // Tìm kiếm không phân biệt chữ hoa/chữ thường
+
   let results;
   try {
-    results = await Movie.find(query); // Tìm kiếm phim dựa trên đối tượng truy vấn
+    results = await Movie.find(query); // Tìm kiếm phim theo `title`
   } catch (err) {
     return res.status(500).json({ message: "Lỗi khi tìm kiếm phim" });
   }
@@ -76,6 +73,7 @@ export const getSearchMovie = async (req, res, next) => {
 
   return res.status(200).json({ results });
 };
+
 
 export const addMovie = async (req, res, next) => { 
   const { 
