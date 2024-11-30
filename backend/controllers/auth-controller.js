@@ -240,3 +240,65 @@ export const resetPassword = async (req, res) => {
         res.status(500).json({ error: 'Đã có lỗi xảy ra.'})
     }
 };
+
+
+export const updateProfile = async (req, res) => {
+    try {
+        const accountId = req.user.id; // ID từ JWT
+        const { name, phone, dateOfBirth, email, gender, avatar } = req.body;
+
+        const account = await Account.findById(accountId).populate('member');
+        if (!account) {
+            return res.status(404).json({ message: 'Không tìm thấy tài khoản' });
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (email && !emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Email không hợp lệ' });
+        }
+
+
+        const memberId = account.member;
+
+        const existingMember = await Member.findById(memberId);
+
+        // Nếu email thay đổi, cập nhật email trong Member và username trong Account
+        if (email && email !== existingMember.email) {
+            // Kiểm tra email đã tồn tại chưa
+            const emailExists = await Member.findOne({ email });
+            if (emailExists) {
+                return res.status(400).json({ message: 'Email đã tồn tại' });
+            }
+
+            // Cập nhật username trong Account
+            await Account.findOneAndUpdate(
+                { username: email },
+                { new: true }
+            );
+        }
+
+        // Cập nhật các trường được gửi trong req.body
+        const updatedFields = {};
+        if (name) updatedFields.name = name;
+        if (phone) updatedFields.phone = phone;
+        if (dateOfBirth) updatedFields.dateOfBirth = dateOfBirth;
+        if (gender) updatedFields.gender = gender;
+        if (avatar) updatedFields.avatar = avatar;
+        if (email) updatedFields.email = email;
+
+
+        const updatedMember = await Member.findByIdAndUpdate(
+            memberId,
+            updatedFields,
+            { new: true, runValidators: true }
+        );
+
+        res.status(200).json({
+            message: 'Cập nhật thông tin thành công',
+            updatedProfile: updatedMember,
+        });
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
