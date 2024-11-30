@@ -5,8 +5,7 @@ import dotenv from "dotenv";
 import userRouter from "./routers/user-router.js";
 import movieRouter from "./routers/movie-router.js"
 import couponRouter from "./routers/coupon-router.js"
-import Account from "./models/account-model.js";
-import AccountRouter from "./routers/account-router.js";
+import AccountRouter from "./routers/auth-router.js";
 dotenv.config();
 
 const app = express();

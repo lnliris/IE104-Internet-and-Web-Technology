@@ -5,12 +5,17 @@ import { FaSearch } from "react-icons/fa";
 
 // Hàm chức năng thu nhỏ mở rộng tìm kiếm
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
   const [isVisible, setIsVisible] = useState(false); // State to control visibility
   const [searchTerm, setSearchTerm] = useState(''); // State for search input value
 
   // Toggle the visibility of the search bar
   const toggleSearchBar = () => {
+    if (isVisible) {
+      // Nếu thanh tìm kiếm đã hiển thị, thì thực hiện tìm kiếm
+      onSearch(searchTerm); // Gọi hàm tìm kiếm từ component cha
+    }
+    // Nếu thanh tìm kiếm chưa hiển thị, thì hiển thị thanh tìm kiếm
     setIsVisible((prev) => !prev);
   };
 
