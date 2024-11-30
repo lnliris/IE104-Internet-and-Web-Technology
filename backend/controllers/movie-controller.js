@@ -183,3 +183,41 @@ export const deleteMovie = async (req, res, next) => {
 
   return res.status(200).json({ message: "Movie deleted successfully", movie: deletedMovie });
 };
+
+// get Movie details
+export const getMovieDetails = async (req, res) => {
+  try {
+      const movieId = req.params.id;
+      console.log('Movie ID:', movieId);
+
+      // Validate movie ID
+      if (!movieId.match(/^[0-9a-fA-F]{24}$/)) {
+          return res.status(400).json({ error: 'Invalid movie ID format.' });
+      }
+
+      // Find the movie by ID
+      const movie = await Movie.findById(movieId);
+
+      // If movie not found, respond with 404
+      if (!movie) {
+          return res.status(404).json({ error: 'Movie not found.' });
+      }
+
+      // Return movie details
+      res.status(200).json({
+          title: movie.title,
+          description: movie.description,
+          cast: movie.cast, 
+          crew: movie.crew, 
+          release_date: movie.release_date,
+          genre: movie.genre,
+          duration: movie.duration,
+          rating: movie.rating,
+          poster_url: movie.poster_url,
+          limit_age: movie.limit_age
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Server error. Please try again later.' });
+  }
+};
