@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllMovies, getSearchMovie, getMoviesInHomepage, addMovie, editMovie, deleteMovie } from "../controllers/movie-controller.js";
+import { getAllMovies, getSearchMovie, getMoviesInHomepage, addMovie, editMovie, deleteMovie, getMovieDetails } from "../controllers/movie-controller.js";
 import { getShowtimes } from "../controllers/showtime-controller.js";
 const movieRouter = express.Router();
     movieRouter.get("/",getMoviesInHomepage);
@@ -9,4 +9,5 @@ const movieRouter = express.Router();
     movieRouter.post("/", addMovie);
     movieRouter.put("/:id", editMovie);
     movieRouter.delete("/:id", deleteMovie);
+    movieRouter.get("/:id", getMovieDetails);
 export default movieRouter;
