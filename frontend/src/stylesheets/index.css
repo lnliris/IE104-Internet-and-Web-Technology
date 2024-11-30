@@ -59,6 +59,10 @@
 /* about */
 @import url("./components/about.css");
 
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
 #about1{
     margin-top: 80px;
 }
