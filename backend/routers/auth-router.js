@@ -1,13 +1,14 @@
 import express from "express";
-import { register, login, getProfile } from '../controllers/account-controller.js';
+import { register, login, getProfile, logout } from '../controllers/auth-controller.js';
 import authMiddleware from '../middlewares/auth-middlewares.js';
 import loginLimiter from '../middlewares/rate-limit-middleware.js';
-
+import upload from '../middlewares/uploadMiddleware.js';
 
 const AccountRouter = express.Router();
 
-AccountRouter.post('/register', register); // Đăng ký tài khoản
-AccountRouter.get('/profile', authMiddleware, getProfile); // Lấy thông tin hồ sơ
+AccountRouter.post('/register', upload.single('avatar'), register); // Đăng ký tài khoản
 AccountRouter.post('/login', loginLimiter, login); // // Route đăng nhập (áp dụng giới hạn đăng nhập)
+AccountRouter.get('/profile', authMiddleware, getProfile)
+AccountRouter.post('/logout', logout);
 
 export default AccountRouter;
