@@ -13,7 +13,12 @@ function navbar(){
     useEffect(()=>{
     },[location]) 
 
-
+    const handleSearch = (searchTerm) => {
+        // Chuyển hướng đến trang tìm kiếm với từ khóa tìm kiếm trong URL
+        if (searchTerm) {
+          navigate(`/search?title=${searchTerm}`);
+        }
+      }; 
 
     return(
         <>
@@ -38,7 +43,7 @@ function navbar(){
             </div>
 
             <div className="wrap_auth_btn" id="auth_btn">
-                <SearchBar/>
+                <SearchBar onSearch={handleSearch} />
                 <button onClick={()=>{
                     $("#authpopup").removeClass("hide");
                 }} className="btn nav_header" id="login"><p>Đăng nhập</p></button>
