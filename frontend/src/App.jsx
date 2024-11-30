@@ -13,20 +13,18 @@ function App() {
     {/* <Loading/>
     <PopErr/>
     <PopSuc/> */}
-    <Showtime></Showtime>
-    
     {/* <Routes>
       <Route path="/" element={<Index />}/>
       <Route path='/showtime' element={<Showtime />} />
     </Routes> */}
     
     <PopSuc/>
-    <BrowserRouter>
+    
       <Routes>
         <Route path="/" element={<Index />}/>
         <Route path="/search" element={<SearchPage />} />
       </Routes>
-    </BrowserRouter>
+    
     </>
   )
 }
