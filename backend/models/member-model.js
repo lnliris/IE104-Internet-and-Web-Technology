@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const MemberSchema = new mongoose.Schema({
-        name: { 
+    name: { 
         type: String, 
         required: true
     },
@@ -23,9 +23,10 @@ const MemberSchema = new mongoose.Schema({
         enum: ['Nam', 'Nữ', 'Khác'], 
         required: true 
     },
-        avatar: { 
-            type: String // Đường dẫn ảnh đại diện
-        }, 
+    avatar: { 
+        type: String, // Đường dẫn ảnh đại diện,
+        required: false,
+    }, 
     createdAt: { 
         type: Date, 
         default: Date.now 
@@ -33,5 +34,5 @@ const MemberSchema = new mongoose.Schema({
 });
 
 
-const Member= mongoose.model("member",MemberSchema)
+const Member= mongoose.model("members", MemberSchema)
 export default Member;

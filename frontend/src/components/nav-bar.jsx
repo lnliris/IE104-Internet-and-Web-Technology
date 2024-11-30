@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import $ from "jquery";
 import logo from "../assets/img/logo.png";
+import SearchBar from "./SearchBar";
 
 function navbar(){
 
@@ -12,7 +13,12 @@ function navbar(){
     useEffect(()=>{
     },[location]) 
 
-
+    const handleSearch = (searchTerm) => {
+        // Chuyển hướng đến trang tìm kiếm với từ khóa tìm kiếm trong URL
+        if (searchTerm) {
+          navigate(`/search?title=${searchTerm}`);
+        }
+      }; 
 
     return(
         <>
@@ -37,9 +43,7 @@ function navbar(){
             </div>
 
             <div className="wrap_auth_btn" id="auth_btn">
-                <button className="btn" id="search" ><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M26.75 26.75L19.388 19.388M19.388 19.388C21.3108 17.4653 22.5 14.809 22.5 11.875C22.5 6.00697 17.743 1.25 11.875 1.25C6.00697 1.25 1.25 6.00697 1.25 11.875C1.25 17.743 6.00697 22.5 11.875 22.5C14.809 22.5 17.4653 21.3108 19.388 19.388Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg></button>
+                <SearchBar onSearch={handleSearch} />
                 <button onClick={()=>{
                     $("#authpopup").removeClass("hide");
                 }} className="btn nav_header" id="login"><p>Đăng nhập</p></button>
