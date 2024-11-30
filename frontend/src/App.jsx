@@ -23,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />}/>
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/showtime" element={<Showtime/>} />
       </Routes>
     
     </>
