@@ -1,6 +1,6 @@
 import Account from '../models/account-model.js';
 import Member from '../models/member-model.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 // Đăng ký tài khoản mới
