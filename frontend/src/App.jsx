@@ -5,7 +5,8 @@ import SearchPage from "./pages/searchPage";
 import Loading from "./components/loading";
 import PopErr from "./components/PopErr";
 import PopSuc from "./components/PopSuc";
-import Showtime from "./pages/Showtime";
+import ShowtimePage from "./pages/ShowtimePage";
+import MovieCardPage from "./pages/MovieCardPage";
 function App() {
 
   return (
@@ -23,7 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />}/>
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/showtime" element={<Showtime/>} />
+        <Route path="/showtime" element={<ShowtimePage/>} />
       </Routes>
     
     </>

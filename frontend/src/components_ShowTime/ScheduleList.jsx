@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./ScheduleList.css"; // Import file CSS
 
 const schedules = [
   {
@@ -41,17 +42,14 @@ const ScheduleList = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-4 space-y-4">
+    <div className="schedule-list-container">
       {schedules.map((schedule, index) => (
-        <div
-          key={index}
-          className="border border-gray-300 rounded-lg overflow-hidden"
-        >
+        <div key={index} className="schedule-item">
           {/* Header */}
           <button
             onClick={() => toggleCinema(schedule.cinema)}
-            className={`w-full text-left px-4 py-2 bg-red-700 text-white font-bold ${
-              openCinema === schedule.cinema ? "rounded-t-lg" : "rounded-lg"
+            className={`schedule-header ${
+              openCinema === schedule.cinema ? "active" : ""
             }`}
           >
             {schedule.cinema}
@@ -59,14 +57,11 @@ const ScheduleList = () => {
 
           {/* Body */}
           {openCinema === schedule.cinema && (
-            <div className="px-4 py-2 bg-gray-100">
-              <p className="text-gray-700 text-sm">{schedule.address}</p>
-              <div className="mt-2 flex flex-wrap gap-2">
+            <div className="schedule-body">
+              <p className="schedule-address">{schedule.address}</p>
+              <div className="schedule-times">
                 {schedule.times.map((time, timeIndex) => (
-                  <button
-                    key={timeIndex}
-                    className="px-4 py-2 bg-gray-200 rounded-lg text-sm font-medium hover:bg-gray-300"
-                  >
+                  <button key={timeIndex} className="schedule-time-button">
                     {time}
                   </button>
                 ))}
