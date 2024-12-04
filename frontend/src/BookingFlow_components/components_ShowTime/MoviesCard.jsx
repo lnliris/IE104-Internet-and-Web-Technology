@@ -1,6 +1,6 @@
 import React from 'react';
 import './MovieCard.css'; // Import file CSS riêng
-import avengerposter from '../assets/img/avengerposter.jpg';
+import avengerposter from '../../assets/img/avengerposter.jpg';
 
 function MovieCard() {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import "./confirm.css"; // Import file CSS
-import avengerposter from '../assets/img/avengerposter.jpg';
+import avengerposter from '../../assets/img/avengerposter.jpg';
 
 function Confirm () {
   return (

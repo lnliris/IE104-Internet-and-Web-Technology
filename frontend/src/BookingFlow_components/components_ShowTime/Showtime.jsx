@@ -4,14 +4,16 @@ import ScheduleList from './ScheduleList';
 import TimeBar from './TimeBar';
 import Confirm from './Confirm';
 import CinemaSelector from './CinemaSelector';
-import ggmap from '../assets/img/ggmap.jpg'
+import ggmap from '../../assets/img/ggmap.jpg'
+import ProgressBar from '../component_ProgressBar/ProgressBar';
 function Showtime() {
   return (
     <>
     <div style={{marginBottom:'100px'}}> {/* Style cả trang showtime*/}
 
-    <div style={{display: 'flex',  justifyContent: 'center', alignItems: 'center'}}>
+    <div style={{display: 'flex',  justifyContent: 'center', alignItems: 'center', flexDirection:'column'}}>
       <MovieCard></MovieCard>
+      <ProgressBar Progress={0}></ProgressBar>
     </div>
 
     <div style={{display: 'flex', flexDirection:'row'}}>
@@ -29,6 +31,7 @@ function Showtime() {
           <Confirm></Confirm>
         </div>
       </div>
+      
     </div>
     
     </div>

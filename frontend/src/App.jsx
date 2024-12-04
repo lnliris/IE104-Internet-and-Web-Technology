@@ -6,7 +6,7 @@ import Loading from "./components/loading";
 import PopErr from "./components/PopErr";
 import PopSuc from "./components/PopSuc";
 import ShowtimePage from "./pages/ShowtimePage";
-import MovieCardPage from "./pages/MovieCardPage";
+
 function App() {
 
   return (
@@ -26,6 +26,7 @@ function App() {
         <Route path="/home" element={<Index />}/>
         <Route path="/search" element={<SearchPage />} />
         <Route path="/showtime" element={<ShowtimePage/>} />
+        
       </Routes>
     
     </>
