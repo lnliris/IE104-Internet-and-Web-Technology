@@ -9,7 +9,7 @@
     padding-left: 20px;
     padding-right: 20px;
     max-width: 450px;
-   
+    gap: 15px;
     margin-bottom: 10px;
     margin-top: 5px;
   }
@@ -25,6 +25,7 @@
     max-width: 450px;
     box-sizing: border-box;
     width: 100%;
+    
   }
   
   /* Poster */
@@ -86,7 +87,6 @@
     display: flex;
     justify-content: center;
     gap: 50px;
-    margin-top: 20px;
     width: 300px;
   }
   
