@@ -1,6 +1,6 @@
 import MovieCard from "../components_ShowTime/MoviesCard"
 import ProgressBar from "../component_ProgressBar/ProgressBar"
-import Confirm from "../components_ShowTime/Confirm"
+import ConfirmSelectSeat from "./ConfirmSelectSeat"
 import CinemaSeat from "./CinemaSeat"
 function SelectSeats() {
   return (
@@ -17,7 +17,7 @@ function SelectSeats() {
           <CinemaSeat/>
         </div>
         <div id='NhanhBenPhai' style={{display: 'flex', flex:'2', justifyContent:'center', alignItems:'center' }}>
-          <Confirm></Confirm>
+          <ConfirmSelectSeat/>
         </div>
       </div>
 
