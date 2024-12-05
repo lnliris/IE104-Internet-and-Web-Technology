@@ -18,7 +18,7 @@ const MenuItem = ({ item }) => {
         <button onClick={handleDecrease} className="button">
           -
         </button>
-        <span>{quantity}</span>
+        <span style={{fontSize:'15px', color:'white'}}>{quantity}</span>
         <button onClick={handleIncrease} className="button">
           +
         </button>
