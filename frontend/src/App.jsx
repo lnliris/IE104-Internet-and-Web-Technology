@@ -7,6 +7,7 @@ import PopErr from "./components/PopErr";
 import PopSuc from "./components/PopSuc";
 import ShowtimePage from "./pages/ShowtimePage";
 import SelectSeatsPage from "./pages/SelectSeatsPage";
+import CornPage from "./pages/CornPage";
 function App() {
 
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/showtime" element={<ShowtimePage/>} />
         <Route path='/selectseats' element={<SelectSeatsPage/>} />
+        <Route path='/cornpage' element={<CornPage/>} />
       </Routes>
     
     </>
