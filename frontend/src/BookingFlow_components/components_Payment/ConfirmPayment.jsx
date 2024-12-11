@@ -1,12 +1,12 @@
 import React from "react";
-import "./ConfirmCorn.css"; // Import file CSS
+import "./ConfirmPayment.css"; // Import file CSS
 import avengerposter from '../../assets/img/avengerposter.jpg';
 import { useNavigate } from "react-router";
-function ConfirmCorn () {
+function ConfirmPayment () {
   const navigate = useNavigate();
   
   const handleBack = () => {
-    navigate('/selectseats');
+    navigate('/cornpage');
   };
   const handleNext = () => {
     navigate('/payment')
@@ -70,4 +70,4 @@ function ConfirmCorn () {
   );
 };
 
-export default ConfirmCorn;
+export default ConfirmPayment;

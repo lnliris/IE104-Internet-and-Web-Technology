@@ -8,6 +8,7 @@ import PopSuc from "./components/PopSuc";
 import ShowtimePage from "./pages/ShowtimePage";
 import SelectSeatsPage from "./pages/SelectSeatsPage";
 import CornPage from "./pages/CornPage";
+import PaymentPage from "./pages/PaymentPage";
 function App() {
 
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/showtime" element={<ShowtimePage/>} />
         <Route path='/selectseats' element={<SelectSeatsPage/>} />
         <Route path='/cornpage' element={<CornPage/>} />
+        <Route path='/payment' element={<PaymentPage/>} />
       </Routes>
     
     </>

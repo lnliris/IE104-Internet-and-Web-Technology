@@ -1,8 +1,18 @@
 import React from "react";
 import "./confirmselectseat.css"; // Import file CSS
 import avengerposter from '../../assets/img/avengerposter.jpg';
+import { useNavigate } from "react-router";
 
 function ConfirmSelectSeat () {
+  const navigate = useNavigate();
+  
+  const handleBack = () => {
+    navigate('/showtime');
+  };
+  const handleNext = () => {
+    navigate('/cornpage')
+  };
+
   return (
     <div className="container">
       <div className="container_card">
@@ -47,8 +57,8 @@ function ConfirmSelectSeat () {
 
       {/* Nút điều hướng */}
       <div className="buttons">
-        <button className="button-back">Quay lại</button>
-        <button className="button-next">Tiếp theo</button>
+        <button className="button-back" onClick={handleBack}>Quay lại</button>
+        <button className="button-next" onClick={handleNext}>Tiếp theo</button>
       </div>
     </div>
   );
