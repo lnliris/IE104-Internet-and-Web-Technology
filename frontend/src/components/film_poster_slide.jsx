@@ -1,9 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import { useEffect } from "react";
 import $ from "jquery"
 import trailer from "../assets/videos/trailer.mp4"
 
-function Slide(){
+function FimlPosterSlide(){
 
     var position = 0;
 
@@ -64,7 +65,7 @@ function Slide(){
                 <div className="wrap_product">   
                     <div className="slide">
                         <div className="product p-0" style={{"position":"relative"}}>
-                            <div className="product-name" style={{"position":"absolute", "left":"10%","right":"30%"}}>
+                            <div className="product-name w-100 h-100 box-img-linear" style={{"alignContent":"center","position":"absolute", "left":"0","right":"0","padding":"0% 20% 0% 10%"}}>
                                 <h1 className="mb-10" style={{"fontSize":"60px"}}>Avartar</h1>
                                 <span style={{"fontSize":"12px","textWrap":"wrap"}}>Trong phần này, khán giả sẽ được khám phá những nền văn hóa và bối cảnh mới trên hành tinh Pandora, với sự xuất hiện của các nhân vật và sinh vật mới. Đạo diễn Cameron tiết lộ rằng phim sẽ mang đến những cảm xúc sâu sắc hơn và đi vào những khía cạnh tối tăm hơn so với các phần trước.</span>
                                 <div className="wrap-btn-action mt-20">
@@ -72,9 +73,7 @@ function Slide(){
                                     <button className="btn_cus btn_film" style={{"border":"1px solid white","backgroundColor":"transparent"}}><p>Xem thêm</p></button>
                                 </div>
                             </div>
-                           <video className="w-100 h-100" style={{"objectFit":"cover","aspectRatio":"9/16"}} controls autoPlay muted loop>
-                                <source src={trailer} type="video/mp4" aria-controls="" />
-                           </video>
+                            <img className="w-100 h-100" style={{"objectFit":"cover"}} src="https://congluan-cdn.congluan.vn/files/content/2022/04/30/2-1-06204547.jpg"/> 
                         </div>
 
                     </div>
@@ -83,33 +82,28 @@ function Slide(){
                     <div className="slide">
 
                     <div className="product p-0" style={{"position":"relative"}}>
-                            <div className="product-name" style={{"position":"absolute", "left":"10%","right":"30%"}}>
-                                <h1 className="mb-10" style={{"fontSize":"60px"}}>Avartar</h1>
-                                <span style={{"fontSize":"12px","textWrap":"wrap"}}>Trong phần này, khán giả sẽ được khám phá những nền văn hóa và bối cảnh mới trên hành tinh Pandora, với sự xuất hiện của các nhân vật và sinh vật mới. Đạo diễn Cameron tiết lộ rằng phim sẽ mang đến những cảm xúc sâu sắc hơn và đi vào những khía cạnh tối tăm hơn so với các phần trước.</span>
+                    <div className="product-name w-100 h-100 box-img-linear" style={{"alignContent":"center","position":"absolute", "left":"0","right":"0","padding":"0% 20% 0% 10%"}}>
+                    <h1 className="mb-10" style={{"fontSize":"60px"}}>Venom: The Last Dance</h1>
+                                <span style={{"fontSize":"12px","textWrap":"wrap"}}>Eddie Brock and Venom must make a devastating decision as they're pursued by a mysterious military man and alien monsters from Venom's home world.</span>
                                 <div className="wrap-btn-action mt-20">
                                     <button className="btn_cus btn_film" style={{"backgroundColor":"red"}}><p>Đặt vé ngay</p></button>
                                     <button className="btn_cus btn_film" style={{"border":"1px solid white","backgroundColor":"transparent"}}><p>Xem thêm</p></button>
                                 </div>
                             </div>
-                           <video className="w-100 h-100" style={{"objectFit":"cover","aspectRatio":"9/16"}} controls muted autoPlay loop>
-                                <source src={trailer} type="video/mp4" aria-controls="" />
-                           </video>
+                            <img className="w-100 h-100" style={{"objectFit":"cover"}} src="https://i.ytimg.com/vi/HyIyd9joTTc/maxresdefault.jpg"/>
                         </div>
 
                     </div>
                     <div className="slide ">
                     <div className="product p-0" style={{"position":"relative"}}>
-                            <div className="product-name" style={{"position":"absolute", "left":"10%","right":"30%"}}>
-                                <h1 className="mb-10" style={{"fontSize":"60px"}}>Avartar</h1>
-                                <span style={{"fontSize":"12px","textWrap":"wrap"}}>Trong phần này, khán giả sẽ được khám phá những nền văn hóa và bối cảnh mới trên hành tinh Pandora, với sự xuất hiện của các nhân vật và sinh vật mới. Đạo diễn Cameron tiết lộ rằng phim sẽ mang đến những cảm xúc sâu sắc hơn và đi vào những khía cạnh tối tăm hơn so với các phần trước.</span>
+                    <div className="product-name w-100 h-100 box-img-linear" style={{"alignContent":"center","position":"absolute", "left":"0","right":"0","padding":"0% 20% 0% 10%"}}>                                <h1 className="mb-10" style={{"fontSize":"60px"}}>Deadpool & Wolverine</h1>
+                                <span style={{"fontSize":"12px","textWrap":"wrap"}}>Deadpool's peaceful existence comes crashing down when the Time Variance Authority recruits him to help safeguard the multiverse. He soon unites with his would-be pal, Wolverine, to complete the mission and save his world from an existential threat.</span>
                                 <div className="wrap-btn-action mt-20">
                                     <button className="btn_cus btn_film" style={{"backgroundColor":"red"}}><p>Đặt vé ngay</p></button>
                                     <button className="btn_cus btn_film" style={{"border":"1px solid white","backgroundColor":"transparent"}}><p>Xem thêm</p></button>
                                 </div>
                             </div>
-                            <video className="w-100 h-100" style={{"objectFit":"cover","aspectRatio":"9/16"}} controls autoPlay muted loop>
-                                <source src={trailer} type="video/mp4"/>
-                           </video>
+                            <img className="w-100 h-100" style={{"objectFit":"cover"}} src="https://m.media-amazon.com/images/S/pv-target-images/34ad26abbc7a49fd05a67873bb65ea0e0bd5ac818ce0b7eb53db96aff464ffbb._UR1920,1080_.jpg"/>
                         </div>
                     </div>
     
@@ -130,4 +124,4 @@ function Slide(){
     )
 }
 
-export default Slide;
+export default FimlPosterSlide;
