@@ -25,7 +25,7 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', display: 'inline-block' }}>
       {/* Search bar, conditionally rendered based on isVisible state */}
       {isVisible && (
         <input
@@ -34,6 +34,10 @@ const SearchBar = ({ onSearch }) => {
           onChange={handleSearchChange}
           placeholder="Search..."
           style={{
+            position: 'absolute',
+            top: '50%',
+            right: '50px',
+            transform: 'translateY(-50%)',
             padding: '5px',
             borderRadius: '5px',
             border: '1px solid #ccc',
