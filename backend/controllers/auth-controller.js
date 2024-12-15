@@ -11,7 +11,7 @@ dotenv.config();
 // Đăng ký tài khoản mới
 export const register = async (req, res) => {
     try {
-        const { name, email, phone, dateOfBirth, gender, password } = req.body;
+        const { name, email, phone, dateOfBirth, gender, password, role } = req.body;
         
         // Kiểm tra email hợp lệ
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -34,10 +34,8 @@ export const register = async (req, res) => {
             });
         }
 
-        const avatarPath = req.file ? `/uploads/${req.file.filename}` : null;
-
         // Tạo Member
-        const member = new Member({ name, email, phone, dateOfBirth, gender, avatar: avatarPath });
+        const member = new Member({ name, email, phone, dateOfBirth, gender });
         await member.save();
         // const savedMember = await member.save();
         // console.log('Member saved:', savedMember);
@@ -50,6 +48,7 @@ export const register = async (req, res) => {
             member: member._id,
             username: email,
             password: hashedPassword,
+            role: role || 'User',
         });
         await account.save();
         // const savedAccount = await account.save();
@@ -84,17 +83,20 @@ export const login = async (req, res) => {
         }
 
         // Tạo JWT
-        const token = jwt.sign({ id: account._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign(
+            { id: account._id, role: account.role }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '1d' });
 
-        res.json({ 
+        res.status(200).json({ 
             message: 'Đăng nhập thành công!',
             token,
-            account });
+            account: { id: account._id, role: account.role, username: account.username }
+        });
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
-    
-    res.status(200).json({ message: 'Đăng nhập thành công!' });
 
 };
 
