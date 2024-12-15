@@ -28,8 +28,8 @@ function navbar(){
 
             <div className="wrap_header_nav">
             <div className="wrap_right_nav" >
-                <div className="logo" id="logo-nav" onClick={()=>{navigate("/home");window.location.reload() }}>
-                   <img id="logo-trans" src={logo} width={250}/>
+                <div onClick={()=>{navigate("/");window.location.reload() }}>
+                   <img id="logo-trans" src={logo} width={150}/>
                 </div>
             </div>
 
