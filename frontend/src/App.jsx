@@ -14,7 +14,6 @@ function App() {
     <Loading/>
     <PopErr/>
     <PopSuc/>
-    <BrowserRouter>
       <Routes>
         <Route path="/*" element={<Index />}/>
         <Route path="/order" element={<OrderFilm />}/>
@@ -22,7 +21,7 @@ function App() {
         <Route path="/filmlist/*" element={<FilmList />}/>
         <Route path="*" element={<Navigate to="/" replace />}/>
       </Routes>
-    </BrowserRouter>
+    
     </>
   )
 }
