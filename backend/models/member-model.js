@@ -23,10 +23,10 @@ const MemberSchema = new mongoose.Schema({
         enum: ['Nam', 'Nữ', 'Khác'], 
         required: true 
     },
-    avatar: { 
-        type: String, // Đường dẫn ảnh đại diện,
-        required: false,
-    }, 
+    avatar:{ 
+        type: String, 
+        default: 'https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
+    },
     createdAt: { 
         type: Date, 
         default: Date.now 
