@@ -19,3 +19,14 @@ export const getSearchMovie = async (title) => {
   const data = await res.data;
   return data;
 };
+
+export const getPromotionInHompage = async () => {
+  const res = await axios.get("http://localhost:8081/promotion").catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("No Data");
+  }
+  const data = await res.data;
+  console.log(data)
+  return data;
+};

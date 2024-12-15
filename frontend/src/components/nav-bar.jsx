@@ -16,7 +16,7 @@ function navbar(){
     const handleSearch = (searchTerm) => {
         // Chuyển hướng đến trang tìm kiếm với từ khóa tìm kiếm trong URL
         if (searchTerm) {
-          navigate('/search?title=${searchTerm}');
+          navigate(`/search?title=${searchTerm}`);
         }
       }; 
 
