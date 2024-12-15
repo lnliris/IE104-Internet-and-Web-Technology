@@ -13,20 +13,16 @@ function App() {
 
   return (
     <>
-    {/* <Loading/>
-    <PopErr/>
-    <PopSuc/> */}
-    {/* <Routes>
-      <Route path="/" element={<Index />}/>
-      <Route path='/showtime' element={<Showtime />} />
-    </Routes> */}
-    
     <PopSuc/>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/*" element={<Index />}/>
-      </Routes>
     
+    <Routes>
+      <Route path="/" element={<Index />}/>
+      <Route path="/search" element={<SearchPage />} />
+      <Route path="/showtime" element={<ShowtimePage/>} />
+      <Route path='/selectseats' element={<SelectSeatsPage/>} />
+      <Route path='/cornpage' element={<CornPage/>} />
+      <Route path='/payment' element={<PaymentPage/>} />
+    </Routes>
     </>
   )
 }
