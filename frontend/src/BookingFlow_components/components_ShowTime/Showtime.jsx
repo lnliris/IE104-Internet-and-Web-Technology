@@ -22,14 +22,11 @@ function Showtime() {
       <TimeBar></TimeBar>
       <ScheduleList></ScheduleList>
       </div>
-      <div id='NhanhBenPhai' style={{display: 'flex', flex:'2', justifyContent:'center', flexDirection:'column', alignItems:'center' }}>
-        <div style={{display:'flex'}}> <CinemaSelector></CinemaSelector> </div>
-        <div style={{display:'flex', margin:'20px 20px' ,border:'20px solid rgba(255,255,255,0.2)'}}>
-          <img src={ggmap} alt='GG-MAP'/>
-        </div>
-        <div style={{display:'flex'}}>
-          <Confirm></Confirm>
-        </div>
+      <div id='NhanhBenPhai' style={{display: 'flex', flex:'2', flexDirection:'column', alignItems:'center' }}>
+        <CinemaSelector></CinemaSelector> 
+        
+        <Confirm></Confirm>
+        
       </div>
       
     </div>
