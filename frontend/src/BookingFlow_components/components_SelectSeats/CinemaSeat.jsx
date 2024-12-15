@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./CinemaSeat.css"; // Để thêm CSS tùy chỉnh
-import entrance from '../../assets/icon/exit.png'
+
 
 const CinemaSeat = () => {
   const rows = ["A", "B", "C", "D", "E", "F", "G"];
@@ -53,7 +53,6 @@ const CinemaSeat = () => {
           </div>
         ))}
       </div>
-      <div style={{display: 'flex', flexDirection:'row'}}>
         <div className="legend">
             <div className="legend-item">
             <span className="seat available"></span> Ghế chưa đặt
@@ -65,10 +64,6 @@ const CinemaSeat = () => {
             <span className="seat booked"></span> Ghế đã đặt
             </div>
         </div>
-        <div style={{display:'flex', flex:'1',justifyContent:'center' }}>
-            <img style={{width:'30px',height:'30px', transform:'translateY(50%)'}} src={entrance} alt='Lối ra vào' />
-        </div>
-      </div>
     </div>
   );
 };
