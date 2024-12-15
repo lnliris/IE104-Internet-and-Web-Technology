@@ -1,44 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import "./ScheduleList.css"; // Import file CSS
-
-const schedules = [
-  {
-    cinema: "Galaxy Linh Trung",
-    address: "TTTM Coopmart Linh Trung, P.Linh Trung, Thủ Đức, TP.HCM",
-    times: ["20:00", "22:00"],
-  },
-  {
-    cinema: "CGV Hùng Vương Plaza",
-    address: "Tầng 7, Hùng Vương Plaza, 126 Hùng Vương, Q.5, TP.HCM",
-    times: ["10:00", "13:00", "15:00", "19:00", "23:00"],
-  },
-  {
-    cinema: "Lotte Gold View",
-    address: "Tầng 5, Tòa Nhà Gold View, 346 Bến Vân Đồn, Q.4, TP.HCM",
-    times: ["20:00", "22:00"],
-  },
-  {
-    cinema: "Lotte Moonlight Thủ Đức",
-    address: "Tầng 5 TTTM Moonlight Plaza, 102 Tăng Nhơn Phú B, TP.HCM",
-    times: ["16:00", "18:00", "21:00"],
-  },
-  {
-    cinema: "Cinestar Quốc Thanh",
-    address: "271 Nguyễn Trãi, Phường Nguyễn Cư Trinh, Quận 1, TP.HCM",
-    times: ["12:00", "14:30", "19:30"],
-  },
-  {
-    cinema: "Cinestar Hai Bà Trưng",
-    address: "135 Hai Bà Trưng, Q.1, TP.HCM",
-    times: ["11:00", "15:00", "20:00"],
-  },
-];
-
-const ScheduleList = () => {
+import { useParams } from "react-router-dom";
+import { getShowtimeAndTheaterInfo } from "../../api/api.js";
+const ScheduleList = ({selectedDate }) => {
+  const [schedules, setSchedules] = useState([]);
   const [openCinema, setOpenCinema] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { movieId } = useParams(); 
+  
+  useEffect(() => {
+    const fetchSchedules = async () => {
+      setIsLoading(true); // Bắt đầu trạng thái tải dữ liệu
+      try {
+        console.log("Selected Date:", selectedDate);
+        const data = await getShowtimeAndTheaterInfo(movieId, selectedDate);
+        setSchedules(data);
+        console.log("Schedules Data:", data);
+      } catch (err) {
+        console.error("Error fetching schedules:", err);
+      } finally {
+        setIsLoading(false); // Kết thúc trạng thái tải dữ liệu
+      }
+    };
+
+    if (movieId && selectedDate) {
+      fetchSchedules();
+    }
+  }, [movieId, selectedDate]);
 
   const toggleCinema = (cinema) => {
     setOpenCinema(openCinema === cinema ? null : cinema);
+  };
+
+  const formatTime = (dateString) => {
+    const date = new Date(dateString);
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`; // Trả về thời gian dưới dạng HH:mm
   };
 
   return (
@@ -47,24 +45,26 @@ const ScheduleList = () => {
         <div key={index} className="schedule-item">
           {/* Header */}
           <button
-            onClick={() => toggleCinema(schedule.cinema)}
+            onClick={() => toggleCinema(schedule.screening_room_id.theater_id.name)}
             className={`schedule-header ${
-              openCinema === schedule.cinema ? "active" : ""
+              openCinema === schedule.screening_room_id.theater_id.name ? "active" : ""
             }`}
           >
-            {schedule.cinema}
+            {schedule.screening_room_id.theater_id.name}
           </button>
 
           {/* Body */}
-          {openCinema === schedule.cinema && (
+          {openCinema === schedule.screening_room_id.theater_id.name && (
             <div className="schedule-body">
-              <p className="schedule-address">{schedule.address}</p>
+              <p className="schedule-address">{schedule.screening_room_id.theater_id.location}</p>
               <div className="schedule-times">
-                {schedule.times.map((time, timeIndex) => (
-                  <button key={timeIndex} className="schedule-time-button">
-                    {time}
-                  </button>
-                ))}
+              {[...schedule.dates]
+                  .sort((a, b) => new Date(a) - new Date(b))
+                  .map((date, dateIndex) => (
+                    <button key={dateIndex} className="schedule-time-button">
+                      {formatTime(date)}
+                    </button>
+                  ))}
               </div>
             </div>
           )}

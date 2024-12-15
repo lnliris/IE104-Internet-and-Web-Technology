@@ -20,10 +20,10 @@ function Filmlist(prop){
             <div className="wrap-nodata hide"></div>
             {prop.data ? prop.data.map((d) => (
                     <Product
-                        key={d.id}
+                        key={d._id}
                         clickEvent = {()=>{}}
                         orderFilm={orderFilm}
-                        id={d.id}
+                        id={d._id}
                         img={d.poster_url}
                         type={d.genre}
                         length={d.duration}

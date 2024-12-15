@@ -1,28 +1,28 @@
 import mongoose from "mongoose";
 import Showtime from "../models/showtime-model.js";
 
-export const getShowtimeByMovieId = async (req, res) => {
-    const movieId = req.params.id; // Lấy movieId từ URL
+// export const getShowtimeByMovieId = async (req, res) => {
+//     const movieId = req.params.id; // Lấy movieId từ URL
 
-    // Kiểm tra xem movieId có được cung cấp không
-    if (!movieId) {
-        return res.status(400).json({ message: "Movie ID is required" });
-    }
+//     // Kiểm tra xem movieId có được cung cấp không
+//     if (!movieId) {
+//         return res.status(400).json({ message: "Movie ID is required" });
+//     }
 
-    let showtimes;
-    try {
+//     let showtimes;
+//     try {
         
-        showtimes = await Showtime.find({ movie_id: movieId }); 
+//         showtimes = await Showtime.find({ movie_id: movieId }); 
 
-        if (!showtimes || showtimes.length === 0) {
-            return res.status(404).json({ message: "No showtimes found for this movie" });
-        }
+//         if (!showtimes || showtimes.length === 0) {
+//             return res.status(404).json({ message: "No showtimes found for this movie" });
+//         }
 
-        return res.status(200).json(showtimes);
-    } catch (error) {
-        return res.status(500).json({ message: "Failed to retrieve showtimes", error: error.message });
-    }
-};
+//         return res.status(200).json(showtimes);
+//     } catch (error) {
+//         return res.status(500).json({ message: "Failed to retrieve showtimes", error: error.message });
+//     }
+// };
 
 
 export const addShowtime = async (req, res) => {
@@ -150,5 +150,68 @@ export const deleteShowtime = async (req, res) => {
     } catch (error) {
         // Xử lý lỗi trong quá trình xóa
         return res.status(500).json({ message: "Failed to delete showtime", error: error.message });
+    }
+};
+
+export const getShowtimeAndTheaterInfo = async (req, res) => {
+    try {
+        // Extract movie ID from params and optional date filter from query
+        const { id: movieId } = req.params;
+        const { date } = req.query;
+
+        // Base query to filter showtimes by movie ID
+        const query = { movie_id: movieId };
+
+        // If a date is provided, filter showtimes by that date
+        if (date) {
+            const formattedDate = new Date(date).toISOString().split("T")[0];
+            query.date = {
+                $gte: new Date(`${formattedDate}T00:00:00Z`),
+                $lt: new Date(`${formattedDate}T23:59:59Z`),
+            };
+        }
+
+        // Fetch showtimes with populated theater and room details
+        const showtimes = await Showtime.find(query)
+            .populate({
+                path: "screening_room_id",
+                select: "name",
+                populate: {
+                    path: "theater_id",
+                    select: "name location",
+                },
+            });
+
+        if (!showtimes || showtimes.length === 0) {
+            return res.status(404).json({ message: "No showtimes found for this movie or date." });
+        }
+
+        // Group showtimes by theater and room, while collecting all dates for each group
+        const groupedShowtimes = showtimes.reduce((acc, curr) => {
+            const key = `${curr.screening_room_id.theater_id._id}-${curr.screening_room_id._id}`;
+
+            if (!acc[key]) {
+                acc[key] = {
+                    ...curr._doc,
+                    dates: [],
+                };
+            }
+
+            // Append the current showtime's date to the dates array
+            acc[key].dates.push(curr.date);
+
+            return acc;
+        }, {});
+
+        // Convert the grouped object back to an array
+        const response = Object.values(groupedShowtimes).map((item) => ({
+            ...item,
+            date: item.dates[0], // Keep the first date as the primary date
+        }));
+
+        return res.status(200).json(response);
+    } catch (error) {
+        console.error("Error fetching showtimes:", error);
+        return res.status(500).json({ message: "Failed to retrieve showtimes", error: error.message });
     }
 };

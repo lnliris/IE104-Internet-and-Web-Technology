@@ -8,7 +8,6 @@
 }
 
 .screen-container {
-<<<<<<< HEAD
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,24 +16,11 @@
     position: relative;
     width: 100%;
     justify-items: center;
-    
+    padding-right: 100px;
   }
-=======
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px 0;
-  height: auto;
-  position: relative;
-  width: 100%;
-  justify-items: center;
->>>>>>> 1d7021f622d67130b36fd92b3ef40df7e7f941ff
   
-}
-
 .screen-curve {
-<<<<<<< HEAD
-    width: 80%;
+    width: 90%;
     height: 10px;
     background: linear-gradient(to right, rgba(128, 0, 128, 0.3), rgba(135, 107, 192, 1), rgba(128, 0, 128  , 0.3));
     border-radius: 50%;
@@ -51,6 +37,7 @@
   
   .seating {
     display: inline-block;
+    padding-right: 100px;
   }
   
   .row {
@@ -94,7 +81,8 @@
     display: flex;
     justify-content: center;
     gap: 20px;
-   
+    margin-left: 20px;
+    flex: 3;
   }
   
   .legend-item {
@@ -110,80 +98,3 @@
     line-height: 20px;
   }
   
-=======
-  width: 80%;
-  height: 10px;
-  background: linear-gradient(to right, rgba(128, 0, 128, 0.3), rgba(135, 107, 192, 1), rgba(128, 0, 128  , 0.3));
-  border-radius: 50%;
-  box-shadow: 0 0 20px rgba(128, 0, 128, 0.5);
-  transform: translateY(-100%);
-}
-
-.screen-text {
-  font-size: 18px;
-  color: #c3a4f3;
-  font-weight: bold;
-  margin-top: -5px;
-}
-
-.seating {
-  display: inline-block;
-}
-
-.row {
-  display: flex;
-  justify-content: center;
-  margin: 5px 0;
-}
-
-.seat {
-  width: 40px;
-  height: 40px;
-  margin: 2px;
-  border-radius: 5px;
-  text-align: center;
-  line-height: 40px;
-  cursor: pointer;
-}
-
-.seat.available {
-  background-color: #fff;
-  border: 1px solid #ccc;
-}
-
-.seat.selected {
-  background-color: #6c5ce7;
-  color: #fff;
-}
-
-.seat.booked {
-  background-color: #636e72;
-  color: #fff;
-  cursor: not-allowed;
-}
-.seat.hidden {
-  visibility: hidden; /* Ẩn ghế nhưng giữ không gian trong layout */
-  pointer-events: none; /* Vô hiệu hóa click trên ghế ẩn */
-}
-
-.legend {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
- 
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.legend-item .seat {
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  line-height: 20px;
-}
->>>>>>> 1d7021f622d67130b36fd92b3ef40df7e7f941ff
