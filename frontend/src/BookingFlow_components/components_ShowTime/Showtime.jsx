@@ -4,7 +4,6 @@ import ScheduleList from './ScheduleList';
 import TimeBar from './TimeBar';
 import Confirm from './Confirm';
 import CinemaSelector from './CinemaSelector';
-import ggmap from '../../assets/img/ggmap.jpg'
 import ProgressBar from '../component_ProgressBar/ProgressBar';
 function Showtime() {
   return (

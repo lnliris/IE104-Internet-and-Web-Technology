@@ -445,3 +445,7 @@
         width: 100%;
     }
 }
+
+.box-img-linear{
+    background: linear-gradient(to bottom , transparent, black);
+}
