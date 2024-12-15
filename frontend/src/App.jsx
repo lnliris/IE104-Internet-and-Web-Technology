@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
+import {Route, Routes, Navigate} from "react-router-dom";
 import "./stylesheets/index.css";
 import Index from "./pages";
 import SearchPage from "./pages/searchPage";
