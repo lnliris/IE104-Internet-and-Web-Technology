@@ -15,6 +15,10 @@ function Login(prop){
         $("#loginbtn").on("click", ()=>{
             do_login();
         })
+
+        $(".close_auth").on("click", function(){
+            $("#authpopup").addClass("hide");
+        })
     }
 
     var do_login        = ()=>{
@@ -28,7 +32,7 @@ function Login(prop){
                 }else{
                     if(pass.length  === 0 || pass.length < 8 ){
                         alert("Hãy nhập mật khẩu")
-                    }else{
+                    }else{ 
                         $('#authpopup').addClass("hide");
                         $("#login").addClass("hide");
                         $("#img_account_top").removeClass("hide");
@@ -39,7 +43,15 @@ function Login(prop){
     }
 
     return(
-            <div id="login-popup" className="auth_box">
+            <div id="login-popup" className="auth_box" style={{"position":"relative"}}>
+                <button className="close_auth" style={{"backgroundColor":"transparent","position":"absolute","top":"1%","right":"1%"}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 17 18" fill="none">
+                    <g opacity="0.7">
+                    <path d="M14.1668 3L2.8335 15M14.1668 15L2.8335 3" stroke="black" strokeWidth="2" strokeLinecap="round"/>
+                    </g>
+                    </svg>
+                </button>
+                
                 <img width="150px" src={logoicon}/>
                 <h3 className="header-auth mb-30">Đăng nhập tài khoản</h3>
                 <div className="w-100 flex f-col mb-30">
