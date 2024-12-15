@@ -13,7 +13,7 @@ function SelectSeats() {
 
       <div style={{display: 'flex', flexDirection:'row'}}>
         <div id='NhanhBentrai' style={{display: 'flex', flex: '3', alignItems:'flex-start', justifyContent:'flex-start', 
-        padding:'10px',marginLeft:'20px' }} >
+        padding:'10px',marginLeft:'50px' }} >
           <CinemaSeat/>
         </div>
         <div id='NhanhBenPhai' style={{display: 'flex', flex:'2', justifyContent:'center', alignItems:'center' }}>

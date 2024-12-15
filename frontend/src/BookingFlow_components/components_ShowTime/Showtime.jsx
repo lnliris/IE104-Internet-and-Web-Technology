@@ -21,11 +21,11 @@ function Showtime() {
       <TimeBar></TimeBar>
       <ScheduleList></ScheduleList>
       </div>
-      <div id='NhanhBenPhai' style={{display: 'flex', flex:'2', justifyContent:'center', flexDirection:'column', alignItems:'center' }}>
-        <div style={{display:'flex'}}> <CinemaSelector></CinemaSelector> </div>
-        <div style={{display:'flex'}}>
-          <Confirm></Confirm>
-        </div>
+      <div id='NhanhBenPhai' style={{display: 'flex', flex:'2', flexDirection:'column', alignItems:'center' }}>
+        <CinemaSelector></CinemaSelector> 
+        
+        <Confirm></Confirm>
+        
       </div>
       
     </div>
