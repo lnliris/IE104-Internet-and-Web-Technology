@@ -6,12 +6,12 @@ import DemoTable from "./components/listtheater";
 
 const demoRoutes: AdminRouterItem[] = [
 {
-    path: "theater",
+    path: "admin/theater",
     element: <Outlet />,
     meta: {
         label: "Quản lý rạp phim",
         title: "Quản lý rạp phim",
-        key: "/theater",
+        key: "admin/theater",
         icon: <PlaySquareTwoTone/>,
     },
     children: [
@@ -21,7 +21,7 @@ const demoRoutes: AdminRouterItem[] = [
         meta: {
             label: "Danh sách rạp phim",
             title: "Danh sách rạp phim",
-            key: "/theater/listthearter",
+            key: "/admin/theater/listthearter",
             icon: <UnorderedListOutlined/>,
         },
     },
@@ -31,7 +31,7 @@ const demoRoutes: AdminRouterItem[] = [
         meta: {
             label: "Thêm rạp phim",
             title: "Thêm rạp phim",
-            key: "/theater/addtheater",
+            key: "/admin/theater/addtheater",
             icon: <VideoCameraAddOutlined/>,
         },
     }

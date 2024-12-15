@@ -6,12 +6,12 @@ import DemoTable from "./components/listfilm";
 
 const demoRoutes: AdminRouterItem[] = [
 {
-    path: "film",
+    path: "/admin/film",
     element: <Outlet />,
     meta: {
         label: "Quản lý phim",
         title: "Quản lý phim",
-        key: "/film",
+        key: "/admin/film",
         icon: <PlaySquareTwoTone />,
     },
     children: [
@@ -21,7 +21,7 @@ const demoRoutes: AdminRouterItem[] = [
         meta: {
             label: "Danh sách phim",
             title: "Danh sách phim",
-            key: "/film/listfilm",
+            key: "/admin/film/listfilm",
             icon: <UnorderedListOutlined />,
         },
     },
@@ -31,7 +31,7 @@ const demoRoutes: AdminRouterItem[] = [
         meta: {
             label: "Thêm phim",
             title: "Thêm phim",
-            key: "/film/addfilm",
+            key: "/admin/film/addfilm",
             icon: <VideoCameraAddOutlined />,
         },
     }

@@ -1,15 +1,15 @@
 import { FundFilled } from '@ant-design/icons';
-import { AdminRouterItem } from "../../router";
+import { AdminRouterItem } from "../../../router";
 import Showtimes from '.';
 
 const demoRoutes: AdminRouterItem[] = [
   {
-    path: 'showtime',
+    path: 'admin/showtime',
     element: <Showtimes/>,
     meta: {
       label: "Lịch chiếu",
       title: "Lịch chiếu",
-      key: "/showtime",
+      key: "admin/showtime",
       icon: <FundFilled />,
     },
     
