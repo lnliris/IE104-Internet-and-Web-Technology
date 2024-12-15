@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import cors from "cors"
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -6,6 +6,8 @@ import userRouter from "./routers/user-router.js";
 import movieRouter from "./routers/movie-router.js"
 import couponRouter from "./routers/coupon-router.js"
 import AccountRouter from "./routers/auth-router.js";
+import SeatRouter from "./routers/seat-router.js";
+import PromotionRouter from "./routers/promotion-router.js";
 dotenv.config();
 
 const app = express();
@@ -23,7 +25,8 @@ app.use("/user", userRouter);
 app.use("/movie", movieRouter);
 app.use("/coupon", couponRouter);
 app.use("/account", AccountRouter);
-
+app.use("/seat",SeatRouter);
+app.use("/promotion",PromotionRouter)
 
 
 
