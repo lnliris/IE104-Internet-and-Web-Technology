@@ -11,7 +11,7 @@ const App: React.FC = () => {
   // TODO: refactor this logic
   if (window.location.pathname === '/') {
     setTimeout(() => {
-      navigate('/demo/table')
+      navigate('/admin/dashboard')
     })
   }
 

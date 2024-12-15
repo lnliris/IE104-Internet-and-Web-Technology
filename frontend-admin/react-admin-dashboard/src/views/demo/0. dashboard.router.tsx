@@ -4,12 +4,12 @@ import DemoChart from "./chart";
 
 const demoRoutes: AdminRouterItem[] = [
   {
-    path: 'demo/chart',
+    path: 'admin/dashboard',
     element: <DemoChart/>,
     meta: {
       label: "Dashboard",
       title: "Dashboard",
-      key: "/demo/chart",
+      key: "/admin/dashboard",
       icon: <FundFilled />,
     },
     
