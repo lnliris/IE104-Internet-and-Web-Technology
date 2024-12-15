@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./CinemaSeat.css"; // Để thêm CSS tùy chỉnh
-import entrance from '../../assets/icon/exit.png'
+
 
 const CinemaSeat = () => {
   const rows = ["A", "B", "C", "D", "E", "F", "G"];
