@@ -6,7 +6,7 @@ function ConfirmPayment () {
   const navigate = useNavigate();
   
   const handleBack = () => {
-    navigate('/cornpage');
+    navigate(-1);
   };
   const handleNext = () => {
     navigate('/payment')

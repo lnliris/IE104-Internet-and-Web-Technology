@@ -6,7 +6,7 @@ function ConfirmCorn () {
   const navigate = useNavigate();
   
   const handleBack = () => {
-    navigate('/selectseats');
+    navigate(-1);
   };
   const handleNext = () => {
     navigate('/payment')

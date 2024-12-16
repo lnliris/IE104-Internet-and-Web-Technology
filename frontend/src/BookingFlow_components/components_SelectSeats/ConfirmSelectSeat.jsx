@@ -3,15 +3,17 @@ import "./confirmselectseat.css"; // Import file CSS
 import avengerposter from '../../assets/img/avengerposter.jpg';
 import { useNavigate } from "react-router";
 
-function ConfirmSelectSeat () {
+function ConfirmSelectSeat ({selectedSeats, seatPrice}) {
   const navigate = useNavigate();
   
   const handleBack = () => {
-    navigate('/showtime');
+    navigate(-1);
   };
   const handleNext = () => {
     navigate('/cornpage')
   };
+
+  const totalPrice = selectedSeats.length * seatPrice;
 
   return (
     <div className="container">
@@ -42,17 +44,17 @@ function ConfirmSelectSeat () {
         {/*Thông tin ghế */}
         <div className="infoseat">
           <div className="seatdetail">
-            <p> Số lượng ghế</p>
-            <p> Vị trí ghế</p>
+            <p> Số lượng ghế: {selectedSeats.length}</p>
+            <p> Vị trí ghế: {selectedSeats.join(", ")}</p>
           </div>
-          <div className="seatprice"> 800000 * 2</div>
+          <div className="seatprice"> {selectedSeats.length} x {seatPrice}</div>
         </div>
       </div>
 
       {/*Tổng tiền*/}
       <div className="total">
         <div className="totaltext"> Tổng tiền: </div>
-        <div className="totalprice"> 800000đ</div>
+        <div className="totalprice"> {totalPrice.toLocaleString()}đ </div>
       </div>
 
       {/* Nút điều hướng */}

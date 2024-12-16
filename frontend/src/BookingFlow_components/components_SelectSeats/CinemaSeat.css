@@ -16,11 +16,10 @@
     position: relative;
     width: 100%;
     justify-items: center;
-    padding-right: 100px;
   }
   
 .screen-curve {
-    width: 90%;
+    width: 80%;
     height: 10px;
     background: linear-gradient(to right, rgba(128, 0, 128, 0.3), rgba(135, 107, 192, 1), rgba(128, 0, 128  , 0.3));
     border-radius: 50%;
@@ -37,7 +36,6 @@
   
   .seating {
     display: inline-block;
-    padding-right: 100px;
   }
   
   .row {

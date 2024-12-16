@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CinemaSeat.css"; // Để thêm CSS tùy chỉnh
 
 
-const CinemaSeat = () => {
+const CinemaSeat = ({onSeatChange}) => {
   const rows = ["A", "B", "C", "D", "E", "F", "G"];
   const cols = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -26,6 +26,14 @@ const CinemaSeat = () => {
       };
     });
   };
+
+  useEffect(() => {
+    // Gửi danh sách ghế đã chọn về component cha
+    const selectedSeats = Object.keys(seats).filter(
+      (key) => seats[key] === "selected"
+    );
+    onSeatChange(selectedSeats);
+  }, [seats, onSeatChange]);
 
   return (
     <div className="cinema">
