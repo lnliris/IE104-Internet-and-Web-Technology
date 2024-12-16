@@ -6,6 +6,7 @@ import Confirm from './Confirm';
 import CinemaSelector from './CinemaSelector';
 import ProgressBar from '../component_ProgressBar/ProgressBar';
 function Showtime() {
+  const [selectedDate, setSelectedDate] = useState();
   return (
     <>
     <div style={{marginBottom:'100px'}}> {/* Style cả trang showtime*/}
@@ -18,8 +19,8 @@ function Showtime() {
     <div style={{display: 'flex', flexDirection:'row'}}>
       <div id='NhanhBentrai' style={{display: 'flex', flex: '3', flexDirection:'column', alignItems:'flex-start', justifyContent:'flex-start', 
         padding:'10px',marginLeft:'20px', boxSizing:'border-box' }} >
-      <TimeBar></TimeBar>
-      <ScheduleList></ScheduleList>
+      <TimeBar onDateSelect={setSelectedDate} />
+      <ScheduleList selectedDate={selectedDate} />
       </div>
       <div id='NhanhBenPhai' style={{display: 'flex', flex:'2', flexDirection:'column', alignItems:'center' }}>
         <CinemaSelector></CinemaSelector> 
