@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "./CinemaSeat.css"; // Để thêm CSS tùy chỉnh
-
+import { getSeatsByRoom } from "../../api/api";
 
 const CinemaSeat = ({onSeatChange}) => {
   const rows = ["A", "B", "C", "D", "E", "F", "G"];
   const cols = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const hiddenSeats = ["A4", "A5", "A6"];  
+  const { roomId } = useParams(); 
+  const [seats, setSeats] = useState({});
+  useEffect(() => {
+    const fetchSeats = async () => {
+      const data = await getSeatsByRoom(roomId);
+     
+      if (data && data.seats) {
+        // Chuyển đổi dữ liệu ghế từ API thành state
+        const seatMapping = {};
+        data.seats.forEach((seat) => {
+          const seatKey = `${seat.row}${seat.number}`;
+          seatMapping[seatKey] = seat.status; // Trạng thái: "available", "booked", ...
+        });
+        setSeats(seatMapping);
+      }
+    };
 
-  const [seats, setSeats] = useState({
-    A5: "booked",
-    B5: "booked",
-    E5: "selected",
-    E6: "selected",
-    F5: "booked",
-  });
-
+    fetchSeats();
+  }, [roomId]);
   const handleSeatClick = (row, col) => {
     const seatKey = `${row}${col}`;
     setSeats((prevSeats) => {
