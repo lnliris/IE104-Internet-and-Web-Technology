@@ -7,7 +7,11 @@ const BookingSchema = new mongoose.Schema (
     {
         user_id:{type:mongoose.Types.ObjectId,ref:Member,required:true},
         ticket_id:[{type:mongoose.Types.ObjectId,ref:TicketModel,required:true}],
-        FandB_id:[{type:mongoose.Types.ObjectId,ref:FandBModel}],
+        FandB_id:[
+            {
+            id:{type:mongoose.Types.ObjectId,ref:FandBModel},
+            quantity:{type:Number,required:true, min:0}
+        }],
         total:{type:Number,required:true},
         status:{type:Boolean,required:true},
         createdAt: { type:Date, default:Date.now}
