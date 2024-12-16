@@ -9,7 +9,7 @@ function Promolist(prop){
             <div className="center_ul" id="promo-list">
             <div className="wrap-nodata hide"></div>
             {prop.data ? prop.data.map((d) => (
-                    <img className="w-100 h-100 img-promo" key={d.id} src={d.img}/>
+                    <img className="w-100 h-100 img-promo" key={d.id} src={d.url}/>
             )) : ""}
             </div>
         </div>

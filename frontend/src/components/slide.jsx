@@ -72,7 +72,7 @@ function Slide(){
                                     <button className="btn_cus btn_film" style={{"border":"1px solid white","backgroundColor":"transparent"}}><p>Xem thêm</p></button>
                                 </div>
                             </div>
-                           <video className="w-100 h-100" style={{"objectFit":"cover","aspectRatio":"9/16"}}  autoPlay muted loop>
+                           <video className="w-100 h-100" style={{"objectFit":"cover","aspectRatio":"9/16"}} controls autoPlay muted loop>
                                 <source src={trailer} type="video/mp4" aria-controls="" />
                            </video>
                         </div>
@@ -91,7 +91,7 @@ function Slide(){
                                     <button className="btn_cus btn_film" style={{"border":"1px solid white","backgroundColor":"transparent"}}><p>Xem thêm</p></button>
                                 </div>
                             </div>
-                           <video className="w-100 h-100" style={{"objectFit":"cover","aspectRatio":"9/16"}}  autoPlay loop>
+                           <video className="w-100 h-100" style={{"objectFit":"cover","aspectRatio":"9/16"}} controls muted autoPlay loop>
                                 <source src={trailer} type="video/mp4" aria-controls="" />
                            </video>
                         </div>
@@ -107,7 +107,7 @@ function Slide(){
                                     <button className="btn_cus btn_film" style={{"border":"1px solid white","backgroundColor":"transparent"}}><p>Xem thêm</p></button>
                                 </div>
                             </div>
-                            <video className="w-100 h-100" style={{"objectFit":"cover","aspectRatio":"9/16"}}  autoPlay loop>
+                            <video className="w-100 h-100" style={{"objectFit":"cover","aspectRatio":"9/16"}} controls autoPlay muted loop>
                                 <source src={trailer} type="video/mp4"/>
                            </video>
                         </div>

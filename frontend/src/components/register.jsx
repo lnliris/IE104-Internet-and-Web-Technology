@@ -2,10 +2,27 @@ import logoicon from "../assets/img/icon-logo.png"
 import facecol from '../assets/img/face-color.png';
 import xcol from '../assets/img/x-color.png';
 import ggcol from '../assets/img/google-color.png';
+import { useEffect } from "react";
+import $ from "jquery";
 
 function Register(prop){
+
+    useEffect(()=>{
+        $(".close_auth").on("click", function(){
+            $("#authpopup").addClass("hide");
+        })
+    },[])
+
     return(
-            <div id="regis-popup" className="auth_box hide">
+            <div id="regis-popup" className="auth_box hide" style={{"position":"absolute"}}>
+                <button className="close_auth" style={{"backgroundColor":"transparent","position":"absolute","top":"1%","right":"1%"}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 17 18" fill="none">
+                    <g opacity="0.7">
+                    <path d="M14.1668 3L2.8335 15M14.1668 15L2.8335 3" stroke="black" strokeWidth="2" strokeLinecap="round"/>
+                    </g>
+                    </svg>
+                </button>
+
                 <img width="150px" src={logoicon}/>
                 <h3 className="header-auth mb-30">Đăng ký tài khoản</h3>
                 <div className="w-100 flex f-col mb-30">
@@ -55,7 +72,7 @@ function Register(prop){
                     <div className="line"></div><span><b>hoặc</b></span><div className="line"></div>
                 </div>
                 <div className=" flex f-col text-center mt-10">
-                    <span>Đăng ký bằng</span>
+                    <span>Đăng nhập bằng</span>
                     <div className="flex gap20 mt-10">
                         <img src={facecol}/>
                         <img src={xcol}/>
@@ -65,7 +82,7 @@ function Register(prop){
                 <div className="line flex f-col text-center mt-10 w-100">
                 </div> 
                 <div className="w-100 flex cenhor cenver text-center mt-30">
-                    <p>Bạn đã có tài khoản? <a onClick={prop.changetoLogin} className="nav-auth" style={{"color":"#3D70B7"}}>Đăng ký ngay</a></p>
+                    <p>Bạn đã có tài khoản? <a onClick={prop.changetoLogin} className="nav-auth" style={{"color":"#3D70B7"}}>Đăng nhập ngay</a></p>
                 </div>
             </div>
     )

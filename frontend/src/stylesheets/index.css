@@ -59,33 +59,19 @@
 /* about */
 @import url("./components/about.css");
 
-#about1{
-    margin-top: 80px;
+.menu_profile_active{
+    border-bottom: 1px solid white;
 }
 
-#construct{
-    margin-top: 80px;
+.wrap_img_account_top:hover > div{
+    display: block !important;
 }
 
-#contact_inf{
-    margin-top: 80px;
+.hover_li{
+    padding: 10px;
+    transition: 0.25s ease-in-out;
 }
 
-#portfolio1{
-    margin-top: 80px ;
-}
-
-@media screen and (max-width: 800px) {
-    #about1{
-        margin-top: 130px !important;
-    }
-    #construct{
-        margin-top: 130px !important;
-    }
-    #contact_inf{
-        margin-top: 130px !important;
-    }
-    #portfolio1{
-        margin-top: 130px !important;
-    }
+.hover_li:hover{
+    background-color: rgb(39, 39, 39);
 }
