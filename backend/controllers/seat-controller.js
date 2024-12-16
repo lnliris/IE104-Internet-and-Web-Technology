@@ -1,5 +1,24 @@
 import SeatModel from '../models/seat-model.js';  // Import model Seat
 
+
+export const getSeatsByRoom = async (req, res) => {
+  const { roomId } = req.params;
+
+  let seats;
+  try {
+    seats = await SeatModel.find({ roomId });
+    console.log(seats.length);
+  } catch (err) {
+    return console.error(err);
+  }
+
+  if (!seats || seats.length === 0) {
+    return res.status(404).json({ message: 'No seats found for this room.' });
+  }
+
+  return res.status(200).json({ seats });
+};
+
 export const updateStatusSeat = async (req, res) => {
   try {
     const seatId = req.params.id; // Lấy ID từ params
