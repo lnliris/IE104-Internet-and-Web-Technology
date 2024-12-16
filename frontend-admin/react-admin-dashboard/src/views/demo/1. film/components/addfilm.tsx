@@ -1,17 +1,28 @@
-import { Button, Form, Input, Upload } from "antd";
+import { Button, Form, Input, Upload, DatePicker } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import React from "react";
 import * as XLSX from "xlsx";
+import axios from "axios";
 
 const { TextArea } = Input;
 
 const FormPage: React.FC = () => {
     const [form] = Form.useForm();
 
-    const onFinish = (values: any) => {
-        form.resetFields();
-        alert('Form submitted successfully!');
-        console.log('Form values:', values);
+    const onFinish = async (values: any) => {
+        try {
+            // Gửi request POST đến backend API
+            const response = await axios.post("http://localhost:8081/movie", values);
+    
+            // Reset form và hiển thị thông báo
+            form.resetFields();
+            alert("Form submitted successfully!");
+            console.log("Response:", response.data);
+        } catch (error: any) {
+            // Hiển thị lỗi nếu xảy ra
+            console.error("Error submitting form:", error.response?.data || error.message);
+            alert("Failed to submit form. Please try again.");
+        }
     };
 
     const handleUpload = (file: any) => {
@@ -96,6 +107,36 @@ const FormPage: React.FC = () => {
                 tooltip="This is a required field"
             >
                 <Input placeholder="Enter limit age" />
+            </Form.Item>
+
+            <Form.Item
+                label="Cast"
+                name="cast"
+                rules={[{ required: true, message: 'Please enter the cast' }]}
+                required
+                tooltip="This is a required field"
+            >
+                <Input placeholder="Enter cast" />
+            </Form.Item>
+
+            <Form.Item
+                label="Crew"
+                name="crew"
+                rules={[{ required: true, message: 'Please enter the crew' }]}
+                required
+                tooltip="This is a required field"
+            >
+                <Input placeholder="Enter crew" />
+            </Form.Item>
+
+            <Form.Item
+                label="Release Date"
+                name="release_date"
+                rules={[{ required: true, message: "Please select the release date" }]}
+                required
+                tooltip="This is a required field"
+            >
+                <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
             </Form.Item>
 
             <Form.Item

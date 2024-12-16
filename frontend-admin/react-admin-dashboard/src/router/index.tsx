@@ -4,8 +4,9 @@ import {
 } from "react-router-dom";
 import App from "../App";
 import { MenuItemType } from "antd/es/menu/interface";
-
-
+import Login from "../views/login.tsx";
+import ProtectedRoute from "../components/ProtectedRoutes.tsx";
+import ForgotPassword from "../components/ForgotPassWord.tsx";
 export type AdminRouterItem = RouteObject & {
   // set antd menu props in meta
   meta?: MenuItemType
@@ -40,8 +41,24 @@ export const routes: AdminRouterItem[] = [
   ...await loadRouteModules()
 ]
 
-export default createBrowserRouter([{
-  path: "/",
-  element: <App />,
-  children: routes,
-}])
+export default createBrowserRouter([
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path:"/forgot-password",
+    element: <ForgotPassword />
+  },
+  {
+    path: "/",
+    element: <ProtectedRoute />,
+    children: [
+    {
+      path: "/",
+      element: <App />,
+      children: routes,
+    },
+    ],
+  },
+]);
