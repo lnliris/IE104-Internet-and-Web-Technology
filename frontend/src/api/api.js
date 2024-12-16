@@ -1,6 +1,7 @@
 import axios from "axios";
+const BASE_URL='http://localhost:8081'
 export const getMoviesInHomepage = async () => {
-  const res = await axios.get("http://localhost:8081/movie").catch((err) => console.log(err));
+  const res = await axios.get(`${BASE_URL}/movie`).catch((err) => console.log(err));
 
   if (res.status !== 200) {
     return console.log("No Data");
@@ -9,8 +10,17 @@ export const getMoviesInHomepage = async () => {
   return data;
 };
 
+export const getAllMovies = async () => {
+  const res = await axios.get(`${BASE_URL}/movie/all`).catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("No Data");
+  }
+  const data = await res.data;
+  return data;
+};
 export const getSearchMovie = async (title) => {
-  const res = await axios.get(`http://localhost:8081/movie/search?title=${title}`).catch((err) => console.log(err));
+  const res = await axios.get(`${BASE_URL}/movie/search?title=${title}`).catch((err) => console.log(err));
 
   if (res.status !== 200) {
     return console.log("No Data");
@@ -27,7 +37,7 @@ export const getShowtimeAndTheaterInfo = async (movieId, date = null) => {
   }
 
   try {
-    let url = `http://localhost:8081/movie/${movieId}/showtimes`;
+    let url =`${BASE_URL}/movie/${movieId}/showtimes`;
     if (date) {
       url += `?date=${date}`;
     }
@@ -49,7 +59,7 @@ export const getShowtimeAndTheaterInfo = async (movieId, date = null) => {
 
 
 export const getPromotionInHompage = async () => {
-  const res = await axios.get("http://localhost:8081/promotion/").catch((err) => console.log(err));
+  const res = await axios.get(`${BASE_URL}/promotion/`).catch((err) => console.log(err));
 
   if (res.status !== 200) {
     return console.log("No Data");
@@ -59,7 +69,7 @@ export const getPromotionInHompage = async () => {
 };
 
 export const getFoodList =async()=>{
-  const res=await axios.get("http://localhost:8081/food/").catch((err)=>console.log(err));
+  const res=await axios.get(`${BASE_URL}/food/`).catch((err)=>console.log(err));
 
   if(res.status !==200) {
     return console.log("No data");

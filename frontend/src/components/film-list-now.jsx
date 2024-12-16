@@ -15,9 +15,9 @@ function FilmListNow(prop){
                                 clickEvent = {()=>{}}
                                 orderFilm={()=>{}}
                                 id={d.id}
-                                img={d.img}
-                                type={d.type}
-                                length={d.length}
+                                img={d.poster_url}
+                                type={d.gerne}
+                                length={d.duration}
                                 name={d.title}
                             />
                         )) : ""}
