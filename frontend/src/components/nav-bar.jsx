@@ -22,9 +22,9 @@ function navbar(){
 
     return(
         <>
-        {/* nav side */}
+            {/* nav side */}
 
-        <header>
+            <header>
 
             <div className="wrap_header_nav">
             <div className="wrap_right_nav" >
