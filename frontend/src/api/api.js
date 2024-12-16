@@ -67,3 +67,13 @@ export const getFoodList =async()=>{
   const data=await res.data;
   return data;
 }
+
+export const getSeatsByRoom = async (roomId) => {
+  const res = await axios.get(`http://localhost:8081/seat/${roomId}`).catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("No Data");
+  }
+  const data = await res.data;
+  return data;
+};
