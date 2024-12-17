@@ -12,7 +12,7 @@ function Confirm () {
     navigate(-1);
   };
   const handleNext = () => {
-    navigate('/selectseats')
+    navigate('/selectseats/:roomId')
   };
 
   

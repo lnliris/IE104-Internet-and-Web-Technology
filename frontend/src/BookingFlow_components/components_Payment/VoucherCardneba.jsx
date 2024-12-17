@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import './VoucherCardneba.css';
 import logo from '../../assets/img/Logo.png'
 
-const VoucherCardneba = ({ title, description, expiryDate, onSelect }) => {
+const VoucherCardneba = ({ title, description, expiryDate, onSelect, discount }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   const handleSelect = () => {
     setIsSelected(!isSelected);
-    onSelect && onSelect(!isSelected);
+    onSelect && onSelect(!isSelected ? discount : 0); // Truyền số tiền giảm khi chọn hoặc 0 nếu bỏ chọn
   };
 
   return (

@@ -49,14 +49,14 @@ function ConfirmSelectSeat () {
             <p> Số lượng ghế: {selectedSeats.length}</p>
             <p> Vị trí ghế: {selectedSeats.join(", ")}</p>
           </div>
-          <div className="seatprice"> {selectedSeats.length} x {seatPrice}</div>
+          <div className="seatprice"> {selectedSeats.length} x {new Intl.NumberFormat("vi-VN").format(seatPrice)}</div>
         </div>
       </div>
 
       {/*Tổng tiền*/}
       <div className="total">
         <div className="totaltext" style={{fontWeight:'bold'}}> Tổng tiền: </div>
-        <div className="totalprice"> {totalPrice.toLocaleString()}đ </div>
+        <div className="totalprice"> {new Intl.NumberFormat("vi-VN").format(totalPrice)} </div>
       </div>
 
       {/* Nút điều hướng */}
