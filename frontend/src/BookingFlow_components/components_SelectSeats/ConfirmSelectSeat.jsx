@@ -7,7 +7,7 @@ import { BookingContext } from "../Context";
 function ConfirmSelectSeat () {
   const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, convertDateFormat} = useContext(BookingContext);
   const navigate = useNavigate();
-  
+  console.log(selectedSeats)
   const handleBack = () => {
     navigate(-1);
   };

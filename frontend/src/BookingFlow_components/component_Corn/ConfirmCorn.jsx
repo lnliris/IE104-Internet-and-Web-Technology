@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { BookingContext } from "../Context";
 import { useContext } from "react";
 function ConfirmCorn () {
-  const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, order, convertDateFormat, totalCorn, formatCurrency} = useContext(BookingContext);
+  const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, order, convertDateFormat, totalCorn, formatCurrency,selectedSeatIds} = useContext(BookingContext);
   const navigate = useNavigate();
   
   const handleBack = () => {
@@ -13,7 +13,8 @@ function ConfirmCorn () {
   const handleNext = () => {
     navigate('/payment')
   };
-
+  console.log('huhu',selectedSeats)
+  
   const totalPrice = selectedSeats.length * seatPrice + totalCorn();
 
   return (

@@ -2,15 +2,17 @@ import MovieCard from "../components_ShowTime/MoviesCard"
 import ProgressBar from "../component_ProgressBar/ProgressBar"
 import ConfirmSelectSeat from "./ConfirmSelectSeat"
 import CinemaSeat from "./CinemaSeat"
-import { useContext } from "react"
+import { useContext,useCallback } from "react"
 import { BookingContext } from "../Context"
 
 function SelectSeats() {
-  const {  setSelectedSeats } = useContext(BookingContext);
+  const { setSelectedSeats,setSelectedSeatIds } = useContext(BookingContext);
   
-  const handleSelectSeat = (seats) => {
-    setSelectedSeats(seats); // Cập nhật state khi có ghế được chọn
-  };
+  const handleSelectSeat = useCallback((seats,seatId) => {
+    setSelectedSeats(seats); 
+    setSelectedSeatIds(seatId)
+    console.log(seatId)
+  }, [setSelectedSeats],[setSelectedSeatIds]);
 
   return (
     <>

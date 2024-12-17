@@ -37,7 +37,7 @@ export const getShowtimeAndTheaterInfo = async (movieId, date = null) => {
   }
 
   try {
-    let url =`${BASE_URL}/movie/${movieId}/showtimes`;
+    let url = `${BASE_URL}/movie/${movieId}/showtimes`;
     if (date) {
       url += `?date=${date}`;
     }
@@ -50,12 +50,14 @@ export const getShowtimeAndTheaterInfo = async (movieId, date = null) => {
     }
 
     const data = await res.data;
-    return data;
+    console.log("Fetched Showtimes Data:", data); // Debugging line
+    return data; // Data sẽ chứa cả roomId
   } catch (error) {
     console.error("Error fetching showtimes:", error);
     return null;
   }
 };
+
 
 
 export const getPromotionInHompage = async () => {
@@ -102,4 +104,35 @@ export const getSeatsByRoom = async (roomId) => {
   }
   const data = await res.data;
   return data;
+};
+
+export const getMovieDetails = async (movieId) =>{
+  const res=await axios.get(`${BASE_URL}/movie/${movieId}`).catch((err) =>console.log(err));
+
+  if (res.status !==200) {
+    return console.log('No data')
+  }
+  const data=await res.data;
+  console.log(data)
+  return data;
+};
+
+export const getCoupons = async ()=>{
+  const res = await axios.get(`${BASE_URL}/coupon/`).catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("No Data");
+  }
+  const data = await res.data;
+  console.log(res.data)
+  return data;
+}
+
+export const checkCoupon = async (title) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/coupon/check`, { title });
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : 'Đã xảy ra lỗi';
+  }
 };

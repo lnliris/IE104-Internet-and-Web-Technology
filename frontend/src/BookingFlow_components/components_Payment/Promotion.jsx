@@ -1,7 +1,24 @@
-import React from 'react';
-import './Promotion.css'; // Tạo CSS riêng để tạo giao diện giống như hình
+import React, { useContext, useState } from 'react';
+import './Promotion.css';
 import VoucherCardList from './VoucherCardList';
+import { BookingContext } from '../Context';
+import { checkCoupon } from '../../api/api'; // Import checkCoupon từ api.js
+
 const Promotion = () => {
+  const { discountAmount, setDiscountAmount } = useContext(BookingContext);
+  const [title, setTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleCouponApply = async () => {
+    try {
+      const res = await checkCoupon(title); // Gọi API checkCoupon
+      setDiscountAmount(res.balance); // Gán giá trị từ API response
+        setErrorMessage(res.message); // Hiển thị thông báo lỗi nếu coupon không hợp lệ
+    } catch (error) {
+      setErrorMessage(error.message || 'Đã xảy ra lỗi, vui lòng thử lại.');
+    }
+  };
+
   return (
     <div className="promo-container">
       <h2>Khuyến mãi</h2>
@@ -10,10 +27,13 @@ const Promotion = () => {
           type="text"
           placeholder="Mã giảm giá"
           className="promo-input"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
-        <button className="apply-button">Áp dụng</button>
+        <button className="apply-button" onClick={handleCouponApply}>Áp dụng</button>
       </div>
-      <VoucherCardList></VoucherCardList>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <VoucherCardList />
     </div>
   );
 };

@@ -17,7 +17,6 @@ function ConfirmPayment () {
 
   const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, order, convertDateFormat, totalCorn, 
     discountAmount, formatCurrency} = useContext(BookingContext);
-
   const totalPrice = selectedSeats.length * seatPrice + totalCorn() - discountAmount;
 
   return (
