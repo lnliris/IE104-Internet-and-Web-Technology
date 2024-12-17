@@ -9,7 +9,6 @@ header{
     background-color: transparent;
     z-index: 1000;
     transition: 0.25s ease-in-out;
-    z-index: 10000;
     top: 0;
 }
 

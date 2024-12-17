@@ -5,7 +5,8 @@ const TheaterSchema = new mongoose.Schema (
     {
         name:{type:String,required:true},
         location:{type:String,required:true},
-        brand_id:{type:mongoose.Types.ObjectId, ref:TheaterBrandModel,required:true}
+        brand_id:{type:mongoose.Types.ObjectId, ref:TheaterBrandModel,required:true},
+        img:{type:String,required:true}
     }
 )
 

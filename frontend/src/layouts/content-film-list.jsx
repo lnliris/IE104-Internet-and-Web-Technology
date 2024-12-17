@@ -19,7 +19,7 @@ function ContentFilmList(){
         catch (error) {
             console.error("Error while fetching all movie: ",error )
         }
-         }
+        }
         fetchMovies();
     },[]);
     return(
@@ -28,7 +28,6 @@ function ContentFilmList(){
             <FilmListFuture data={films}/>
             <FilmListNow data={films}/>
         </>
-       
     );
 
 }
