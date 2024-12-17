@@ -4,6 +4,7 @@ import xcol from '../assets/img/x-color.png';
 import ggcol from '../assets/img/google-color.png';
 import { useEffect } from "react";
 import $ from "jquery"
+import { post } from "../api/api";
 
 function Login(prop){
 
@@ -21,26 +22,55 @@ function Login(prop){
         })
     }
 
-    var do_login        = ()=>{
-            const mail = $("#mailinp").val();
-            const pass = $("#passinp").val();
-            if(!mail && !pass){
-                alert("Hãy nhập đầy đủ thông tin đăng nhập!")
-            }else{
-                if(mail.length  === 0 ||  !mail.includes('@') || !mail.includes('.')){
-                    alert("Hãy kiểm tra lại email")
-                }else{
-                    if(pass.length  === 0 || pass.length < 8 ){
-                        alert("Hãy nhập mật khẩu")
-                    }else{ 
-                        $('#authpopup').addClass("hide");
-                        $("#login").addClass("hide");
-                        $("#img_account_top").removeClass("hide");
-                    }
-                }
-            }
+    // var do_login        = ()=>{
+    //         const mail = $("#mailinp").val();
+    //         const pass = $("#passinp").val();
+    //         if(!mail && !pass){
+    //             alert("Hãy nhập đầy đủ thông tin đăng nhập!")
+    //         }else{
+    //             if(mail.length  === 0 ||  !mail.includes('@') || !mail.includes('.')){
+    //                 alert("Hãy kiểm tra lại email")
+    //             }else{
+    //                 if(pass.length  === 0 || pass.length < 8 ){
+    //                     alert("Hãy nhập mật khẩu")
+    //                 }else{ 
+    //                     $('#authpopup').addClass("hide");
+    //                     $("#login").addClass("hide");
+    //                     $("#img_account_top").removeClass("hide");
+    //                 }
+    //             }
+    //         }
        
-    }
+    // }
+    const do_login = async () => {
+        const mail = $("#mailinp").val(); // Lấy giá trị email
+        const pass = $("#passinp").val(); // Lấy giá trị password
+    
+        try {
+            // Gọi API đăng nhập
+            const response = await post("/account/login", {
+                username: mail,
+                password: pass,
+            });
+    
+            // Xử lý kết quả trả về từ API
+            const { token } = response.data; // Lấy token từ response
+            localStorage.setItem("token", token); // Lưu token vào localStorage
+    
+            alert("Đăng nhập thành công!");
+            console.log("Token:", token);
+            $('#authpopup').addClass("hide");
+            $("#login").addClass("hide");
+            $("#img_account_top").removeClass("hide");
+        } catch (error) {
+            console.error("Login Error:", error);
+            if (error.response) {
+                alert(error.response.data.message || "Đăng nhập thất bại!");
+            } else {
+                alert("Có lỗi xảy ra, vui lòng thử lại!");
+            }
+        }
+    };
 
     return(
             <div id="login-popup" className="auth_box" style={{"position":"relative"}}>
