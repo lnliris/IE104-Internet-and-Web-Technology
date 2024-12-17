@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 
 const PromotionSchema = new mongoose.Schema(
     {
-        Exp:{type:Date, required:true},
-        Promotion:{type:String, required:true}
+        exp:{type:Date, required:true},
+        promotion:{type:String, required:true},
+        url:{type:String,required:true}
     }
 )
 

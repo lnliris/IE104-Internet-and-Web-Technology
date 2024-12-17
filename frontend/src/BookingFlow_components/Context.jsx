@@ -21,11 +21,14 @@ export const BookingProvider = ({ children }) => {
     }, 0);
   };
 
+  const [discountAmount, setDiscountAmount] = useState(0);
+
   function convertDateFormat(dateString) {
     const parts = dateString.split('-'); // Tách chuỗi theo dấu '-'
     return `${parts[2]}/${parts[1]}/${parts[0]}`; // Đổi thứ tự thành ngày-tháng-năm
   }
 
+  const formatCurrency = (value) => new Intl.NumberFormat("vi-VN").format(value);
   return (
     <BookingContext.Provider
       value={{
@@ -36,7 +39,9 @@ export const BookingProvider = ({ children }) => {
         selectedSeats, setSelectedSeats,
         order, setOrder,
         convertDateFormat, 
-        totalCorn}}
+        totalCorn,
+        discountAmount, setDiscountAmount,
+        formatCurrency}}
     >
       {children}
     </BookingContext.Provider>

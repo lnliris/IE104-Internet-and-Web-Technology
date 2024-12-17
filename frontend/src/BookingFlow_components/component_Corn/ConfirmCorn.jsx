@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { BookingContext } from "../Context";
 import { useContext } from "react";
 function ConfirmCorn () {
-  const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, order, convertDateFormat, totalCorn} = useContext(BookingContext);
+  const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, order, convertDateFormat, totalCorn, formatCurrency} = useContext(BookingContext);
   const navigate = useNavigate();
   
   const handleBack = () => {
@@ -48,7 +48,7 @@ function ConfirmCorn () {
             <p> Số lượng ghế: {selectedSeats.length}</p>
             <p> Vị trí ghế: {selectedSeats.join(", ")}</p>
           </div>
-          <div className="seatprice"> {selectedSeats.length} x {seatPrice}</div>
+          <div className="seatprice"> {selectedSeats.length} x {formatCurrency(seatPrice)}</div>
         </div>
       </div>
 
@@ -62,7 +62,7 @@ function ConfirmCorn () {
               <p>{item.quantity} x {item.name}</p>
             </div>
             <div className="totalprice" style={{ width: "30%" }}>
-              {new Intl.NumberFormat("vi-VN").format(item.quantity * item.price)}đ
+              {formatCurrency(item.quantity * item.price)}đ
             </div>
           </div>
         ))}
@@ -70,7 +70,7 @@ function ConfirmCorn () {
       {/*Tổng tiền*/}
       <div className="total">
         <div className="totaltext" style={{fontWeight:'bold'}}> Tổng tiền: </div>
-        <div className="totalprice"> {totalPrice.toLocaleString()}đ </div>
+        <div className="totalprice"> {formatCurrency(totalPrice)} </div>
       </div>
 
       {/* Nút điều hướng */}
