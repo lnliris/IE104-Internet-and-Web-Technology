@@ -17,7 +17,7 @@ const Login: React.FC = () => {
                 username: values.username,
                 password: values.password,
             });
-            console.log(values);
+           
             // Xử lý response thành công
             const { token, account } = response.data;
 
@@ -25,7 +25,7 @@ const Login: React.FC = () => {
             localStorage.setItem("token", token);
             localStorage.setItem("username", account.username);
             localStorage.setItem("isAuthenticated", "true");
-            
+
             message.success("Đăng nhập thành công!");
 
             // Chuyển hướng đến trang dashboard

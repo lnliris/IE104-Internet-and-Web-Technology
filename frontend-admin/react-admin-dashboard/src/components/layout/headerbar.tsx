@@ -1,11 +1,15 @@
 
-import { Button, Layout, Switch } from 'antd';
+import { Button, Layout, Switch, message } from 'antd';
 import useConfigStore from '../../store/config';
+import { post } from '../../api/api';
 const { Header } = Layout;
 
 const Headerbar = (props: { colorBgContainer: string }) => {
   const setAlgorithm = useConfigStore(state => state.setAlgorithm)
-  const handleLogout = () => {
+  const handleLogout = async() => {
+    await post('/account/logout', {}); // Đường dẫn API logout
+    message.success('Đăng xuất thành công!');
+
     localStorage.removeItem('token');
     window.location.href = '/login';
   }
