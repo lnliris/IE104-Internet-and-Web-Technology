@@ -12,6 +12,7 @@ import ShowtimePage from "./pages/ShowtimePage";
 import SelectSeatsPage from "./pages/SelectSeatsPage";
 import CornPage from "./pages/CornPage";
 import PaymentPage from "./pages/PaymentPage";
+import CinemaPage from "./pages/Cinema_Page";
 function App() {
 
   return (
@@ -31,6 +32,7 @@ function App() {
       <Route path="/order" element={<OrderFilm />}/>
       <Route path="/profile/*" element={<Profile />}/>
       <Route path="/filmlist/*" element={<FilmList />}/>
+      <Route path="/cinemalist/*" element ={<CinemaPage/>}/>
       <Route path="*" element={<Navigate to="/" replace />}/>
     </Routes>
     </>
