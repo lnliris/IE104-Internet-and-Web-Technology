@@ -10,6 +10,8 @@ import SeatRouter from "./routers/seat-router.js";
 import PromotionRouter from "./routers/promotion-router.js";
 import FoodRouter from "./routers/food-router.js";
 import TheaterRouter from "./routers/theater-router.js";
+import bookingRouter from "./routers/booking-router.js";
+import ticketRouter from "./routers/ticket-router.js";
 
 dotenv.config();
 
@@ -32,6 +34,8 @@ app.use("/seat",SeatRouter);
 app.use("/promotion",PromotionRouter)
 app.use("/food",FoodRouter)
 app.use("/theater",TheaterRouter)
+app.use("/ticket",ticketRouter)
+app.use("/booking",bookingRouter)
 
 
 

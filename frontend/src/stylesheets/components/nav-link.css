@@ -23,3 +23,7 @@
 .nav_link:hover{
     border-bottom: 2px rgb(255, 255, 255) solid;
 }
+
+.nav_link_active{
+    border-bottom: 2px rgb(255, 255, 255) solid;
+}

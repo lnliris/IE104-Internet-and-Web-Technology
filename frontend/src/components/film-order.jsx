@@ -1,15 +1,15 @@
 function FilmOrder(){
     return(
         <div className="flex w-100 cenver gap10 mt-30" style={{"border":"1px solid white","borderRadius":"5px","fontSize":"14px","color":"white","backgroundColor":"#ffffff3d", "padding":"1%"}}>
-                <div style={{"flex":"1"}} >
-                    <img className="w-100 h-100" style={{"borderRadius":"20px"}} src="https://thanhnien.mediacdn.vn/Uploaded/nhuvnq/2022_05_10/coral-vietnam-domteaser-1sht-2965.jpg"  />
+                <div >
+                    <img className="" style={{"flex":"1","width":"200px","borderRadius":"10px"}} src="https://thanhnien.mediacdn.vn/Uploaded/nhuvnq/2022_05_10/coral-vietnam-domteaser-1sht-2965.jpg"  />
                 </div>
-                <div style={{"flex":"2","backgroundColor":"#00000099","padding":"30px","borderRadius":"10px"}}>
+                <div style={{"flex":"1","backgroundColor":"#00000099","padding":"15px","borderRadius":"10px"}}>
                     <div className="flex spa-bet-ver cenhor">
                         <h1 className="product-name" style={{"fontSize":"40px"}}>AVARTAR 2</h1>
                         <p className="text-badge" style={{"backgroundColor":"#B28FFF"}}>T18</p>
                     </div>
-                    <div className="flex f-col gap20" style={{"padding":"15px"}}>
+                    <div className="flex f-col gap20" style={{"padding":"5px"}}>
                         <div className="flex startver cenhor gap20">
                             <div className="flex cenhor gap10">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">

@@ -1,23 +1,54 @@
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, Form, Input, message } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { post } from "../api/api";
 
 const Login: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const onFinish = (values: { username: string; password: string }) => {
+    const onFinish = async (values: { username: string; password: string }) => {
         console.log("Login Info:", values);
         setLoading(true);
+        
+        try {
+            // Gửi request đăng nhập tới API
+            const response = await post("/account/admin/login", {
+                username: values.username,
+                password: values.password,
+            });
+           
+            // Xử lý response thành công
+            const { token, account } = response.data;
 
-        setTimeout(() => {
-            setLoading(false);
-            // Viết api xác thực ở đây
-            
+            // Lưu token và thông tin người dùng vào localStorage
+            localStorage.setItem("token", token);
+            localStorage.setItem("username", account.username);
             localStorage.setItem("isAuthenticated", "true");
+
+            message.success("Đăng nhập thành công!");
+
+            // Chuyển hướng đến trang dashboard
             navigate("/admin/dashboard");
-        }, 1000);
+        } catch (error: any) {
+            // Xử lý lỗi trả về từ server
+            if (error.response && error.response.data.message) {
+                message.error(error.response.data.message);
+            } else {
+                message.error("Đã xảy ra lỗi, vui lòng thử lại sau!");
+            }
+        } finally {
+            setLoading(false); // Tắt trạng thái loading
+        }
     };
+        // setTimeout(() => {
+        //     setLoading(false);
+        //     // Viết api xác thực ở đây
+            
+        //     localStorage.setItem("isAuthenticated", "true");
+        //     navigate("/admin/dashboard");
+        // }, 1000);
+    // };
 
     return (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>

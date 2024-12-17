@@ -27,7 +27,7 @@ function Product(prop){
                     </div>
                 </div>
             </div>
-            <img className="w-100 h-100 img_prod_el" src={prop.img}  />
+            <img className="img_prod_el" src={prop.img}  />
         </div>
     );
 
