@@ -29,6 +29,30 @@ export const BookingProvider = ({ children }) => {
   }
 
   const formatCurrency = (value) => new Intl.NumberFormat("vi-VN").format(value);
+
+  // PopUp Context
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+  const [isPaymentPopup, setIsPaymentPopup] = useState(false);
+
+  const handleConfirmClick = () => {
+    setIsConfirmPopupOpen(true); // Mở popup xác nhận
+  };
+
+  const handleConfirmClose = () => {
+    setIsConfirmPopupOpen(false); // Đóng popup xác nhận
+  };
+
+  const handleConfirmOpen = () => {
+    setIsConfirmPopupOpen(false); // Đóng popup xác nhận
+    setIsPaymentPopup(true); // Hiển thị popup thông tin thanh toán
+  };
+
+  const handleClosePaymentPopup = () => {
+    setIsPaymentPopup(false); // Đóng popup thông tin thanh toán
+  };
+
+
+  
   return (
     <BookingContext.Provider
       value={{
@@ -41,7 +65,9 @@ export const BookingProvider = ({ children }) => {
         convertDateFormat, 
         totalCorn,
         discountAmount, setDiscountAmount,
-        formatCurrency}}
+        formatCurrency,
+        handleConfirmClick, handleConfirmClose, handleConfirmOpen, handleClosePaymentPopup,
+        isConfirmPopupOpen, isPaymentPopup}}
     >
       {children}
     </BookingContext.Provider>

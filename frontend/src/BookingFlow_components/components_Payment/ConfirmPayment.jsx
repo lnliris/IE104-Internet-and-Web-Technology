@@ -4,6 +4,7 @@ import avengerposter from '../../assets/img/avengerposter.jpg';
 import { useNavigate } from "react-router";
 import { BookingContext } from "../Context";
 import { useContext } from "react";
+import PopUP from "./PopUp";
 
 function ConfirmPayment () {
   const navigate = useNavigate();
@@ -11,12 +12,9 @@ function ConfirmPayment () {
   const handleBack = () => {
     navigate(-1);
   };
-  const handleNext = () => {
-    navigate('/payment')
-  };
 
   const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, order, convertDateFormat, totalCorn, 
-    discountAmount, formatCurrency} = useContext(BookingContext);
+    discountAmount, formatCurrency, handleConfirmClick} = useContext(BookingContext);
 
   const totalPrice = selectedSeats.length * seatPrice + totalCorn() - discountAmount;
 
@@ -79,7 +77,7 @@ function ConfirmPayment () {
       </div> 
       )}
 
-<div className="total">
+      <div className="total">
         <div className="totaltext" style={{fontWeight:'bold'}}> Tổng tiền: </div>
         <div className="totalprice"> {formatCurrency(totalPrice)} </div>
       </div>
@@ -87,8 +85,10 @@ function ConfirmPayment () {
       {/* Nút điều hướng */}
       <div className="buttons">
         <button className="button-back" onClick={handleBack}>Quay lại</button>
-        <button className="button-next" onClick={handleNext}>Tiếp theo</button>
+        <button className="button-next" onClick={handleConfirmClick}>Tiếp theo</button>
       </div>
+
+      <PopUP></PopUP>
     </div>
   );
 };
