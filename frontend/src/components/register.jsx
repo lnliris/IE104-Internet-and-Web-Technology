@@ -13,6 +13,7 @@ function Register(prop){
         })
     },[])
 
+    
     return(
             <div id="regis-popup" className="auth_box hide" style={{"position":"absolute"}}>
                 <button className="close_auth" style={{"backgroundColor":"transparent","position":"absolute","top":"1%","right":"1%"}}>

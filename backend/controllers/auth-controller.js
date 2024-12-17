@@ -8,6 +8,53 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Đăng nhập login tài khoản mới
+export const loginAdmin = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        // Kiểm tra input
+        if (!username || !password) {
+            return res.status(400).json({ message: 'Vui lòng nhập tên người dùng và mật khẩu' });
+        }
+
+        // Tìm tài khoản trong database
+        const account = await Account.findOne({ username });
+        if (!account) {
+            return res.status(404).json({ message: 'Tài khoản không tồn tại.' });
+        }
+
+        // Kiểm tra vai trò admin
+        if (account.role !== 'Admin') {
+            return res.status(403).json({ message: 'Truy cập bị cấm: Chỉ dành cho Admin.' });
+        }
+
+        // Kiểm tra mật khẩu
+        const isMatch = await bcrypt.compare(password, account.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Mật khẩu không đúng!' });
+        }
+
+        // Tạo JWT cho admin
+        const token = jwt.sign(
+            { id: account._id, role: account.role }, // Payload của token
+            process.env.JWT_SECRET,                // Secret key
+            { expiresIn: '1d' }                    // Thời gian hết hạn token
+        );
+
+        // Trả về token và thông tin tài khoản
+        res.status(200).json({
+            message: 'Đăng nhập Admin thành công!',
+            token,
+            account: { id: account._id, role: account.role, username: account.username }
+        });
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Đã xảy ra lỗi, vui lòng thử lại sau.' });
+    }
+};
+
 // Đăng ký tài khoản mới
 export const register = async (req, res) => {
     try {

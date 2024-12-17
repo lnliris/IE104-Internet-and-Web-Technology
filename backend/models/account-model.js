@@ -19,7 +19,7 @@ const AccountSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['Admin', 'User', 'Guest'], 
+        enum: ['Admin', 'User'], 
         default: 'User'
     },
     passwordResetToken: { type: String, default: null },  // Lưu trữ OTP

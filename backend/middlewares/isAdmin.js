@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Account from '../models/accountModel.js'; // Mô hình Account để lấy thông tin vai trò người dùng
+import Account from '../models/account-model.js'; // Mô hình Account để lấy thông tin vai trò người dùng
 
 // Middleware kiểm tra quyền admin
 const isAdmin = async (req, res, next) => {

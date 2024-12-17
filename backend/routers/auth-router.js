@@ -1,8 +1,9 @@
 import express from "express";
-import { register, login, getProfile, logout, forgotPassword, verifyOTP, resetPassword, updateProfile } from '../controllers/auth-controller.js';
+import { loginAdmin, register, login, getProfile, logout, forgotPassword, verifyOTP, resetPassword, updateProfile } from '../controllers/auth-controller.js';
 import authMiddleware from '../middlewares/auth-middlewares.js';
 import loginLimiter from '../middlewares/rate-limit-middleware.js';
 import upload from '../middlewares/uploadMiddleware.js';
+import isAdmin from "../middlewares/isAdmin.js";
 
 const AccountRouter = express.Router();
 
@@ -14,6 +15,7 @@ AccountRouter.post('/forgot-password', forgotPassword);
 AccountRouter.post('/verify-otp', verifyOTP );
 AccountRouter.post('/reset-password', resetPassword);
 AccountRouter.put('/update-profile', authMiddleware, updateProfile);
+AccountRouter.post('/admin/login', loginLimiter, loginAdmin)
 
 
 export default AccountRouter;
