@@ -160,66 +160,6 @@ export const createBooking = async ({ ticket_ids, fandb_items }) => {
   }
 };
 
-
-
-
-export const createTicket = async ({ seat_id, showtime_id }) => {
-  try {
-    // Lấy token từ localStorage hoặc state (nếu cần xác thực)
-    const token = localStorage.getItem('token');
-
-    // Kiểm tra nếu không có token
-    if (!token) {
-      throw new Error("User not authenticated. Token is missing.");
-    }
-
-    // Gửi yêu cầu POST lên server để tạo ticket
-    const response = await axios.post(
-      `${BASE_URL}/tickets`, // Endpoint API cho việc tạo ticket
-      { seat_id, showtime_id },  // Payload gửi đi (seat_id và showtime_id)
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // Đính kèm token trong header
-          "Content-Type": "application/json", // Dữ liệu định dạng JSON
-        },
-      }
-    );
-
-    // Trả về dữ liệu từ server
-    return response.data;
-  } catch (error) {
-    console.error("Error creating ticket:", error.response?.data || error.message);
-    throw error; // Ném lỗi để component có thể xử lý
-  }
-};
-
-export const createBooking = async ({ ticket_ids, fandb_items }) => {
-  try {
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
-    if (!token) {
-      throw new Error('Token không tồn tại');
-    }
-    const payload = {
-      ticket_ids, 
-      fandb_items 
-    };
-    const response = await axios.post(`${BASE_URL}/bookings`, payload, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Đính kèm token vào header
-        "Content-Type": "application/json" // Định dạng dữ liệu gửi là JSON
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error creating booking:", error.response?.data || error.message);
-    throw error; 
-  }
-};
-
-
-
-
 export const getMovieDetails = async (movieId) =>{
   const res=await axios.get(`${BASE_URL}/movie/${movieId}`).catch((err) =>console.log(err));
 
@@ -249,4 +189,24 @@ export const checkCoupon = async (title) => {
   } catch (error) {
     throw error.response ? error.response.data : 'Đã xảy ra lỗi';
   }
+};
+
+export const getAllTheater = async () => {
+  const res = await axios.get(`${BASE_URL}/theater/all`).catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("No Data");
+  }
+  const data = await res.data;
+  return data;
+};
+
+export const getAllPromo = async () => {
+  const res = await axios.get(`${BASE_URL}/promotion/all`).catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("No Data");
+  }
+  const data = await res.data;
+  return data;
 };
