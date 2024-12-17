@@ -9,7 +9,7 @@ function FilmList(){
             <ContentFilmList/>
             <Footer/>
         </>
-    
+       
     )
 }
 
