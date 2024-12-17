@@ -87,7 +87,7 @@ const PopUP = () => {
 
             {/* Nút thao tác */}
             <div className="buttons-popup">
-              <button className="save-button">💾 Lưu ảnh</button>
+              <button className="save-button" onClick={handleClosePaymentPopup}>💾 Lưu ảnh</button>
               <button className="home-button" onClick={handleClosePaymentPopup}>
                 🏠 Về trang chủ
               </button>

@@ -51,6 +51,8 @@ export const BookingProvider = ({ children }) => {
     setIsPaymentPopup(false); // Đóng popup thông tin thanh toán
   };
 
+  // Input Discount
+  const [discountInput, setDiscountInput] = useState(0);
 
   
   return (
@@ -67,7 +69,8 @@ export const BookingProvider = ({ children }) => {
         discountAmount, setDiscountAmount,
         formatCurrency,
         handleConfirmClick, handleConfirmClose, handleConfirmOpen, handleClosePaymentPopup,
-        isConfirmPopupOpen, isPaymentPopup}}
+        isConfirmPopupOpen, isPaymentPopup,
+        discountInput, setDiscountInput}}
     >
       {children}
     </BookingContext.Provider>
