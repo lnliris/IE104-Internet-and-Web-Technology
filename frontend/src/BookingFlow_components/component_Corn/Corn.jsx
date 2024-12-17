@@ -18,7 +18,7 @@ function Corn() {
           <Menu/>
         </div>
         
-        <div id='NhanhBenPhai' style={{display: 'flex', flex:'2', justifyContent:'center', alignItems:'center' }}>
+        <div id='NhanhBenPhai' style={{display: 'flex', flex:'2', justifyContent:'center' }}>
           <ConfirmCorn/>
         </div>
       </div>

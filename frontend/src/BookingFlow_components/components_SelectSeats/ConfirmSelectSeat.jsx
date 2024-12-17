@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./confirmselectseat.css"; // Import file CSS
 import avengerposter from '../../assets/img/avengerposter.jpg';
 import { useNavigate } from "react-router";
+import { BookingContext } from "../Context";
 
-function ConfirmSelectSeat ({selectedSeats, seatPrice}) {
+function ConfirmSelectSeat () {
+  const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, convertDateFormat} = useContext(BookingContext);
   const navigate = useNavigate();
   
   const handleBack = () => {
@@ -31,9 +33,9 @@ function ConfirmSelectSeat ({selectedSeats, seatPrice}) {
             <h3 className="title">AVENGERS: INFINITY WAR</h3>
             <p className="subtitle">2D Phụ đề</p>
             <div className="details">
-              <p>Rạp:</p>
-              <p>Thứ:</p>
-              <p>Giờ:</p>
+              <p>Rạp: {selectedTheater}</p>
+              <p>{selectedDate.day} - {convertDateFormat(selectedDate.date)} </p>
+              <p>Giờ: {selectedTime}</p>
             </div>
           </div>
         </div>
@@ -53,7 +55,7 @@ function ConfirmSelectSeat ({selectedSeats, seatPrice}) {
 
       {/*Tổng tiền*/}
       <div className="total">
-        <div className="totaltext"> Tổng tiền: </div>
+        <div className="totaltext" style={{fontWeight:'bold'}}> Tổng tiền: </div>
         <div className="totalprice"> {totalPrice.toLocaleString()}đ </div>
       </div>
 

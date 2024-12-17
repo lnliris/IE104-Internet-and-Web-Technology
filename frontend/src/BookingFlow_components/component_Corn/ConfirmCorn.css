@@ -12,6 +12,8 @@
     gap: 10px;
     margin-bottom: 10px;
     margin-top: 5px;
+    position: sticky;
+    top: 100px;
   }
   /* Chứa card và thông tin ghế*/
   .container_card {
@@ -135,6 +137,7 @@
     padding: 10px 10px;
     width: 50%;
   }
+
   .totalprice {
     width: 50%;
     text-align: end;

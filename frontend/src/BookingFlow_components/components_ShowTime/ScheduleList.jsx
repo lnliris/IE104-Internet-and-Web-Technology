@@ -2,18 +2,20 @@ import React, { useState, useEffect  } from "react";
 import "./ScheduleList.css"; // Import file CSS
 import { useParams } from "react-router-dom";
 import { getShowtimeAndTheaterInfo } from "../../api/api.js";
-const ScheduleList = ({selectedDate }) => {
+
+const ScheduleList = ({selectedDate, onScheduleSelect }) => {
   const [schedules, setSchedules] = useState([]);
   const [openCinema, setOpenCinema] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { movieId } = useParams(); 
+  const [selectedTime, setSelectedTime] = useState(null);
   
   useEffect(() => {
     const fetchSchedules = async () => {
       setIsLoading(true); // Bắt đầu trạng thái tải dữ liệu
       try {
-        console.log("Selected Date:", selectedDate);
-        const data = await getShowtimeAndTheaterInfo(movieId, selectedDate);
+        console.log("Selected Date:", selectedDate.date);
+        const data = await getShowtimeAndTheaterInfo(movieId, selectedDate.date);
         setSchedules(data);
         console.log("Schedules Data:", data);
       } catch (err) {
@@ -23,10 +25,10 @@ const ScheduleList = ({selectedDate }) => {
       }
     };
 
-    if (movieId && selectedDate) {
+    if (movieId && selectedDate.date) {
       fetchSchedules();
     }
-  }, [movieId, selectedDate]);
+  }, [movieId, selectedDate.date]);
 
   const toggleCinema = (cinema) => {
     setOpenCinema(openCinema === cinema ? null : cinema);
@@ -60,11 +62,19 @@ const ScheduleList = ({selectedDate }) => {
               <div className="schedule-times">
               {[...schedule.dates]
                   .sort((a, b) => new Date(a) - new Date(b))
-                  .map((date, dateIndex) => (
-                    <button key={dateIndex} className="schedule-time-button">
-                      {formatTime(date)}
-                    </button>
-                  ))}
+                  .map((date, dateIndex) => {
+                    const formattedTime = formatTime(date);
+                    const isSelected = selectedTime === formattedTime;
+                    return (
+                      <button key={dateIndex} className={`schedule-time-button ${isSelected ? "active" : ""}`}  
+                        onClick={() => {
+                          onScheduleSelect(schedule.screening_room_id.theater_id.name, formatTime(date))
+                          setSelectedTime(formattedTime); // Cập nhật thời gian đc chọn 
+                        }}>
+                          {formatTime(date)}
+                      </button>
+                    )
+                  })}
               </div>
             </div>
           )}

@@ -78,6 +78,22 @@ export const getFoodList =async()=>{
   return data;
 }
 
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:8081/',
+  headers: {
+      'Content-Type': 'application/json',
+  },
+});
+
+// Hàm POST để gửi request
+export const post = async (url, data, config = {}) => {
+ 
+  const response = await axiosInstance.post(url, data, config);
+  return response; // Trả về dữ liệu response từ server
+  
+};
+
+
 export const getSeatsByRoom = async (roomId) => {
   const res = await axios.get(`http://localhost:8081/seat/${roomId}`).catch((err) => console.log(err));
 

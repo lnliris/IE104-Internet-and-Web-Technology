@@ -1,14 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Menu.css"; // Import file CSS
 import axios from "axios"; // Thư viện gọi API
 import { getFoodList } from "../../api/api";
+import { BookingContext } from "../Context";
 
 const MenuItem = ({ item }) => {
+  const { order, setOrder } = useContext(BookingContext);
   const [quantity, setQuantity] = useState(0);
 
-  const handleIncrease = () => setQuantity(quantity + 1);
+  const handleQuantityChange = (itemId, quantity, price, name) => {
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      [itemId]: { quantity, price, name },
+    }));
+  };
+
+  const handleIncrease = () => {
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+    handleQuantityChange(item._id, newQuantity, item.price, item.name); // Cập nhật lên context
+  };
+
   const handleDecrease = () => {
-    if (quantity > 0) setQuantity(quantity - 1);
+    if (quantity > 0) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      handleQuantityChange(item._id, newQuantity, item.price, item.name); // Cập nhật lên context
+    }
   };
 
   return (

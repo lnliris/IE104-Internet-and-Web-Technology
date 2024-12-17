@@ -44,7 +44,6 @@
     cursor: pointer;
     border: 1px solid white;
     transition: background-color 0.3s;
-
     box-sizing: border-box;
   }
   
@@ -89,5 +88,13 @@
   
   .schedule-time-button:hover {
     background-color: #d1d5db;
+    transition: transform 0.3s ease;
+  }
+
+  .schedule-time-button.active {
+    background-color: rgb(134, 29, 29);
+    color: white;
+    transition: transform 0.3s ease;
+    font-weight: bold;
   }
   
