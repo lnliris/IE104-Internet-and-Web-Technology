@@ -31,6 +31,12 @@ function OrderFilmDescript() {
 
   return (
     <section className="flex f-col w-100">
+      <section>
+            {/* <video  autoPlay loop>
+                <source src={trailer} type="video/mp4"/>
+            </video> */}
+            <iframe className="w-100 " style={{"height" : "100dvh"}} src={movie?.vid_url} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
       <div
         className="flex w-100 cenver"
         style={{

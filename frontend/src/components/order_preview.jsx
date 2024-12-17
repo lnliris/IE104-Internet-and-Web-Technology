@@ -6,7 +6,7 @@ import OrderTrailer from "./order_trailer";
 function OrderPreview(){
     return(
         <>
-            <OrderTrailer/>
+            {/* <OrderTrailer/> */}
             <OrderFilmDescript/>
             {/* <OrderSchedule/> */}
             <OrderFilmComment/>
