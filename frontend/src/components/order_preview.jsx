@@ -8,7 +8,7 @@ function OrderPreview(){
         <>
             <OrderTrailer/>
             <OrderFilmDescript/>
-            <OrderSchedule/>
+            {/* <OrderSchedule/> */}
             <OrderFilmComment/>
         </>
     )
