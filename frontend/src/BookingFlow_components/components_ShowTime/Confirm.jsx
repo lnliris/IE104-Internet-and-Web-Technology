@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./confirm.css"; // Import file CSS
 import avengerposter from '../../assets/img/avengerposter.jpg';
 import { useNavigate } from "react-router-dom"
+import { BookingContext } from "../Context";
 
 function Confirm () {
+  const {selectedTheater, selectedTime, selectedDate, convertDateFormat} = useContext(BookingContext);
   const navigate = useNavigate();
   
   const handleBack = () => {
@@ -13,6 +15,7 @@ function Confirm () {
     navigate('/selectseats')
   };
 
+  
   return (
     <div className="container">
       <div className="card">
@@ -28,9 +31,9 @@ function Confirm () {
           <h3 className="title">AVENGERS: INFINITY WAR</h3>
           <p className="subtitle">2D Phụ đề</p>
           <div className="details">
-            <p>Rạp:</p>
-            <p>Thứ:</p>
-            <p>Giờ:</p>
+            {selectedTheater && <p>Rạp: {selectedTheater}</p>}
+            {selectedDate && selectedDate.day && (<p>{selectedDate.day} - {convertDateFormat(selectedDate.date)}</p>)}
+            {selectedTime && <p>Giờ: {selectedTime}</p>}
           </div>
         </div>
       </div>

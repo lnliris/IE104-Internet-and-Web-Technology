@@ -12,15 +12,16 @@ const days = [
 ];
 
 const TimeBar = ({ onDateSelect }) => {
-  const defaultIndex = 0;
-  const [selectedDay, setSelectedDay] = useState(defaultIndex);
+  const [selectedDay, setSelectedDay] = useState();
 
   useEffect(() => {
-    // Truyền ngày mặc định cho onDateSelect nếu tồn tại
-    if (onDateSelect) {
-      onDateSelect(days[defaultIndex].date);
+    if (onDateSelect && selectedDay === null) {
+      // Truyền ngày mặc định cho onDateSelect nếu không có ngày nào được chọn
+      onDateSelect(days[0]);
+      setSelectedDay(0);  // Chọn mặc định là Thứ 2 khi không có ngày nào được chọn
     }
-  }, [onDateSelect]);
+  }, [onDateSelect, selectedDay]);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     // Trả về chỉ ngày/tháng (dùng toLocaleDateString để định dạng)
@@ -32,7 +33,12 @@ const TimeBar = ({ onDateSelect }) => {
   const handleDayClick = (index) => {
     setSelectedDay(index);
     if (onDateSelect) {
-      onDateSelect(days[index].date); // Gọi hàm onDateSelect để cập nhật ngày
+      // Truyền cả day và date trong selectedDayData
+      const selectedDayData = {
+        day: days[index].day,
+        date: days[index].date
+      };
+      onDateSelect(selectedDayData); // Gọi hàm onDateSelect để cập nhật ngày và thứ
     }
   };
 
