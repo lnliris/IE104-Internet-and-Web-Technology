@@ -9,7 +9,8 @@ import AccountRouter from "./routers/auth-router.js";
 import SeatRouter from "./routers/seat-router.js";
 import PromotionRouter from "./routers/promotion-router.js";
 import FoodRouter from "./routers/food-router.js";
-import FandBModel from "./models/F&B-model.js";
+import TheaterRouter from "./routers/theater-router.js";
+
 dotenv.config();
 
 const app = express();
@@ -30,6 +31,7 @@ app.use("/account", AccountRouter);
 app.use("/seat",SeatRouter);
 app.use("/promotion",PromotionRouter)
 app.use("/food",FoodRouter)
+app.use("/theater",TheaterRouter)
 
 
 
