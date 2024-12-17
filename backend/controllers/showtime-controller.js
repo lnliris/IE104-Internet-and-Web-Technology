@@ -155,7 +155,6 @@ export const deleteShowtime = async (req, res) => {
 
 
 export const getShowtimeAndTheaterInfo = async (req, res) => { 
-export const getShowtimeAndTheaterInfo = async (req, res) => { 
     try {
         // Lấy movieId từ params và ngày (date) từ query
         const { id: movieId } = req.params;
@@ -209,19 +208,10 @@ export const getShowtimeAndTheaterInfo = async (req, res) => {
                 showtimeId: curr._id,   // Lấy showtimeId từ _id
                 date: curr.date         // Thêm ngày chiếu
             });
-            // Thêm đối tượng { showtimeId, date } vào mảng dates
-            acc[key].dates.push({
-                showtimeId: curr._id,   // Lấy showtimeId từ _id
-                date: curr.date         // Thêm ngày chiếu
-            });
 
             return acc;
         }, {});
 
-        // Chuyển đổi kết quả grouped từ object về mảng
-        const response = Object.values(groupedShowtimes);
-
-        // Trả về kết quả
         // Chuyển đổi kết quả grouped từ object về mảng
         const response = Object.values(groupedShowtimes);
 
