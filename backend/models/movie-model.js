@@ -10,7 +10,8 @@ const movieSchema = new mongoose.Schema ({
     poster_url: {type:String, required:true},
     release_date:{type:Date,required:true},
     cast: { type: String, require: true},
-    crew: { type: String, require: true}
+    crew: { type: String, require: true},
+    vid_url:{type:String,required:true}
 });
 movieSchema.index({ title: 1 }); 
 movieSchema.index({ genre: 1 }); 
