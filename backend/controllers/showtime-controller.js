@@ -153,6 +153,7 @@ export const deleteShowtime = async (req, res) => {
     }
 };
 
+
 export const getShowtimeAndTheaterInfo = async (req, res) => { 
     try {
         // Lấy movieId từ params và ngày (date) từ query
@@ -172,6 +173,7 @@ export const getShowtimeAndTheaterInfo = async (req, res) => {
         }
 
         // Lấy danh sách showtimes và populate thông tin phòng chiếu và rạp
+        // Lấy danh sách showtimes và populate thông tin phòng chiếu và rạp
         const showtimes = await Showtime.find(query)
             .populate({
                 path: "screening_room_id",
@@ -183,10 +185,12 @@ export const getShowtimeAndTheaterInfo = async (req, res) => {
             });
 
         // Kiểm tra nếu không có dữ liệu
+        // Kiểm tra nếu không có dữ liệu
         if (!showtimes || showtimes.length === 0) {
             return res.status(404).json({ message: "No showtimes found for this movie or date." });
         }
 
+        // Group showtimes theo phòng chiếu và rạp
         // Group showtimes theo phòng chiếu và rạp
         const groupedShowtimes = showtimes.reduce((acc, curr) => {
             const key = `${curr.screening_room_id.theater_id._id}-${curr.screening_room_id._id}`;
@@ -194,6 +198,7 @@ export const getShowtimeAndTheaterInfo = async (req, res) => {
             if (!acc[key]) {
                 acc[key] = {
                     ...curr._doc,
+                    dates: [], // Khởi tạo mảng dates rỗng
                     dates: [], // Khởi tạo mảng dates rỗng
                 };
             }

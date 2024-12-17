@@ -10,14 +10,21 @@ import { BookingContext } from '../Context';
 function Showtime() {
   const { selectedDate, setSelectedDate,
     selectedTheater, setSelectedTheater,
-    selectedTime, setSelectedTime } = useContext(BookingContext);
+    selectedTime, setSelectedTime,
+    selectedRoomId, setSelectedRoomId,
+    selectedShowtimeId, setSelectedShowtimeId  } = useContext(BookingContext);
 
   // Hàm nhận dữ liệu từ component con
-  const handleScheduleSelection = (theater, time) => {
+  const handleScheduleSelection = (theater, time, roomId,showtimeId) => {
     setSelectedTheater(theater);
     setSelectedTime(time);
+    setSelectedRoomId(roomId);
+    setSelectedShowtimeId(showtimeId);
     console.log("Theater selected:", theater);
     console.log("Time selected:", time);
+    console.log("Room ID selected:", roomId);
+    console.log("Showtime selected:",showtimeId);
+
   };
 
   const handleDateSelect = (selectedDayData) => {

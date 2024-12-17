@@ -1,36 +1,49 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import VoucherCard from './VoucherCardneba'; // Đường dẫn tới file VoucherCard
 import './VoucherCardList.css';
 import { BookingContext } from '../Context';
+import { getCoupons } from '../../api/api'; // Đảm bảo đường dẫn đến API
 
 const VoucherCardList = () => {
-  const {discountAmount, setDiscountAmount} = useContext(BookingContext);
+  const { discountAmount, setDiscountAmount } = useContext(BookingContext);
+  const [coupons, setCoupons] = useState([]);
 
   const handleVoucherSelect = (discount) => {
     setDiscountAmount(discount); // Cập nhật số tiền giảm vào state
   };
 
   useEffect(() => {
-    console.log("Discount:", discountAmount);
-  }, [discountAmount]);
+    const fetchData = async () => {
+      try {
+        const res = await getCoupons(); // Gọi API để lấy dữ liệu coupon
+        setCoupons(res); // Cập nhật danh sách coupon từ API
+      } catch (error) {
+        console.error("Failed to fetch coupons:", error); // Log lỗi nếu xảy ra
+      }
+    };
+  
+    fetchData(); // Gọi API để lấy danh sách coupon
+  }, []); // Chạy một lần khi component mount
+  
   return (
     <div className="VoucherCardList">
-      <VoucherCard
-        title="Giảm 20k"
-        description="Áp dụng cho thành viên"
-        expiryDate="1/1/2025"
-        discount={20000}
-        onSelect={handleVoucherSelect}
-      />
-      <VoucherCard
-        title="Giảm 50k"
-        description="Áp dụng cho hóa đơn trên 500k"
-        expiryDate="30/12/2024"
-        discount={50000}
-        onSelect={handleVoucherSelect}
-      />
+      {coupons.length > 0 ? (
+        coupons.map((coupon, index) => (
+          <VoucherCard
+            key={index} // Dùng index làm key duy nhất
+            title={coupon.title}
+            description={coupon.description}
+            expiryDate={coupon.exp}
+            discount={coupon.balance}
+            onSelect={handleVoucherSelect}
+          />
+        ))
+      ) : (
+        <p>Loading...</p> // Hoặc hiển thị loading state
+      )}
     </div>
   );
+  
 };
 
 export default VoucherCardList;

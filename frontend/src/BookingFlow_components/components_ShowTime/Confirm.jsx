@@ -5,16 +5,14 @@ import { useNavigate } from "react-router-dom"
 import { BookingContext } from "../Context";
 
 function Confirm () {
-  const {selectedTheater, selectedTime, selectedDate, convertDateFormat} = useContext(BookingContext);
+  const {selectedTheater, selectedTime, selectedDate, convertDateFormat,selectedRoomId,selectedShowtimeId} = useContext(BookingContext);
   const navigate = useNavigate();
-  
   const handleBack = () => {
     navigate(-1);
   };
   const handleNext = () => {
-    navigate('/selectseats/:roomId')
+    navigate(`/selectseats/${selectedRoomId}`)
   };
-
   
   return (
     <div className="container">

@@ -14,10 +14,8 @@ const ScheduleList = ({selectedDate, onScheduleSelect }) => {
     const fetchSchedules = async () => {
       setIsLoading(true); // Bắt đầu trạng thái tải dữ liệu
       try {
-        console.log("Selected Date:", selectedDate.date);
         const data = await getShowtimeAndTheaterInfo(movieId, selectedDate.date);
         setSchedules(data);
-        console.log("Schedules Data:", data);
       } catch (err) {
         console.error("Error fetching schedules:", err);
       } finally {
@@ -40,8 +38,7 @@ const ScheduleList = ({selectedDate, onScheduleSelect }) => {
     const minutes = date.getUTCMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`; // Trả về thời gian dưới dạng HH:mm
   };
-
-  return (
+    return (
     <div className="schedule-list-container">
       {schedules.map((schedule, index) => (
         <div key={index} className="schedule-item">
@@ -63,15 +60,15 @@ const ScheduleList = ({selectedDate, onScheduleSelect }) => {
               {[...schedule.dates]
                   .sort((a, b) => new Date(a) - new Date(b))
                   .map((date, dateIndex) => {
-                    const formattedTime = formatTime(date);
+                    const formattedTime = formatTime(date.date);
                     const isSelected = selectedTime === formattedTime;
                     return (
                       <button key={dateIndex} className={`schedule-time-button ${isSelected ? "active" : ""}`}  
                         onClick={() => {
-                          onScheduleSelect(schedule.screening_room_id.theater_id.name, formatTime(date))
+                          onScheduleSelect(schedule.screening_room_id.theater_id.name, formatTime(date.date),schedule.screening_room_id._id,date.showtimeId)
                           setSelectedTime(formattedTime); // Cập nhật thời gian đc chọn 
                         }}>
-                          {formatTime(date)}
+                          {formatTime(date.date)}
                       </button>
                     )
                   })}

@@ -3,7 +3,7 @@ import TheaterModel from "../models/theater-model.js";
 export const getAllTheater = async (req, res) =>{
     let theaters;
     try{
-        theaters=await TheaterModel.find();
+        theaters = await TheaterModel.find().populate('brand_id', 'name'); 
         res.status(200).json(theaters);
     }
     catch (error) {
