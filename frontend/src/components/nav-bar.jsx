@@ -37,8 +37,9 @@ function navbar(){
                 <ul className="center_ul" id="nav-center">
                     <li className="nav_link nav_header" id="home" onClick={()=>{navigate("/")}}>Trang chủ</li>
                     <li className="nav_link nav_header" id="about" onClick={()=>{navigate("/filmlist")}}>Phim</li>
-                    <li className="nav_link nav_header" id="portfolio" onClick={()=>{navigate("")}}>Rạp chiếu</li>
-                    <li className="nav_link nav_header" id="events" onClick={()=>{navigate("")}}>Khuyến mãi</li>
+                    <li className="nav_link nav_header" id="portfolio" onClick={()=>{navigate("/cinemalist")}}>Rạp chiếu</li>
+                    <li className="nav_link nav_header" id="events" onClick={()=>{navigate("/promotion")}}>Khuyến mãi</li>
+
                 </ul>
             </div>
 
