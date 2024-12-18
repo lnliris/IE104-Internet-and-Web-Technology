@@ -91,7 +91,7 @@ function navbar() {
                             </li>
                             <li
                                 className='nav_link nav_header'
-                                id='portfolio'
+                                id='cinemalist'
                                 onClick={() => {
                                     navigate('/cinemalist')
                                 }}
@@ -100,7 +100,7 @@ function navbar() {
                             </li>
                             <li
                                 className='nav_link nav_header'
-                                id='events'
+                                id='promotion'
                                 onClick={() => {
                                     navigate('/promotion')
                                 }}

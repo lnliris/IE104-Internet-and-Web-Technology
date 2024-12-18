@@ -162,16 +162,30 @@ export const createBooking = async ({ ticket_ids, fandb_items }) => {
   }
 };
 
-export const getMovieDetails = async (movieId) =>{
-  const res=await axios.get(`${BASE_URL}/movie/${movieId}`).catch((err) =>console.log(err));
+export const getMovieDetails = async (movieId) => {
+  try {
+    // Gọi API lấy chi tiết phim
+    const res = await axios.get(`${BASE_URL}/movie/${movieId}`).catch((err) => {
+      console.log('Error:', err);
+    });
 
-  if (res.status !==200) {
-    return console.log('No data')
+    // Kiểm tra nếu phản hồi không thành công
+    if (res?.status !== 200) {
+      console.log('No Data');
+      return null;
+    }
+
+    // Lấy dữ liệu từ phản hồi
+    const data = res.data;
+    return data;
+  } catch (error) {
+    console.log('An unexpected error occurred:', error.message);
+    return null;
   }
-  const data=await res.data;
-  console.log(data)
-  return data;
 };
+
+
+
 
 export const getCoupons = async ()=>{
   const res = await axios.get(`${BASE_URL}/coupon/`).catch((err) => console.log(err));
