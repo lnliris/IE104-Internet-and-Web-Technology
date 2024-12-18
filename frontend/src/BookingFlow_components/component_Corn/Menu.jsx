@@ -5,27 +5,57 @@ import { getFoodList } from "../../api/api";
 import { BookingContext } from "../Context";
 
 const MenuItem = ({ item }) => {
-  const { order, setOrder } = useContext(BookingContext);
+  const { order, setOrder, fandb, setFandB } = useContext(BookingContext);
   const [quantity, setQuantity] = useState(0);
 
-  const handleQuantityChange = (itemId, quantity, price, name) => {
+  useEffect(() => {
+    const savedQuantityItem = fandb.find((f) => f.id === item._id);
+    if (savedQuantityItem) {
+      setQuantity(savedQuantityItem.quantity);
+    }
+  }, [item._id, fandb]);
+  
+  const handleQuantityChange = (itemId, newQuantity) => {
+    // Update order in the context
     setOrder((prevOrder) => ({
       ...prevOrder,
-      [itemId]: { quantity, price, name },
+      [itemId]: { quantity: newQuantity, price: item.price, name: item.name },
     }));
+ 
+    setFandB((prevFandB) => {
+      const existingItemIndex = prevFandB.findIndex((item) => item.id === itemId);
+
+      if (newQuantity > 0) {
+        if (existingItemIndex !== -1) {
+          const updatedFandB = [...prevFandB];
+          updatedFandB[existingItemIndex].quantity = newQuantity;
+          return updatedFandB;
+        } else {
+          return [...prevFandB, { id: itemId, quantity: newQuantity }];
+        }
+      } else {
+        if (existingItemIndex !== -1) {
+          const updatedFandB = [...prevFandB];
+          updatedFandB.splice(existingItemIndex, 1); // Xóa item khỏi mảng nếu quantity = 0
+          return updatedFandB;
+        }
+      }
+
+      return prevFandB;
+    });
   };
 
   const handleIncrease = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    handleQuantityChange(item._id, newQuantity, item.price, item.name); // Cập nhật lên context
+    handleQuantityChange(item._id, newQuantity); // Cập nhật lên context
   };
 
   const handleDecrease = () => {
     if (quantity > 0) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      handleQuantityChange(item._id, newQuantity, item.price, item.name); // Cập nhật lên context
+      handleQuantityChange(item._id, newQuantity); // Cập nhật lên context
     }
   };
 
@@ -49,6 +79,7 @@ const Menu = () => {
     nuocUong: [],
     snack: [],
   });
+  const { fandb, setFandB } = useContext(BookingContext);
 
   useEffect(() => {
     // Gọi API để lấy dữ liệu từ backend
@@ -56,7 +87,7 @@ const Menu = () => {
       try {
         const response = await getFoodList(); // Thay URL bằng API backend của bạn
         const allData = response;
-        console.log(allData)
+        console.log(allData);
 
         // Phân loại dữ liệu dựa trên category
         const bapNuoc = allData.filter((item) => item.category === "Bắp nước");

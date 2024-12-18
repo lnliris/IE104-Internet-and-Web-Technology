@@ -153,16 +153,17 @@ export const deleteShowtime = async (req, res) => {
     }
 };
 
-export const getShowtimeAndTheaterInfo = async (req, res) => {
+
+export const getShowtimeAndTheaterInfo = async (req, res) => { 
     try {
-        // Extract movie ID from params and optional date filter from query
+        // Lấy movieId từ params và ngày (date) từ query
         const { id: movieId } = req.params;
         const { date } = req.query;
 
-        // Base query to filter showtimes by movie ID
+        // Tạo query để lọc showtimes dựa trên movieId
         const query = { movie_id: movieId };
 
-        // If a date is provided, filter showtimes by that date
+        // Nếu có date, lọc showtimes theo ngày cụ thể
         if (date) {
             const formattedDate = new Date(date).toISOString().split("T")[0];
             query.date = {
@@ -171,7 +172,8 @@ export const getShowtimeAndTheaterInfo = async (req, res) => {
             };
         }
 
-        // Fetch showtimes with populated theater and room details
+        // Lấy danh sách showtimes và populate thông tin phòng chiếu và rạp
+        // Lấy danh sách showtimes và populate thông tin phòng chiếu và rạp
         const showtimes = await Showtime.find(query)
             .populate({
                 path: "screening_room_id",
@@ -182,33 +184,38 @@ export const getShowtimeAndTheaterInfo = async (req, res) => {
                 },
             });
 
+        // Kiểm tra nếu không có dữ liệu
+        // Kiểm tra nếu không có dữ liệu
         if (!showtimes || showtimes.length === 0) {
             return res.status(404).json({ message: "No showtimes found for this movie or date." });
         }
 
-        // Group showtimes by theater and room, while collecting all dates for each group
+        // Group showtimes theo phòng chiếu và rạp
+        // Group showtimes theo phòng chiếu và rạp
         const groupedShowtimes = showtimes.reduce((acc, curr) => {
             const key = `${curr.screening_room_id.theater_id._id}-${curr.screening_room_id._id}`;
 
             if (!acc[key]) {
                 acc[key] = {
                     ...curr._doc,
-                    dates: [],
+                    dates: [], // Khởi tạo mảng dates rỗng
+                    dates: [], // Khởi tạo mảng dates rỗng
                 };
             }
 
-            // Append the current showtime's date to the dates array
-            acc[key].dates.push(curr.date);
+            // Thêm đối tượng { showtimeId, date } vào mảng dates
+            acc[key].dates.push({
+                showtimeId: curr._id,   // Lấy showtimeId từ _id
+                date: curr.date         // Thêm ngày chiếu
+            });
 
             return acc;
         }, {});
 
-        // Convert the grouped object back to an array
-        const response = Object.values(groupedShowtimes).map((item) => ({
-            ...item,
-            date: item.dates[0], // Keep the first date as the primary date
-        }));
+        // Chuyển đổi kết quả grouped từ object về mảng
+        const response = Object.values(groupedShowtimes);
 
+        // Trả về kết quả
         return res.status(200).json(response);
     } catch (error) {
         console.error("Error fetching showtimes:", error);

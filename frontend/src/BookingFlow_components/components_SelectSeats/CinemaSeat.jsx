@@ -1,32 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./CinemaSeat.css"; // Để thêm CSS tùy chỉnh
+import "./CinemaSeat.css"; // CSS tùy chỉnh
 import { getSeatsByRoom } from "../../api/api";
 
-const CinemaSeat = ({onSeatChange}) => {
+const CinemaSeat = ({ onSeatChange }) => {
   const rows = ["A", "B", "C", "D", "E", "F", "G"];
   const cols = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const hiddenSeats = ["A4", "A5", "A6"];  
   const { roomId } = useParams(); 
   const [seats, setSeats] = useState({});
+  const [seatIdMapping, setSeatIdMapping] = useState({}); // Mới
+
   useEffect(() => {
     const fetchSeats = async () => {
       const data = await getSeatsByRoom(roomId);
      
       if (data && data.seats) {
-        // Chuyển đổi dữ liệu ghế từ API thành state
+        // Khởi tạo seatMapping và seatIdMapping
         const seatMapping = {};
+        const seatIdMapping = {}; // Lưu seatId tương ứng
+
         data.seats.forEach((seat) => {
           const seatKey = `${seat.row}${seat.number}`;
-          seatMapping[seatKey] = seat.status; // Trạng thái: "available", "booked", ...
+          seatMapping[seatKey] = seat.status;
+          seatIdMapping[seatKey] = seat._id; // Lưu seatId
         });
-        setSeats(seatMapping);
+
+        setSeats(seatMapping); // Cập nhật state seatMapping
+        setSeatIdMapping(seatIdMapping); // Cập nhật state seatIdMapping
       }
     };
 
     fetchSeats();
   }, [roomId]);
+
   const handleSeatClick = (row, col) => {
     const seatKey = `${row}${col}`;
     setSeats((prevSeats) => {
@@ -39,12 +47,13 @@ const CinemaSeat = ({onSeatChange}) => {
   };
 
   useEffect(() => {
-    // Gửi danh sách ghế đã chọn về component cha
+    // Gửi danh sách ghế đã chọn và seatId về component cha
     const selectedSeats = Object.keys(seats).filter(
       (key) => seats[key] === "selected"
     );
-    onSeatChange(selectedSeats);
-  }, [seats, onSeatChange]);
+    const selectedSeatIds = selectedSeats.map(seatKey => seatIdMapping[seatKey]); // Lấy ID từ seatIdMapping
+    onSeatChange(selectedSeats, selectedSeatIds);
+  }, [seats, seatIdMapping, onSeatChange]);
 
   return (
     <div className="cinema">
@@ -88,3 +97,4 @@ const CinemaSeat = ({onSeatChange}) => {
 };
 
 export default CinemaSeat;
+

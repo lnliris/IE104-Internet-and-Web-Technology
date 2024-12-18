@@ -12,8 +12,13 @@ function Product(prop){
         navigate(`/booking/${prop.id}`);
     };
 
+    const handleDetail = () => {
+        // Điều hướng sang trang khác (có thể truyền id hoặc thông tin sản phẩm qua URL)
+        navigate(`/movie/${prop.id}`);
+    };
+
     return(
-        <div className="wrap-product" data-id={prop.id} onClick={()=>{prop.orderFilm()}}>
+        <div className="wrap-product" data-id={prop.id}>
             <div className="wrap-prod-info">
                 <div className="product-topinf">{prop.type} / {prop.length}</div>
                 <div className="product-name">{prop.name}</div>
@@ -23,7 +28,15 @@ function Product(prop){
                                 e.stopPropagation(); // Ngăn chặn event "onClick" trên cha
                                 handleBooking();
                             }}><p>Đặt vé ngay</p></button>
-                        <button className="btn_cus btn_film" style={{"border":"1px solid white","backgroundColor":"transparent"}}><p>Xem thêm</p></button>
+                        <button 
+                            className="btn_cus btn_film" 
+                            style={{ border: "1px solid white", backgroundColor: "transparent" }}
+                            onClick={(e) => {
+                                e.stopPropagation(); // Ngăn chặn event "onClick" trên cha
+                                handleDetail();}}
+                        >
+                            <p>Chi tiết</p>
+                        </button>
                     </div>
                 </div>
             </div>

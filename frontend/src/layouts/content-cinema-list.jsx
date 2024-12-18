@@ -1,18 +1,21 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import '../stylesheets/layouts/content-cinema-list.css';
+import { getAllTheater } from '../api/api';
 
 const ContentCinemaList = () => {
     // Backend Integration
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [cinemas, setCinemas] = useState([]);
 
     // Fetch cinemas from backend
     const fetchCinemas = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`${API_URL}/cinemas`);
-            setCinemas(response.data);
+            const response = await getAllTheater();
+            console.log('haha',response);
+            setCinemas(response);
             setError(null);
         } catch (err) {
             setError('Failed to fetch cinemas');
@@ -22,70 +25,10 @@ const ContentCinemaList = () => {
         }
     };
 
+    // useEffect chỉ gọi fetchCinemas một lần khi component mount
     useEffect(() => {
-        // Uncomment the following line when backend is ready
-        // fetchCinemas();
-    }, []);
-
-    // Temporary static data
-    const [cinemas, setCinemas] = useState([
-        {
-            id: 1,
-            brandName: 'CGV',
-            name: 'Gò Vấp',
-            fullName: 'CGV Gò Vấp',
-            address: '39 Quang Trung, Phường 3, Quận Gò Vấp, TP.HCM',
-            image: 'https://static.doanhnhan.vn/images/upload/quynhchi/12042020/cgv-rap.jpg'
-        },
-        {
-            id: 2,
-            brandName: 'Cinestar',
-            name: 'Quang Trung',
-            fullName: 'CineStar Quang Trung',
-            address: '230 Quang Trung, Phường 10, Quận Gò Vấp, TP.HCM',
-            image: 'https://cinestar-api.monamedia.net/media/wysiwyg/CinemaImage/01-Quoc-Thanh-masthead.jpg'
-        },
-        {
-            id: 2,
-            brandName: 'Cinestar',
-            name: 'Quang Trung',
-            fullName: 'CineStar Quang Trung',
-            address: '230 Quang Trung, Phường 10, Quận Gò Vấp, TP.HCM',
-            image: 'https://cinestar-api.monamedia.net/media/wysiwyg/CinemaImage/01-Quoc-Thanh-masthead.jpg'
-        },
-        {
-            id: 2,
-            brandName: 'Cinestar',
-            name: 'Quang Trung',
-            fullName: 'CineStar Quang Trung',
-            address: '230 Quang Trung, Phường 10, Quận Gò Vấp, TP.HCM',
-            image: 'https://cinestar-api.monamedia.net/media/wysiwyg/CinemaImage/01-Quoc-Thanh-masthead.jpg'
-        },
-        {
-            id: 1,
-            brandName: 'CGV',
-            name: 'Gò Vấp',
-            fullName: 'CGV Gò Vấp',
-            address: '39 Quang Trung, Phường 3, Quận Gò Vấp, TP.HCM',
-            image: 'https://static.doanhnhan.vn/images/upload/quynhchi/12042020/cgv-rap.jpg'
-        },
-        {
-            id: 2,
-            brandName: 'Cinestar',
-            name: 'Quang Trung',
-            fullName: 'CineStar Quang Trung',
-            address: '230 Quang Trung, Phường 10, Quận Gò Vấp, TP.HCM',
-            image: 'https://cinestar-api.monamedia.net/media/wysiwyg/CinemaImage/01-Quoc-Thanh-masthead.jpg'
-        },
-        {
-            id: 2,
-            brandName: 'Cinestar',
-            name: 'Quang Trung',
-            fullName: 'CineStar Quang Trung',
-            address: '230 Quang Trung, Phường 10, Quận Gò Vấp, TP.HCM',
-            image: 'https://cinestar-api.monamedia.net/media/wysiwyg/CinemaImage/01-Quoc-Thanh-masthead.jpg'
-        },
-    ]);
+        fetchCinemas(); // Gọi hàm fetchCinemas
+    }, []); // 
 
     // Loading state
     if (loading) return <div className="loading">Loading cinemas...</div>;
@@ -99,18 +42,18 @@ const ContentCinemaList = () => {
     
             <div className="cinema-grid">
                 {cinemas.map((cinema) => (
-                    <div key={cinema.id} className="cinema-card">
+                    <div key={cinema._id} className="cinema-card">
                         <div className="cinema-brand">
-                            <span>{cinema.brandName}</span>
+                            <span>{cinema.brand_id.name}</span>
                         </div>
                         <img
-                            src={cinema.image}
-                            alt={cinema.fullName}
+                            src={cinema.img}
+                            alt={cinema.name}
                             className="cinema-image"
                         />
                         <div className="cinema-info">
-                            <h2 className="cinema-name">{cinema.fullName}</h2>
-                            <p className="cinema-address">{cinema.address}</p>
+                            <h2 className="cinema-name">{cinema.name}</h2>
+                            <p className="cinema-address">{cinema.location}</p>
                             <button className="view-schedule-btn">
                                 Xem lịch chiếu
                             </button>

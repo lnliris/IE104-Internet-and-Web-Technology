@@ -237,7 +237,8 @@ export const getMovieDetails = async (req, res) => {
           duration: movie.duration,
           rating: movie.rating,
           poster_url: movie.poster_url,
-          limit_age: movie.limit_age
+          limit_age: movie.limit_age,
+          vid_url: movie.vid_url
       });
   } catch (error) {
       console.error(error);

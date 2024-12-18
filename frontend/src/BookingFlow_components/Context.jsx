@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState,useEffect, useCallback } from "react";
 
 // Tạo Context
 export const BookingContext = createContext();
@@ -8,11 +8,15 @@ export const BookingProvider = ({ children }) => {
   
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [selectedDate, setSelectedDate] = useState({ day: "", date: "" });
+  const [selectedDate, setSelectedDate] = useState({ day: "Thứ 2", date: "2024-12-13" });
   const seatPrice = 80000; // Giá mỗi ghế
   const [selectedSeats, setSelectedSeats] = useState([]); // State lưu ghế đã chọn
   const [order, setOrder] = useState({});
-
+  const [selectedRoomId, setSelectedRoomId]=useState(null);
+  const [selectedShowtimeId, setSelectedShowtimeId]=useState([])
+  const [selectedSeatIds, setSelectedSeatIds] = useState([]);
+  const [fandb,setFandB]=useState([])
+  
   const totalCorn = () => {
     return Object.keys(order).reduce((total, itemId) => {
       const item = order[itemId];
@@ -21,6 +25,7 @@ export const BookingProvider = ({ children }) => {
     }, 0);
   };
 
+  
   const [discountAmount, setDiscountAmount] = useState(0);
 
   function convertDateFormat(dateString) {
@@ -70,7 +75,12 @@ export const BookingProvider = ({ children }) => {
         formatCurrency,
         handleConfirmClick, handleConfirmClose, handleConfirmOpen, handleClosePaymentPopup,
         isConfirmPopupOpen, isPaymentPopup,
-        discountInput, setDiscountInput}}
+        discountInput, setDiscountInput,
+        selectedRoomId,setSelectedRoomId,
+        selectedShowtimeId, setSelectedShowtimeId,
+        selectedSeatIds, setSelectedSeatIds ,
+        fandb,setFandB     
+      }}
     >
       {children}
     </BookingContext.Provider>

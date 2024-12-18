@@ -1,36 +1,24 @@
-import React from 'react';
-import './Promotion.css'; // Tạo CSS riêng để tạo giao diện giống như hình
+import React, { useContext, useState } from 'react';
+import './Promotion.css';
 import VoucherCardList from './VoucherCardList';
-import { useState, useContext } from 'react';
 import { BookingContext } from '../Context';
+import { checkCoupon } from '../../api/api'; // Import checkCoupon từ api.js
 
 const Promotion = () => {
-  const [discountCode, setDiscountCode] = useState('');
-  const [isValid, setIsValid] = useState(null); // Kiểm tra mã giảm giá hợp lệ
-  const {discountInput, setDiscountInput} = useContext(BookingContext);
+  const { discountAmount, setDiscountAmount } = useContext(BookingContext);
+  const [title, setTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const validCodes = [
-    { code: "DISCOUNT20", amount: 20000 },
-    { code: "SALE50", amount: 50000 },
-    { code: "OFFER10", amount: 10000 }
-  ]; // Mã giảm giá hợp lệ
-
-  const handleDiscountChange = (e) => {
-    setDiscountCode(e.target.value);
-  };
-
-  const applyDiscount = () => {
-    const foundCode = validCodes.find(item => item.code === discountCode);
-    if (foundCode) {
-      setIsValid(true);
-      setDiscountInput(foundCode.amount);
-      alert(`Mã giảm giá hợp lệ! Bạn đã giảm được ${foundCode.amount} VND.`);
-    } else {
-      setIsValid(false);
-      setDiscountInput(0);
-      alert("Mã giảm giá không hợp lệ.");
+  const handleCouponApply = async () => {
+    try {
+      const res = await checkCoupon(title); // Gọi API checkCoupon
+      setDiscountAmount(res.balance); // Gán giá trị từ API response
+        setErrorMessage(res.message); // Hiển thị thông báo lỗi nếu coupon không hợp lệ
+    } catch (error) {
+      setErrorMessage(error.message || 'Đã xảy ra lỗi, vui lòng thử lại.');
     }
   };
+
   return (
     <div className="promo-container">
       <h2>Khuyến mãi</h2>
@@ -38,18 +26,14 @@ const Promotion = () => {
         <input
           type="text"
           placeholder="Mã giảm giá"
-          value={discountCode}
-          onChange={handleDiscountChange}
           className="promo-input"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
-        <button className="apply-button" onClick={applyDiscount}>Áp dụng</button>
-        {isValid !== null && (
-        <p className={isValid ? 'valid-code' : 'invalid-code'}>
-          {isValid ? `Mã giảm giá hợp lệ! Giảm ${discountInput} VND` : 'Mã giảm giá không hợp lệ!'}
-        </p>
-      )}
+        <button className="apply-button" onClick={handleCouponApply}>Áp dụng</button>
       </div>
-      <VoucherCardList></VoucherCardList>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <VoucherCardList />
     </div>
   );
 };

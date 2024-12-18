@@ -27,8 +27,8 @@ function App () {
       <Routes>
         <Route path='/' element={<Index />} />
         <Route path='/search' element={<SearchPage />} />
-        {/* <Route path="/showtime" element={<ShowtimePage/>} /> */}
         <Route path='/booking/:movieId' element={<ShowtimePage />} />
+        <Route path='/movie/:movieId' element={<OrderFilm />} />
         <Route path='/selectseats/:roomId' element={<SelectSeatsPage />} />
         <Route path='/cornpage' element={<CornPage />} />
         <Route path='/payment' element={<PaymentPage />} />
