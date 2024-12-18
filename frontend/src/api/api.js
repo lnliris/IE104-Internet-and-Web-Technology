@@ -19,6 +19,7 @@ export const getAllMovies = async () => {
   const data = await res.data;
   return data;
 };
+
 export const getSearchMovie = async (title) => {
   const res = await axios.get(`${BASE_URL}/movie/search?title=${title}`).catch((err) => console.log(err));
 
@@ -118,7 +119,7 @@ export const createTicket = async ({ seat_id, showtime_id }) => {
 
     // Gửi yêu cầu POST lên server để tạo ticket
     const response = await axios.post(
-      `${BASE_URL}/tickets`, // Endpoint API cho việc tạo ticket
+      `${BASE_URL}/ticket`, // Endpoint API cho việc tạo ticket
       { seat_id, showtime_id },  // Payload gửi đi (seat_id và showtime_id)
       {
         headers: {
@@ -147,12 +148,13 @@ export const createBooking = async ({ ticket_ids, fandb_items }) => {
       ticket_ids, 
       fandb_items 
     };
-    const response = await axios.post(`${BASE_URL}/bookings`, payload, {
+    const response = await axios.post(`${BASE_URL}/booking`, payload, {
       headers: {
         Authorization: `Bearer ${token}`, // Đính kèm token vào header
         "Content-Type": "application/json" // Định dạng dữ liệu gửi là JSON
       }
     });
+    console.log('booking',response.data)
     return response.data;
   } catch (error) {
     console.error("Error creating booking:", error.response?.data || error.message);
@@ -178,7 +180,6 @@ export const getCoupons = async ()=>{
     return console.log("No Data");
   }
   const data = await res.data;
-  console.log(res.data)
   return data;
 }
 

@@ -43,7 +43,6 @@ export const createTicket = async (req, res) => {
         await seat.save();
 
         return res.status(201).json({
-            message: "Ticket created successfully",
             ticket: savedTicket
         });
     } catch (error) {
