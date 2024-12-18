@@ -25,8 +25,8 @@ function ContentFilmList(){
     return(
         <>
             <FimlPosterSlide/>
-            <FilmListFuture data={films}/>
             <FilmListNow data={films}/>
+            <FilmListFuture data={films}/>
         </>
        
     );
