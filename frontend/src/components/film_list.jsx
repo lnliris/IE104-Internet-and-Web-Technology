@@ -9,14 +9,18 @@ function Filmlist (prop) {
     window.location.reload()
   }
 
+  var navigateToFilmList = function () {
+    nav('/filmlist') // Đường dẫn tới FilmList page
+  }
+
   return (
     <section className='mt-50'>
       <div className='center_ul' id='btn_type_film_list'>
-        <button className='btn_cus btn-file-time-cate' id='film_now'  onClick={() => {nav('/phimdangchieu');}}>
+        <button className='btn_cus btn-file-time-cate' id='film_now' onClick={() => { nav('/phimdangchieu'); }}>
           Phim đang chiếu
         </button>
-        <button className='btn_cus btn-file-time-cate disable_btn_film_now' id='film_futu' onClick={() => {nav('/phimsapchieu');}}>
-        Phim sắp chiếu
+        <button className='btn_cus btn-file-time-cate disable_btn_film_now' id='film_futu' onClick={() => { nav('/phimsapchieu'); }}>
+          Phim sắp chiếu
         </button>
       </div>
 
@@ -38,7 +42,7 @@ function Filmlist (prop) {
               ))
             : ''}
         </div>
-        <button className='btn_cus' id='more_films'>
+        <button className='btn_cus' id='more_films' onClick={navigateToFilmList}>
           <p className='text_upper'>Xem thêm</p>
         </button>
       </div>
