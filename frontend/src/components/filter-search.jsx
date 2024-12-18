@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
 import search from "../assets/icon/search.png";
-
-const data = [
-    { id: 1, name: "A" },
-    { id: 2, name: "0A" },
-    { id: 3, name: "ÁDSAD" },
-];
-
 function FilterSearch(prop) {
     const [selected1, setSelected1] = useState(""); // Trạng thái của dropdown 1
     const [selected2, setSelected2] = useState(""); // Trạng thái của dropdown 2
@@ -51,11 +44,8 @@ function FilterSearch(prop) {
                     <option value="" disabled>
                         1. Chọn phim
                     </option>
-                    {data.map((item) => (
-                        <option key={item.id} value={item.name}>
-                            {item.name}
-                        </option>
-                    ))}
+                    <option value="Phim 1">Phim 1</option>
+                    <option value="Phim 2">Phim 2</option>
                 </select>
 
                 {/* Label for Dropdown 2 */}
