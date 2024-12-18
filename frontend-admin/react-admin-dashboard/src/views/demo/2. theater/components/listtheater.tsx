@@ -1,11 +1,13 @@
 import type { TableProps } from "antd";
-import { Space, Table, Modal, Input } from "antd";
-import React, { useState } from "react";
+import { Input, Modal, Space, Table } from "antd";
+import React from "react";
 
 interface DataType {
   key: string;
+  brandName: string;
   name: string;
   location: string;
+  img: string;
 }
 
 const handleDelete = (key: string) => {
@@ -19,15 +21,23 @@ const handleEdit = (key: string) => {
 
   let name = theater.name;
   let location = theater.location;
+  let brandName = theater.brandName;
+  let img = theater.img;
 
   Modal.confirm({
     title: 'Edit Theater',
     content: (
       <div>
         <Input 
+          defaultValue={brandName} 
+          onChange={(e) => brandName = e.target.value} 
+          placeholder="Brand Name" 
+        />
+        <Input 
           defaultValue={name} 
           onChange={(e) => name = e.target.value} 
           placeholder="Name" 
+          style={{ marginTop: 10 }} 
         />
         <Input 
           defaultValue={location} 
@@ -35,10 +45,16 @@ const handleEdit = (key: string) => {
           placeholder="Location" 
           style={{ marginTop: 10 }} 
         />
+        <Input 
+          defaultValue={img} 
+          onChange={(e) => img = e.target.value} 
+          placeholder="Image URL" 
+          style={{ marginTop: 10 }} 
+        />
       </div>
     ),
     onOk() {
-      console.log(`Updated theater with key: ${key}, name: ${name}, location: ${location}`);
+      console.log(`Updated theater with key: ${key}, brandName: ${brandName}, name: ${name}, location: ${location}, img: ${img}`);
       // Implement the update logic here
     },
   });
@@ -47,13 +63,20 @@ const handleEdit = (key: string) => {
 const data: DataType[] = [
   {
     key: '6747070725ba1f3937f5be61',
+    brandName: 'Brand 1',
     name: 'Theater 1',
     location: 'Location 1',
+    img: 'https://picsum.photos/200/300',
   },
   // Add more data as needed
 ];
 
 const columns: TableProps<DataType>["columns"] = [
+  {
+    title: "Brand Name",
+    dataIndex: "brandName",
+    key: "brandName",
+  },
   {
     title: "Name",
     dataIndex: "name",
@@ -64,6 +87,11 @@ const columns: TableProps<DataType>["columns"] = [
     title: "Location",
     dataIndex: "location",
     key: "location",
+  },
+  {
+    title: "Theater Image Link",
+    dataIndex: "img",
+    key: "img",
   },
   {
     title: "Action",

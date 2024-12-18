@@ -3,6 +3,10 @@ import { Input, Row, Col, List, Button, Modal, Form } from 'antd';
 // ...existing code...
 
 const AddTheater = () => {
+    const [brandName, setBrandName] = useState('');
+    const [name, setName] = useState('');
+    const [location, setLocation] = useState('');
+    const [img, setImg] = useState('');
     const [address, setAddress] = useState('');
     const [mapAddress, setMapAddress] = useState('');
     const [cinemaRooms, setCinemaRooms] = useState([]);
@@ -15,6 +19,10 @@ const AddTheater = () => {
 
     const handleSubmit = () => {
         // Handle submit logic here
+        console.log('Brand Name:', brandName);
+        console.log('Name:', name);
+        console.log('Location:', location);
+        console.log('Image URL:', img);
         console.log('Address:', address);
         console.log('Map Address:', mapAddress);
         console.log('Cinema Rooms:', cinemaRooms);
@@ -81,21 +89,27 @@ const AddTheater = () => {
             <Row gutter={16} style={{ marginBottom: '16px' }}>
                 <Col span={12}>
                     <Input
+                        placeholder="Nhập tên thương hiệu"
+                        value={brandName}
+                        onChange={(e) => setBrandName(e.target.value)}
+                        style={{ marginBottom: '10px' }}
+                    />
+                    <Input
                         placeholder="Nhập tên rạp"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         style={{ marginBottom: '10px' }}
                     />
                     <Input
                         placeholder="Nhập địa chỉ rạp"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
                         style={{ marginBottom: '10px' }}
                     />
                     <Input
-                        placeholder="Link google map địa chỉ rạp"
-                        value={mapAddress}
-                        onChange={(e) => setMapAddress(e.target.value)}
+                        placeholder="Nhập URL hình ảnh"
+                        value={img}
+                        onChange={(e) => setImg(e.target.value)}
                         style={{ marginBottom: '10px' }}
                     />
                 </Col>
