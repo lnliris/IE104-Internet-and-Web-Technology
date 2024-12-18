@@ -39,6 +39,7 @@ function App () {
         <Route path="/promotion/*" element={<PromotionPage/>} />
         <Route path='/phimsapchieu' element={<PhimSapChieu />} />
         <Route path='/phimdangchieu' element={<PhimDangChieu />} />
+        <Route path='/filmlist/*' element={<FilmList />} />
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </>
