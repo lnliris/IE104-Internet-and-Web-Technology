@@ -89,9 +89,28 @@ const DemoTable: React.FC = () => {
     setIsModalVisible(true);
   };
 
-  const handleEdit = (values: DataType) => {
+  const handleEdit =async (values: DataType) => {
     console.log("Editing film:", values);
-    setIsModalVisible(false);
+      if (!editingFilm) return;
+    
+      try {
+        setLoading(true);
+        const response = await axios.put(`http://localhost:8081/movie/${editingFilm.key}`, values);
+        message.success("Phim đã được cập nhật thành công!");
+    
+        const updatedData = data.map((film) =>
+          film.key === editingFilm.key ? { ...film, ...values } : film
+        );
+        setData(updatedData);
+      } catch (error) {
+        console.error("Failed to update movie:", error);
+        message.error("Cập nhật phim thất bại, vui lòng thử lại.");
+      } finally {
+        setLoading(false);
+        setIsModalVisible(false);
+        setEditingFilm(null);
+      }
+    
   };
 
   const handleCancel = () => {
