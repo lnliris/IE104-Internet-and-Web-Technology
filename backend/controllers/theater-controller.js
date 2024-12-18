@@ -14,18 +14,21 @@ export const getAllTheater = async (req, res) =>{
 
 export const addTheater = async (req, res) => {
   try {
-    const { name, location, brand_id,img } = req.body;
+    const { name, location, brandName,img } = req.body;
 
     // Kiểm tra đầu vào
-    if (!name || !location || !brand_id ||!img) {
+    if (!name || !location || !brandName ||!img) {
       return res.status(400).json({ message: "Missing required fields" });
     }
-
+    const brand = await TheaterBrandModel.findOne({ name: brandName });
+    if (!brand) {
+      return res.status(400).json({ message: "Brand not found" });
+    }
     // Tạo rạp chiếu mới
     const newTheater = new TheaterModel({
       name,
       location,
-      brand_id,
+      brand_id:brand._id,
       img
     });
 
@@ -42,14 +45,14 @@ export const updateTheater = async (req, res) => {
   const { name, location,img,brandName } = req.body; // Dữ liệu mới từ request body
 
   try {
-    const brand = await BrandModel.findOne({ name: brandName });
+    const brand = await TheaterBrandModel.findOne({ name: brandName });
     if (!brand) {
       return res.status(400).json({ message: "Brand not found" });
     }
 
     const updatedTheater = await TheaterModel.findByIdAndUpdate(
       id, 
-      { name, location,img, brand_id }, 
+      { name, location,img, brand_id:brand._id }, 
       { new: true, runValidators: true } // Trả về bản ghi đã cập nhật
     );
 

@@ -37,15 +37,21 @@ const DemoTable: React.FC = () => {
   // Hàm xóa rạp chiếu phim
   const handleDelete = (key: string) => {
     Modal.confirm({
-      title: "Are you sure?",
-      content: "This action will delete the theater permanently.",
+      title: "Chắc chắn xóa",
+      content: "Hành động này sẽ xóa phim ngay lập tức.",
       onOk: async () => {
-        console.log(`Deleting theater with key: ${key}`);
-        await fetchTheaters(); // Gọi lại hàm fetchTheaters để cập nhật danh sách
+        try {
+          await axios.delete(`http://localhost:8081/theater/${key}`);
+          message.success("Theater deleted successfully");
+          fetchTheaters(); // Cập nhật danh sách sau khi xóa
+        } catch (error) {
+          console.error("Failed to delete theater:", error);
+          message.error("Failed to delete theater. Please try again.");
+        }
       },
     });
   };
-
+  
   // Hàm chỉnh sửa thông tin rạp chiếu phim
   const handleEdit = (key: string) => {
     const theater = data.find((item) => item.key === key);
@@ -85,9 +91,20 @@ const DemoTable: React.FC = () => {
         />
       </div>
     ),
-    onOk() {
-      console.log(`Updated theater with key: ${key}, brandName: ${brandName}, name: ${name}, location: ${location}, img: ${img}`);
-      // Implement the update logic here
+    onOk: async () => {
+      try {
+        const response = await axios.put(`http://localhost:8081/theater/${key}`, {
+          name,
+          location,
+          brandName,
+          img,
+        });
+        message.success('Theater updated successfully');
+        fetchTheaters(); // Cập nhật danh sách rạp
+      } catch (error) {
+        console.error("Failed to update theater:", error);
+        message.error("Failed to update theater. Please try again.");
+      }
     },
   });
 };

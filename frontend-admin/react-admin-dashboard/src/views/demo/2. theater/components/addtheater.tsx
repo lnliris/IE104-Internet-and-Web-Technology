@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Input, Row, Col, List, Button, Modal, Form } from 'antd';
+import axios from 'axios';
 // ...existing code...
 
 const AddTheater = () => {
     const [brandName, setBrandName] = useState('');
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
-    const [img, setImg] = useState('');
-    const [address, setAddress] = useState('');
-    const [mapAddress, setMapAddress] = useState('');
+    const [img, setImg] = useState('');   
     const [cinemaRooms, setCinemaRooms] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newRoomName, setNewRoomName] = useState('');
@@ -17,15 +16,41 @@ const AddTheater = () => {
     const [isSeatModalVisible, setIsSeatModalVisible] = useState(false);
     const [selectedRoomSeats, setSelectedRoomSeats] = useState([]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         // Handle submit logic here
         console.log('Brand Name:', brandName);
         console.log('Name:', name);
         console.log('Location:', location);
         console.log('Image URL:', img);
-        console.log('Address:', address);
-        console.log('Map Address:', mapAddress);
         console.log('Cinema Rooms:', cinemaRooms);
+            const theaterData = {
+                name,
+                location,
+                brandName,
+                img,
+            };
+            console.log(theaterData); // Kiểm tra dữ liệu trước khi gửi
+
+            try {
+                const response = await axios.post('http://localhost:8081/theater/add', theaterData);
+                console.log(response)
+                if (response.status === 201) {
+                    // Thêm thành công
+                    console.log('Thêm rạp phim thành công:', response.data);
+                    // Reset form hoặc thông báo thành công
+                    setBrandName('');
+                    setName('');
+                    setLocation('');
+                    setImg('');
+                } else {
+                    // Xử lý lỗi từ server
+                    console.error('Lỗi khi thêm rạp phim:', response.data.message);
+                }
+            } catch (error) {
+                // Xử lý lỗi kết nối hoặc lỗi khác
+                console.error('Lỗi khi gọi API thêm rạp phim:', error);
+            }
+        
     };
 
     const handleAddRoom = () => {

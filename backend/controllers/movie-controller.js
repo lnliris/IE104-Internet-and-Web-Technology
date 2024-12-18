@@ -20,7 +20,7 @@ export const getAllMovies = async (req, res, next) => {
   
     try {
       // Sử dụng phương thức limit(6) để lấy chỉ 6 bộ phim đầu tiên
-      movies = await Movie.find().limit(6);
+      movies = await Movie.find().limit(8);
     } catch (err) {
       return console.log(err);
     }
