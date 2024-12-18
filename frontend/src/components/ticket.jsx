@@ -7,7 +7,7 @@ function Ticket(){
         <div style={{"position":"relative"}}>
             <img src={popcorn} style={{"position":"absolute","top":"16%","left":"5%"}}/>
             <img src={logo} width="100" style={{"position":"absolute","bottom":"25%","left":"4%"}}/>
-            <div className="flex f-col" style={{"position":"absolute","top":"20%","left":"25%"}}>
+            <div className="flex f-col" style={{"position":"absolute","top":"10%","left":"25%"}}>
                 <h1>Combo CeeCine vui vẻ</h1>
                 <div className="flex f-col gap10" style={{"padding":"3%"}}>
                     <div className="flex cenhor gap10">

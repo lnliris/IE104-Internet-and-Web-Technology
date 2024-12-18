@@ -234,11 +234,11 @@
 .btn_cus:hover{
     background-color: white;
     color: black;
-}
-
+} 
+/*
 .btn_cus:hover > p{
     animation: textTrans normal 0.5s;
-}
+} */
 
 .gap20{
     gap: 20px;

@@ -142,6 +142,11 @@ function Register(prop) {
             <div className="w-100 flex f-col">
                 <button className="w-100 btn_cus auth_btn"><p className="">Đăng ký</p></button>
             </div>
+            <div className="line flex f-col text-center mt-10 w-100">
+            </div> 
+            <div className="w-100 flex cenhor cenver text-center mt-30">
+                <p>Bạn đã có tài khoản? <a onClick={prop.changetoLogin} className="nav-auth" style={{"color":"#3D70B7"}}>Đăng nhập ngay</a></p>
+            </div>
         </div>
     );
 }

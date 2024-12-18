@@ -47,7 +47,7 @@ function MenuProfile(){
                         <p data-name="myorder" className="menu_profile" style={{"fontSize":"18px","color":"white"}}>
                             Vé của tôi
                         </p>
-                        <p  className="menu_profile" style={{"fontSize":"18px","color":"white"}}>
+                        <p data-name="notify" className="menu_profile" style={{"fontSize":"18px","color":"white"}}>
                             Thông báo
                         </p>
                     </div>

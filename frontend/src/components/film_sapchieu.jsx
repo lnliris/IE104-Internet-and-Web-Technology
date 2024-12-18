@@ -61,13 +61,11 @@ function PhimSapChieu () {
 
       <section className='mt-50'>
         <div className='center_ul' id='btn_type_film_list'>
-          <button className='btn_cus btn-file-time-cate disable_btn_film_futu' id='film_now'>
-            <p className='text_upper' onClick={() => nav('/phimdangchieu')}>Phim đang chiếu</p>
+          <button className='btn_cus btn-file-time-cate disable_btn_film_futu' id='film_now'  onClick={() => nav('/phimdangchieu')}>
+          Phim đang chiếu
           </button>
-          <button className='btn_cus btn-file-time-cate ' id='film_futu'>
-            <p className='text_upper' onClick={() => nav('/phimsapchieu')}>
-              Phim sắp chiếu
-            </p>
+          <button className='btn_cus btn-file-time-cate ' id='film_futu' onClick={() => nav('/phimsapchieu')}>
+          Phim sắp chiếu
           </button>
         </div>
 

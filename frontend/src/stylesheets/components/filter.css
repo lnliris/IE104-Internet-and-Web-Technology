@@ -90,14 +90,11 @@
     font-weight: 600;
 }
 
-.btn-save-filter:hover{
-    background-color: white;
-    color: black;
-}
+/*
 
 .btn-save-filter:hover  p{
     animation: textTrans normal 0.5s;
-}
+} */
 
 .btn-save-filter:hover{
     background-color: white;

@@ -4,6 +4,7 @@ import ContentMyOrderPage from "../layouts/content-myorder-page";
 import ContentProfilePage from "../layouts/content_profile_page";
 import Navbar from "../components/nav-bar"
 import Footer from "../components/footer";
+import ContentNotifyPage from "../layouts/content-notification-page";
 
 function Profile(){
     return(
@@ -13,6 +14,7 @@ function Profile(){
                 <Route path="/myorder" element={<ContentMyOrderPage />}/>
                 <Route path="/history" element={<ContentTransacPage />}/>
                 <Route path="/info" element={<ContentProfilePage />}/>
+                <Route path="/notify" element={<ContentNotifyPage />}/>
             </Routes>
         <Footer/>
         </>
