@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import type { TableProps } from "antd";
-import { Input, Modal, Space, Table } from "antd";
-import React from "react";
+import { Space, Table, Modal, Input, message } from "antd";
 
 interface DataType {
   key: string;
@@ -10,14 +11,45 @@ interface DataType {
   img: string;
 }
 
-const handleDelete = (key: string) => {
-  // Implement the delete logic here
-  console.log(`Deleting film with key: ${key}`);
-};
+const DemoTable: React.FC = () => {
+  const [data, setData] = useState<DataType[]>([]); // State để lưu dữ liệu từ API
+  const [loading, setLoading] = useState<boolean>(false); // State loading
 
-const handleEdit = (key: string) => {
-  const theater = data.find(item => item.key === key);
-  if (!theater) return;
+  // Hàm fetch danh sách rạp chiếu phim từ API
+  const fetchTheaters = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:8081/theater/all");
+      const transformedData = response.data.map((theater: any) => ({
+        key: theater._id, // key từ backend (MongoDB ID)
+        name: theater.name,
+        location: theater.location,
+      }));
+      setData(transformedData); // Cập nhật state với dữ liệu đã chuyển đổi
+    } catch (error) {
+      console.error("Failed to fetch theaters:", error);
+      message.error("Failed to fetch theaters. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Hàm xóa rạp chiếu phim
+  const handleDelete = (key: string) => {
+    Modal.confirm({
+      title: "Are you sure?",
+      content: "This action will delete the theater permanently.",
+      onOk: async () => {
+        console.log(`Deleting theater with key: ${key}`);
+        await fetchTheaters(); // Gọi lại hàm fetchTheaters để cập nhật danh sách
+      },
+    });
+  };
+
+  // Hàm chỉnh sửa thông tin rạp chiếu phim
+  const handleEdit = (key: string) => {
+    const theater = data.find((item) => item.key === key);
+    if (!theater) return;
 
   let name = theater.name;
   let location = theater.location;
@@ -60,16 +92,10 @@ const handleEdit = (key: string) => {
   });
 };
 
-const data: DataType[] = [
-  {
-    key: '6747070725ba1f3937f5be61',
-    brandName: 'Brand 1',
-    name: 'Theater 1',
-    location: 'Location 1',
-    img: 'https://picsum.photos/200/300',
-  },
-  // Add more data as needed
-];
+  // Gọi API khi component mount
+  useEffect(() => {
+    fetchTheaters();
+  }, []);
 
 const columns: TableProps<DataType>["columns"] = [
   {
@@ -105,6 +131,14 @@ const columns: TableProps<DataType>["columns"] = [
   },
 ];
 
-const DemoTable: React.FC = () => <Table columns={columns} dataSource={data} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      loading={loading}
+      pagination={{ pageSize: 5 }}
+    />
+  );
+};
 
 export default DemoTable;

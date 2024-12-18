@@ -1,5 +1,5 @@
 import React, { createContext, useState,useEffect, useCallback } from "react";
-
+import { useNavigate } from "react-router";
 // Tạo Context
 export const BookingContext = createContext();
 
@@ -16,7 +16,7 @@ export const BookingProvider = ({ children }) => {
   const [selectedShowtimeId, setSelectedShowtimeId]=useState([])
   const [selectedSeatIds, setSelectedSeatIds] = useState([]);
   const [fandb,setFandB]=useState([])
-  
+  const navigate=useNavigate()
   const totalCorn = () => {
     return Object.keys(order).reduce((total, itemId) => {
       const item = order[itemId];
@@ -54,6 +54,7 @@ export const BookingProvider = ({ children }) => {
 
   const handleClosePaymentPopup = () => {
     setIsPaymentPopup(false); // Đóng popup thông tin thanh toán
+    navigate("/");
   };
 
   // Input Discount
