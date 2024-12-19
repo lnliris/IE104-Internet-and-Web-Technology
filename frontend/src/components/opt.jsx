@@ -16,10 +16,10 @@ function Otp(prop){
           <h3 className="header-auth mb-30">Quên mật khẩu</h3>
           <div className="w-100 flex f-col mb-30">
             <label className="lable_auth">Nhập mã OPT</label>
-            <input className="inp_cus inp_auth" id="mailinp" placeholder="Nhập mã OTP" />
+            <input className="inp_cus inp_auth" placeholder="Nhập mã OTP" />
           </div>
           <div className="w-100 flex f-col">
-            <button className="w-100 btn_cus auth_btn" onClick={prop.repass} id="loginbtn"><p>Kiểm tra</p></button>
+            <button className="w-100 btn_cus auth_btn" onClick={prop.repass}><p>Kiểm tra</p></button>
           </div>
         </div>
       );

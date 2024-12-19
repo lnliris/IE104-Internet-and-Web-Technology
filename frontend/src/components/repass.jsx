@@ -21,7 +21,6 @@ function Repass(prop){
             <label className="lable_auth">Mật khẩu</label>
             <input
               className="inp_cus inp_auth"
-              id="passinp"
               type={isPasswordVisible ? "text" : "password"} // Đổi type theo trạng thái
               placeholder="Nhập mật khẩu"
             />
@@ -57,7 +56,6 @@ function Repass(prop){
             <label className="lable_auth">Nhập lại mật khẩu</label>
             <input
               className="inp_cus inp_auth"
-              id="passinp"
               type={isPasswordVisible ? "text" : "password"} // Đổi type theo trạng thái
               placeholder="Nhập lại mật khẩu"
             />
@@ -89,7 +87,7 @@ function Repass(prop){
             </button>
           </div>
           <div className="w-100 flex f-col">
-            <button className="w-100 btn_cus auth_btn" onClick={prop.changetoLogin} id="loginbtn"><p>Lưu</p></button>
+            <button className="w-100 btn_cus auth_btn" onClick={prop.changetoLogin}><p>Lưu</p></button>
           </div>
         </div>
       );

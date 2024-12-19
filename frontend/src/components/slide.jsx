@@ -84,7 +84,7 @@ function Slide(){
 
                     <div className="product p-0" style={{"position":"relative"}}>
                             <div className="product-name" style={{"position":"absolute", "left":"10%","right":"30%"}}>
-                                <h1 className="p-0 mb-10 m-0" style={{"fontSize":"60px"}}>Avartar</h1>
+                                <h1 className="p-0 mb-10 m-0" style={{"fontSize":"60px"}}>AVATAR</h1>
                                 <span style={{"fontSize":"12px","textWrap":"wrap", "fontWeight":"normal"}}>Trong phần này, khán giả sẽ được khám phá những nền văn hóa và bối cảnh mới trên hành tinh Pandora, với sự xuất hiện của các nhân vật và sinh vật mới. Đạo diễn Cameron tiết lộ rằng phim sẽ mang đến những cảm xúc sâu sắc hơn và đi vào những khía cạnh tối tăm hơn so với các phần trước.</span>
                                 <div className="wrap-btn-action mt-20">
                                     <button className="btn_cus btn_film" style={{"backgroundColor":"red"}}><p>Đặt vé ngay</p></button>
@@ -100,7 +100,7 @@ function Slide(){
                     <div className="slide ">
                     <div className="product p-0" style={{"position":"relative"}}>
                             <div className="product-name" style={{"position":"absolute", "left":"10%","right":"30%"}}>
-                                <h1 className="p-0 mb-10 m-0" style={{"fontSize":"60px"}}>Avartar</h1>
+                                <h1 className="p-0 mb-10 m-0" style={{"fontSize":"60px"}}>AVATAR</h1>
                                 <span style={{"fontSize":"12px","textWrap":"wrap","fontWeight":"normal"}}>Trong phần này, khán giả sẽ được khám phá những nền văn hóa và bối cảnh mới trên hành tinh Pandora, với sự xuất hiện của các nhân vật và sinh vật mới. Đạo diễn Cameron tiết lộ rằng phim sẽ mang đến những cảm xúc sâu sắc hơn và đi vào những khía cạnh tối tăm hơn so với các phần trước.</span>
                                 <div className="wrap-btn-action mt-20">
                                     <button className="btn_cus btn_film" style={{"backgroundColor":"red"}}><p>Đặt vé ngay</p></button>
