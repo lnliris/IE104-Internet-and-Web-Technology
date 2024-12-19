@@ -1,7 +1,6 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import '../stylesheets/layouts/content-cinema-list.css';
 import { getAllTheater } from '../api/api';
+import '../stylesheets/layouts/content-cinema-list.css';
 
 const ContentCinemaList = () => {
     // Backend Integration
@@ -38,7 +37,7 @@ const ContentCinemaList = () => {
 
     return (
         <div className="cinema-container">
-            <h1>Hệ thống rạp chiếu phim</h1>
+            <h1>HỆ THỐNG RẠP CHIẾU PHIM</h1>
     
             <div className="cinema-grid">
                 {cinemas.map((cinema) => (
