@@ -232,7 +232,7 @@ function Register(prop) {
             </div>
 
             <div className="w-100 flex f-col">
-                <button className="w-100 btn_cus auth_btn" onClick={handleRegister}>
+                <button className="mb-30 w-100 btn_cus auth_btn" onClick={handleRegister}>
                     <p className="">Đăng ký</p>
                 </button>
             </div>

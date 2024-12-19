@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import $ from "jquery"
 import { useEffect } from "react";
 
@@ -6,14 +6,23 @@ function MenuProfile(){
 
     useEffect(()=>{
         do_bind_event();
+        init_menu_bar();
     },[])
 
+    const locat = useLocation();
     const navi = useNavigate();
+
+    const init_menu_bar = ()=>{
+        const path = locat.pathname.split("/")[2];
+        $(`.menu_profile[data-name='${path}']`).addClass("menu_profile_active");
+
+    }
 
     var do_bind_event   = ()=>{
         $(".menu_profile").on("click",function(){
             var $this = $(this);
             var {name} = $this.data();
+           
             navi(`/profile/${name}`)
         })
     }
@@ -27,7 +36,7 @@ function MenuProfile(){
                 <div className="flex cenhor gap20">
                     <img width="200" height="200" style={{"objectFit":"cover","borderRadius":"50%"}} src="https://icdn.24h.com.vn/upload/3-2018/images/2018-07-21/1532169492-532-10-su-that-ve-mr-bean-thang-ngo-ngo-ngan---ban-than-cua-cuu-thu-tuong-anh-mr-bean--1--1532060582-width1252height1252.jpeg"/>
                     <div className="flex f-col gap10">
-                        <h1 className="product-name" style={{"fontSize":"30px"}}>
+                        <h1 className="p-0 product-name mb-5 m-0" style={{"fontSize":"30px"}}>
                             Nguyễn Huỳnh Minh Kha
                         </h1>
                         <p style={{"fontSize":"22px","color":"white"}}>
@@ -37,7 +46,7 @@ function MenuProfile(){
                     
                 </div>
                 <div className="w-100 flex f-col cenhor" style={{"padding":"3% 2%"}}>
-                    <div className="flex spa-around-ver w-100">
+                    <div className="flex spa-bet-ver w-100 mb-10">
                         <p data-name="info" className="menu_profile" style={{"fontSize":"18px","color":"white"}}>
                             Thông tin cá nhân
                         </p>
@@ -49,7 +58,7 @@ function MenuProfile(){
                         </p>
                         <p data-name="notify" className="menu_profile" style={{"fontSize":"18px","color":"white"}}>
                             Thông báo
-                        </p>
+                        </p> 
                     </div>
                     <div className="line w-100 mt-10" style={{"height":"2px", "backgroundColor":"white"}}></div>
                 </div>

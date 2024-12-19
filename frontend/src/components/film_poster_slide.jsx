@@ -67,7 +67,7 @@ function FimlPosterSlide(){
                     <div className="slide">
                         <div className="product p-0" style={{"position":"relative"}}>
                             <div className="product-name w-100 h-100 box-img-linear" style={{"alignContent":"center","position":"absolute", "left":"0","right":"0","padding":"0% 20% 0% 10%"}}>
-                                <h1 className="mb-10" style={{"fontSize":"60px"}}>Avartar</h1>
+                                <h1 className="mb-10 p-0" style={{"fontSize":"60px"}}>AVATAR</h1>
                                 <span style={{"fontSize":"12px","textWrap":"wrap"}}>Trong phần này, khán giả sẽ được khám phá những nền văn hóa và bối cảnh mới trên hành tinh Pandora, với sự xuất hiện của các nhân vật và sinh vật mới. Đạo diễn Cameron tiết lộ rằng phim sẽ mang đến những cảm xúc sâu sắc hơn và đi vào những khía cạnh tối tăm hơn so với các phần trước.</span>
                                 <div className="wrap-btn-action mt-20">
                                     <button className="btn_cus btn_film" style={{"backgroundColor":"red"}}><p>Đặt vé ngay</p></button>
@@ -84,7 +84,7 @@ function FimlPosterSlide(){
 
                     <div className="product p-0" style={{"position":"relative"}}>
                     <div className="product-name w-100 h-100 box-img-linear" style={{"alignContent":"center","position":"absolute", "left":"0","right":"0","padding":"0% 20% 0% 10%"}}>
-                    <h1 className="mb-10" style={{"fontSize":"60px"}}>Venom: The Last Dance</h1>
+                    <h1 className="mb-10 p-0" style={{"fontSize":"60px"}}>Venom: The Last Dance</h1>
                                 <span style={{"fontSize":"12px","textWrap":"wrap"}}>Eddie Brock and Venom must make a devastating decision as they're pursued by a mysterious military man and alien monsters from Venom's home world.</span>
                                 <div className="wrap-btn-action mt-20">
                                     <button className="btn_cus btn_film" style={{"backgroundColor":"red"}}><p>Đặt vé ngay</p></button>
@@ -97,7 +97,8 @@ function FimlPosterSlide(){
                     </div>
                     <div className="slide ">
                     <div className="product p-0" style={{"position":"relative"}}>
-                    <div className="product-name w-100 h-100 box-img-linear" style={{"alignContent":"center","position":"absolute", "left":"0","right":"0","padding":"0% 20% 0% 10%"}}>                                <h1 className="mb-10" style={{"fontSize":"60px"}}>Deadpool & Wolverine</h1>
+                    <div className="product-name w-100 h-100 box-img-linear" style={{"alignContent":"center","position":"absolute", "left":"0","right":"0","padding":"0% 20% 0% 10%"}}>                               
+                         <h1 className="mb-10 p-0" style={{"fontSize":"60px"}}>Deadpool & Wolverine</h1>
                                 <span style={{"fontSize":"12px","textWrap":"wrap"}}>Deadpool's peaceful existence comes crashing down when the Time Variance Authority recruits him to help safeguard the multiverse. He soon unites with his would-be pal, Wolverine, to complete the mission and save his world from an existential threat.</span>
                                 <div className="wrap-btn-action mt-20">
                                     <button className="btn_cus btn_film" style={{"backgroundColor":"red"}}><p>Đặt vé ngay</p></button>

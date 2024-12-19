@@ -16,6 +16,7 @@ import CinemaPage from "./pages/Cinema_Page";
 import PromotionPage from "./pages/Promotion_Page";
 import PhimSapChieu from './components/film_sapchieu'
 import PhimDangChieu from './components/film_dangchieu'
+import AuthContent from "./layouts/auth-content";
 
 function App () {
   return (
@@ -23,6 +24,7 @@ function App () {
       <Loading />
       <PopErr />
       <PopSuc />
+      <AuthContent/>
 
       <Routes>
         <Route path='/' element={<Index />} />

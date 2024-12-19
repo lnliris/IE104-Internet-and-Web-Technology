@@ -30,8 +30,12 @@ function PhimSapChieu () {
     }
   }, [location])
   var orderFilm = function () {
-    nav('/order')
-    window.location.reload()
+    if(localStorage.getItem('token')){
+      nav('/order');
+      window.location.reload();
+      return;
+    }
+    $("#authpopup").removeClass("hide");
   }
 
   const [films, setFilm] = useState([])
@@ -83,6 +87,7 @@ function PhimSapChieu () {
                     type={d.gerne}
                     length={d.duration}
                     name={d.title}
+                    futu={true}
                   />
                 ))
               : ''}
