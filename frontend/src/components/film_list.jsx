@@ -1,12 +1,17 @@
 import { useNavigate } from 'react-router'
 import Product from './product'
+import $ from "jquery"
 
 function Filmlist (prop) {
   const nav = useNavigate()
 
   var orderFilm = function () {
-    nav('/order')
-    window.location.reload()
+    if(localStorage.getItem('token')){
+      nav('/order');
+      window.location.reload();
+      return;
+    }
+    $("#authpopup").removeClass("hide");
   }
 
   var navigateToFilmList = function () {
@@ -17,10 +22,10 @@ function Filmlist (prop) {
     <section className='mt-50'>
       <div className='center_ul' id='btn_type_film_list'>
         <button className='btn_cus btn-file-time-cate' id='film_now' onClick={() => { nav('/phimdangchieu'); }}>
-          Phim đang chiếu
+          PHIM ĐANG CHIẾU
         </button>
         <button className='btn_cus btn-file-time-cate disable_btn_film_now' id='film_futu' onClick={() => { nav('/phimsapchieu'); }}>
-          Phim sắp chiếu
+          PHIM SẮP CHIẾU
         </button>
       </div>
 

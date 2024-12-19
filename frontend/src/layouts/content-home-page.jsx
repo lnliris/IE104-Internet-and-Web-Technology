@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState, useEffect } from 'react'
 import Filmlist from '../components/film_list'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import FilterSearch from '../components/filter-search'
 import Header from '../components/header'
 import Promolist from '../components/promotion_list'
@@ -13,6 +13,7 @@ import {
 } from '../api/api'
 
 function contentProductPage () {
+  const nav = useNavigate();
   const [movies, setMovies] = useState()
   const location = useLocation()
   const [promo, setPromo] = useState()
@@ -49,12 +50,16 @@ function contentProductPage () {
     }
   }, [location])
 
+  const navPromote  = ()=>{
+    nav("/promotion")
+  }
+
   return (
     <>
       <Header />
       <FilterSearch event={() => {}} />
       <Filmlist data={movies} />
-      <Promolist data={promo} />
+      <Promolist data={promo} promotenav={navPromote} />
     </>
   )
 }

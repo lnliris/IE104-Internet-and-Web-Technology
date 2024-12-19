@@ -30,7 +30,6 @@ function navbar() {
         }
     }
 
-
     useEffect(() => {
         if (token && expires) {
             const currentTime = Date.now()
@@ -50,7 +49,7 @@ function navbar() {
         }
         nav_config();
 
-    }, [token, expires])
+    }, [token, expires, locat.pathname])
 
     return (
         <>
