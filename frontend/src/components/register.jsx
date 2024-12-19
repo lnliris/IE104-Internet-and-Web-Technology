@@ -4,17 +4,75 @@ import xcol from '../assets/img/x-color.png';
 import ggcol from '../assets/img/google-color.png';
 import { useEffect, useState } from "react";
 import $ from "jquery";
+import { post } from "../api/api";
 
 function Register(prop) {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
-    const [gender, setGender] = useState(""); 
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        dateOfBirth: "",
+        gender: "",
+        password: "",
+        confirmPassword: ""
+    });
+
+    // Hàm cập nhật giá trị form
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    // Hàm xử lý đăng ký
+    const handleRegister = async () => {
+        const { name, email, phone, dateOfBirth, gender, password, confirmPassword } = formData;
+
+        // Kiểm tra các trường bắt buộc
+        if (!name || !email || !phone || !dateOfBirth || !gender || !password || !confirmPassword) {
+            alert("Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        // Kiểm tra khớp mật khẩu
+        if (password !== confirmPassword) {
+            alert("Mật khẩu không khớp!");
+            return;
+        }
+
+        // Gửi yêu cầu API
+        try {
+            const response = await post("/account/register", {
+                name,
+                email,
+                phone,
+                dateOfBirth,
+                gender,
+                password
+            });
+
+            if (response.status === 201) {
+                alert("Đăng ký thành công!");
+                // Chuyển sang trang đăng nhập
+                prop.changetoLogin();
+            } else {
+                alert(response.message || "Đăng ký thất bại. Vui lòng thử lại.");
+            }
+        } catch (error) {
+            alert("Có lỗi xảy ra: " + error.message);
+        }
+    };
+
 
     useEffect(() => {
         $(".close_auth").on("click", function () {
             $("#authpopup").addClass("hide");
         });
     }, []);
+
 
     return (
         <div id="regis-popup" className="auth_box hide" style={{ "position": "absolute" }}>
@@ -31,30 +89,54 @@ function Register(prop) {
 
             <div className="w-100 flex f-col mb-30">
                 <label className="lable_auth">Họ và tên</label>
-                <input className="inp_cus inp_auth" placeholder="Nhập họ và tên" />
+                <input
+                    className="inp_cus inp_auth"
+                    placeholder="Nhập họ và tên"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                />
             </div>
             <div className="w-100 flex f-col mb-30">
                 <label className="lable_auth">Email</label>
-                <input className="inp_cus inp_auth" placeholder="Nhập email" />
+                <input
+                    className="inp_cus inp_auth"
+                    placeholder="Nhập email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                />
             </div>
             <div className="w-100 flex f-col mb-30">
                 <label className="lable_auth">Số điện thoại</label>
-                <input className="inp_cus inp_auth" placeholder="Nhập số điện thoại" />
+                <input
+                    className="inp_cus inp_auth"
+                    placeholder="Nhập số điện thoại"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                />
             </div>
             <div className="w-100 flex f-col mb-30">
-                    <label className=" lable_auth">Ngày sinh</label>
-                    <input className="inp_cus inp_auth" type="date"/>
-                </div>
-{/* Chọn giới tính */}
-<div className="w-100 flex mb-30 gap20">
+                <label className=" lable_auth">Ngày sinh</label>
+                <input
+                    className="inp_cus inp_auth"
+                    type="date"
+                    name="dateOfBirth"
+                    value={formData.dateOfBirth}
+                    onChange={handleChange}
+                />
+            </div>
+            {/* Chọn giới tính */}
+            <div className="w-100 flex mb-30 gap20">
                 <div className="flex cenhor">
                     <input
                         className="m-0 inp_auth"
                         type="radio"
                         name="gender"
-                        value="male"
-                        checked={gender === "male"}
-                        onChange={() => setGender("male")}
+                        value="Nam"
+                        checked={formData.gender === "Nam"}
+                        onChange={handleChange}
                     />
                     <label>Nam</label>
                 </div>
@@ -63,9 +145,9 @@ function Register(prop) {
                         className="m-0 inp_auth"
                         type="radio"
                         name="gender"
-                        value="female"
-                        checked={gender === "female"}
-                        onChange={() => setGender("female")}
+                        value="Nữ"
+                        checked={formData.gender === "Nữ"}
+                        onChange={handleChange}
                     />
                     <label>Nữ</label>
                 </div>
@@ -78,6 +160,9 @@ function Register(prop) {
                     className="inp_cus inp_auth"
                     type={isPasswordVisible ? "text" : "password"}
                     placeholder="Nhập mật khẩu"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
                 />
                 <button
                     type="button"
@@ -114,6 +199,9 @@ function Register(prop) {
                     className="inp_cus inp_auth"
                     type={isConfirmPasswordVisible ? "text" : "password"}
                     placeholder="Nhập lại mật khẩu"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
                 />
                 <button
                     type="button"
@@ -142,14 +230,16 @@ function Register(prop) {
                     )}
                 </button>
             </div>
-            
+
             <div className="w-100 flex f-col">
-                <button className="w-100 btn_cus auth_btn"><p className="">Đăng ký</p></button>
+                <button className="w-100 btn_cus auth_btn" onClick={handleRegister}>
+                    <p className="">Đăng ký</p>
+                </button>
             </div>
             <div className="line flex f-col text-center mt-10 w-100">
-            </div> 
+            </div>
             <div className="w-100 flex cenhor cenver text-center mt-30">
-                <p>Bạn đã có tài khoản? <a onClick={prop.changetoLogin} className="nav-auth" style={{"color":"#3D70B7"}}>Đăng nhập ngay</a></p>
+                <p>Bạn đã có tài khoản? <a onClick={prop.changetoLogin} className="nav-auth" style={{ "color": "#3D70B7" }}>Đăng nhập ngay</a></p>
             </div>
         </div>
     );
