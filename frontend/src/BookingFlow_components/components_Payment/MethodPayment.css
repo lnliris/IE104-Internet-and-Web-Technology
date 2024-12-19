@@ -38,8 +38,9 @@ h2 {
 }
 
 .payment-button .icon {
-  font-size: 20px;
-  margin-bottom: 5px;
+  width: 30px;
+  height: 30px;
+  object-fit: fill;
 }
 
 .payment-button:hover {

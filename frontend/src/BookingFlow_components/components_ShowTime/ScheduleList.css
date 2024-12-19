@@ -59,11 +59,11 @@
   /* Body styles */
   .schedule-body {
     padding: 16px;
-    background-color: #f3f4f6;
+    background-color: rgba(240, 237, 237, 0.8);
   }
   
   .schedule-address {
-    color: #4b5563;
+    color: #373f4d;
     font-size: 14px;
   }
   
@@ -76,7 +76,7 @@
   
   .schedule-time-button {
     padding: 8px 16px;
-    background-color: #e5e7eb;
+    background-color: rgba(245, 241, 241, 0.938);
     border: none;
     border-radius: 4px;
     font-size: 14px;
