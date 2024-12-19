@@ -27,7 +27,7 @@ const ContentCinemaList = () => {
     // useEffect chỉ gọi fetchCinemas một lần khi component mount
     useEffect(() => {
         fetchCinemas(); // Gọi hàm fetchCinemas
-    }, []); // 
+    }, []);
 
     // Loading state
     if (loading) return <div className="loading">Loading cinemas...</div>;
@@ -37,7 +37,7 @@ const ContentCinemaList = () => {
 
     return (
         <div className="cinema-container">
-            <h1>HỆ THỐNG RẠP CHIẾU PHIM</h1>
+            <h1 className="title">HỆ THỐNG RẠP CHIẾU PHIM</h1>
     
             <div className="cinema-grid">
                 {cinemas.map((cinema) => (
