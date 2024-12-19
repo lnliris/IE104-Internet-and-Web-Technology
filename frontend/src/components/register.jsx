@@ -1,30 +1,20 @@
-import React, { useEffect, useState } from "react";
-import $ from "jquery";
 import logoicon from "../assets/img/icon-logo.png";
+import facecol from '../assets/img/face-color.png';
+import xcol from '../assets/img/x-color.png';
+import ggcol from '../assets/img/google-color.png';
+import { useEffect, useState } from "react";
+import $ from "jquery";
 
 function Register(prop) {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
-    const [gender, setGender] = useState("");
-    const [birthDate, setBirthDate] = useState({
-        day: "",
-        month: "",
-        year: ""
-    });
+    const [gender, setGender] = useState(""); 
 
     useEffect(() => {
         $(".close_auth").on("click", function () {
             $("#authpopup").addClass("hide");
         });
     }, []);
-
-    const generateOptions = (start, end) => {
-        const options = [];
-        for (let i = start; i <= end; i++) {
-            options.push(<option key={i} value={i}>{i}</option>);
-        }
-        return options;
-    };
 
     return (
         <div id="regis-popup" className="auth_box hide" style={{ "position": "absolute" }}>
@@ -51,40 +41,12 @@ function Register(prop) {
                 <label className="lable_auth">Số điện thoại</label>
                 <input className="inp_cus inp_auth" placeholder="Nhập số điện thoại" />
             </div>
-
-            {/* Chọn ngày tháng năm sinh */}
             <div className="w-100 flex f-col mb-30">
-                <label className="lable_auth">Ngày tháng năm sinh</label>
-                <div className="w-100 flex gap20">
-                    <select
-                        className="inp_cus inp_auth"
-                        value={birthDate.day}
-                        onChange={(e) => setBirthDate({ ...birthDate, day: e.target.value })}
-                    >
-                        <option value="">Ngày</option>
-                        {generateOptions(1, 31)}
-                    </select>
-                    <select
-                        className="inp_cus inp_auth"
-                        value={birthDate.month}
-                        onChange={(e) => setBirthDate({ ...birthDate, month: e.target.value })}
-                    >
-                        <option value="">Tháng</option>
-                        {generateOptions(1, 12)}
-                    </select>
-                    <select
-                        className="inp_cus inp_auth"
-                        value={birthDate.year}
-                        onChange={(e) => setBirthDate({ ...birthDate, year: e.target.value })}
-                    >
-                        <option value="">Năm</option>
-                        {generateOptions(1900, new Date().getFullYear())}
-                    </select>
+                    <label className=" lable_auth">Ngày sinh</label>
+                    <input className="inp_cus inp_auth" type="date"/>
                 </div>
-            </div>
-
-            {/* Chọn giới tính */}
-            <div className="w-100 flex mb-30 gap20">
+{/* Chọn giới tính */}
+<div className="w-100 flex mb-30 gap20">
                 <div className="flex cenhor">
                     <input
                         className="m-0 inp_auth"
@@ -180,14 +142,14 @@ function Register(prop) {
                     )}
                 </button>
             </div>
-
+            
             <div className="w-100 flex f-col">
                 <button className="w-100 btn_cus auth_btn"><p className="">Đăng ký</p></button>
             </div>
             <div className="line flex f-col text-center mt-10 w-100">
-            </div>
+            </div> 
             <div className="w-100 flex cenhor cenver text-center mt-30">
-                <p>Bạn đã có tài khoản? <a onClick={prop.changetoLogin} className="nav-auth" style={{ "color": "#3D70B7" }}>Đăng nhập ngay</a></p>
+                <p>Bạn đã có tài khoản? <a onClick={prop.changetoLogin} className="nav-auth" style={{"color":"#3D70B7"}}>Đăng nhập ngay</a></p>
             </div>
         </div>
     );
