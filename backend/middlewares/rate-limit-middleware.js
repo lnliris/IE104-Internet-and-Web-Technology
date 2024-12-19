@@ -3,7 +3,7 @@ import rateLimit from 'express-rate-limit';
 
 // Tạo middleware giới hạn đăng nhập
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 phút
+  windowMs: 5 * 60 * 1000, // 15 phút
   max: 5, // Tối đa 5 lần thử trong khoảng thời gian trên
   message: {
     status: 429,

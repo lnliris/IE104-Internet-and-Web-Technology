@@ -1,5 +1,8 @@
 import axios from "axios";
-const BASE_URL='http://localhost:8081'
+
+// axios.defaults.baseURL = 'http://localhost:8081'
+
+const BASE_URL = 'http://localhost:8081'
 export const getMoviesInHomepage = async () => {
   const res = await axios.get(`${BASE_URL}/movie`).catch((err) => console.log(err));
 
@@ -26,7 +29,7 @@ export const getSearchMovie = async (title) => {
   if (res.status !== 200) {
     return console.log("No Data");
   }
- 
+
   const data = await res.data;
   return data;
 };
@@ -71,30 +74,43 @@ export const getPromotionInHompage = async () => {
   return data;
 };
 
-export const getFoodList =async()=>{
-  const res=await axios.get(`${BASE_URL}/food/`).catch((err)=>console.log(err));
+export const getFoodList = async () => {
+  const res = await axios.get(`${BASE_URL}/food/`).catch((err) => console.log(err));
 
-  if(res.status !==200) {
+  if (res.status !== 200) {
     return console.log("No data");
   }
-  const data=await res.data;
+  const data = await res.data;
   return data;
 }
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8081/',
+  baseURL: 'http://localhost:8081',
   headers: {
-      'Content-Type': 'application/json',
+    'Content-Type': 'application/json',
   },
 });
 
 // Hàm POST để gửi request
 export const post = async (url, data, config = {}) => {
- 
+
   const response = await axiosInstance.post(url, data, config);
   return response; // Trả về dữ liệu response từ server
-  
+
 };
+// export const post = (endpoint, data, options = {}) => {
+//   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+//   const headers = token
+//     ? { Authorization: `Bearer ${token}`, ...options.headers }
+//     : { ...options.headers };
+
+//   return axios.post(endpoint, data, {
+//     headers,
+//     withCredentials: true, // Gửi kèm cookie nếu cần
+//     ...options, // Bổ sung các cấu hình khác từ options
+//   });
+// };
 
 
 export const getSeatsByRoom = async (roomId) => {
@@ -145,8 +161,8 @@ export const createBooking = async ({ ticket_ids, fandb_items }) => {
       throw new Error('Token không tồn tại');
     }
     const payload = {
-      ticket_ids, 
-      fandb_items 
+      ticket_ids,
+      fandb_items
     };
     const response = await axios.post(`${BASE_URL}/booking`, payload, {
       headers: {
@@ -154,11 +170,11 @@ export const createBooking = async ({ ticket_ids, fandb_items }) => {
         "Content-Type": "application/json" // Định dạng dữ liệu gửi là JSON
       }
     });
-    console.log('booking',response.data)
+    console.log('booking', response.data)
     return response.data;
   } catch (error) {
     console.error("Error creating booking:", error.response?.data || error.message);
-    throw error; 
+    throw error;
   }
 };
 
@@ -187,7 +203,7 @@ export const getMovieDetails = async (movieId) => {
 
 
 
-export const getCoupons = async ()=>{
+export const getCoupons = async () => {
   const res = await axios.get(`${BASE_URL}/coupon/`).catch((err) => console.log(err));
 
   if (res.status !== 200) {
