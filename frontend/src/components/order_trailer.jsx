@@ -1,4 +1,3 @@
-import trailer from "../assets/videos/trailer.mp4"
 
 function OrderTrailer(){
     return(
