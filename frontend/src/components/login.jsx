@@ -42,7 +42,7 @@ function Login(prop) {
       sessionStorage.setItem('expires', time)
 
       alert("Đăng nhập thành công!");
-      console.log("Token:", token);
+      // console.log("Token:", token);
       $('#authpopup').addClass("hide");
       $("#login").addClass("hide");
       $("#img_account_top").removeClass("hide");

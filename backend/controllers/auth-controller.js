@@ -59,7 +59,7 @@ export const loginAdmin = async (req, res) => {
 export const register = async (req, res) => {
     try {
         const { name, email, phone, dateOfBirth, gender, password, role } = req.body;
-        
+
         // Kiểm tra email hợp lệ
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(email)) {
@@ -131,11 +131,11 @@ export const login = async (req, res) => {
 
         // Tạo JWT
         const token = jwt.sign(
-            { id: account._id, role: account.role }, 
-            process.env.JWT_SECRET, 
+            { id: account._id, role: account.role },
+            process.env.JWT_SECRET,
             { expiresIn: '1d' });
 
-        res.status(200).json({ 
+        res.status(200).json({
             message: 'Đăng nhập thành công!',
             token,
             account: { id: account._id, role: account.role, username: account.username }
@@ -205,8 +205,8 @@ export const forgotPassword = async (req, res) => {
         account.passwordResetToken = otp;
         account.passwordResetExpires = Date.now() + 10 * 60 * 1000; // OTP hết hạn sau 10 phút
         await account.save();
-        
-         // Gửi OTP qua email
+
+        // Gửi OTP qua email
         const mailSubject = 'Đặt lại mật khẩu CeeCine';
         const mailText = `Mã OTP của bạn là: ${otp}. Mã OTP sẽ hết hạn sau 10 phút.`;
 
@@ -218,7 +218,7 @@ export const forgotPassword = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ error: 'Đã có lỗi xảy ra.' });
-      }
+    }
 };
 
 export const verifyOTP = async (req, res) => {
@@ -235,7 +235,7 @@ export const verifyOTP = async (req, res) => {
         if (account.passwordResetToken !== otp) {
             return res.status(400).json({ message: 'OTP không chính xác.' });
         }
-        
+
         // Kiểm tra thời gian hết hạn của OTP
         if (Date.now() > account.passwordResetExpires) {
             return res.status(400).json({ message: 'Mã OTP đã hết hạn.' });
@@ -256,7 +256,7 @@ export const verifyOTP = async (req, res) => {
 };
 
 export const resetPassword = async (req, res) => {
-    const {email, newPassword } = req.body;
+    const { email, newPassword } = req.body;
 
     try {
         // Kiểm tra người dùng
@@ -286,7 +286,7 @@ export const resetPassword = async (req, res) => {
 
     } catch (error) {
         //console.error('Lỗi chi tiết:', error);
-        res.status(500).json({ error: 'Đã có lỗi xảy ra.'})
+        res.status(500).json({ error: 'Đã có lỗi xảy ra.' })
     }
 };
 
