@@ -101,7 +101,7 @@ function OrderFilmDescript() {
               {movie?.title}
             </h1>
             <p className="text-badge" style={{ backgroundColor: "#B28FFF" }}>
-              T{movie?.limit_age}
+              {movie?.limit_age}
             </p>
           </div>
           <div style={{ padding: "15px" }}>

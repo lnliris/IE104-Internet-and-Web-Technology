@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import "./confirm.css"; // Import file CSS
 import avengerposter from '../../assets/img/avengerposter.jpg';
 import { useNavigate } from "react-router-dom"
 import { BookingContext } from "../Context";
 
 function Confirm () {
-  const {selectedTheater, selectedTime, selectedDate, convertDateFormat,selectedRoomId,selectedShowtimeId} = useContext(BookingContext);
+  const {selectedTheater, selectedTime, selectedDate, convertDateFormat,selectedRoomId,selectedShowtimeId,movieTitle,movieUrl} = useContext(BookingContext);
   const navigate = useNavigate();
   const handleBack = () => {
     navigate(-1);
@@ -24,14 +24,14 @@ function Confirm () {
       <div className="card">
         {/* Poster */}
         <img
-          src={avengerposter} // Thay link này bằng link poster phim
+          src={movieUrl} // Thay link này bằng link poster phim
           alt="Avengers: Infinity War"
           className="poster"
         />
 
         {/* Thông tin */}
         <div className="info">
-          <h3 className="title-confirm">AVENGERS: INFINITY WAR</h3>
+          <h3 className="title-confirm">{movieTitle}</h3>
           <p className="subtitle">2D Phụ đề</p>
           <div className="details">
             {selectedTheater && <p>Rạp: {selectedTheater}</p>}

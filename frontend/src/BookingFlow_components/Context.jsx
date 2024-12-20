@@ -5,7 +5,9 @@ export const BookingContext = createContext();
 
 // Provider để bao bọc các component con và truyền dữ liệu
 export const BookingProvider = ({ children }) => {
-  
+  const [movie_id, setMovie_id] = useState(null); 
+  const [movieTitle, setMovieTitle] = useState(""); 
+  const [movieUrl, setMovieUrl] = useState("");
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState({ day: "Thứ 2", date: "2024-12-13" });
@@ -72,6 +74,9 @@ export const BookingProvider = ({ children }) => {
   return (
     <BookingContext.Provider
       value={{
+        movie_id, setMovie_id,
+        movieTitle, setMovieTitle, 
+        movieUrl, setMovieUrl,
         selectedDate, setSelectedDate,
         selectedTheater, setSelectedTheater,
         selectedTime, setSelectedTime,
