@@ -1,28 +1,28 @@
 import mongoose from "mongoose";
 import Showtime from "../models/showtime-model.js";
 
-// export const getShowtimeByMovieId = async (req, res) => {
-//     const movieId = req.params.id; // Lấy movieId từ URL
+export const getShowtimeByMovieId = async (req, res) => {
+    const movieId = req.params.id; // Lấy movieId từ URL
 
-//     // Kiểm tra xem movieId có được cung cấp không
-//     if (!movieId) {
-//         return res.status(400).json({ message: "Movie ID is required" });
-//     }
+    // Kiểm tra xem movieId có được cung cấp không
+    if (!movieId) {
+        return res.status(400).json({ message: "Movie ID is required" });
+    }
 
-//     let showtimes;
-//     try {
+    let showtimes;
+    try {
         
-//         showtimes = await Showtime.find({ movie_id: movieId }); 
+        showtimes = await Showtime.find({ movie_id: movieId }); 
 
-//         if (!showtimes || showtimes.length === 0) {
-//             return res.status(404).json({ message: "No showtimes found for this movie" });
-//         }
+        if (!showtimes || showtimes.length === 0) {
+            return res.status(404).json({ message: "No showtimes found for this movie" });
+        }
 
-//         return res.status(200).json(showtimes);
-//     } catch (error) {
-//         return res.status(500).json({ message: "Failed to retrieve showtimes", error: error.message });
-//     }
-// };
+        return res.status(200).json(showtimes);
+    } catch (error) {
+        return res.status(500).json({ message: "Failed to retrieve showtimes", error: error.message });
+    }
+};
 
 
 export const addShowtime = async (req, res) => {

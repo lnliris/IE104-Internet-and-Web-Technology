@@ -49,16 +49,18 @@ const Showtimes = () => {
     // Fetch showtimes for selected movie
     const fetchShowtimes = async (movieId) => {
         try {
+            console.log(movieId)
             setLoading(true);
-            // TODO: Implement API call
-            // const response = await api.get(`/movies/${movieId}/showtimes`);
-            // setShowtimes(response.data);
+            const response = await axios.get(`http://localhost:8081/movie/${movieId}/showtimes`);
+            console.log(response.data)
+            setShowtimes(response.data || []);
         } catch (error) {
             message.error('Failed to fetch showtimes');
         } finally {
             setLoading(false);
         }
     };
+    
 
     // Modified to include movieId
     const createShowtime = async (values) => {
