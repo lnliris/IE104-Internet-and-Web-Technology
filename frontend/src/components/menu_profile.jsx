@@ -4,12 +4,39 @@ import { useEffect, useState } from "react";
 import { get } from "../api/api";
 
 function MenuProfile() {
+    // Kiểm tra xem dữ liệu
     const [user, setUser] = useState({ name: "", avatar: "" });
     useEffect(() => {
-        do_bind_event();
-        init_menu_bar();
+        // const storedUser = JSON.parse(localStorage.getItem('userProfile'));
+
+        // if (storedUser) {
+        //     setUser(storedUser); // Nếu có, gán vào state
+        // } else {
+        //     // Nếu không có, gọi API để lấy dữ liệu người dùng
+        //     const fetchProfile = async () => {
+        //         try {
+        //             const profileData = await get("/account/profile");
+        //             const userProfile = {
+        //                 name: profileData.name,
+        //                 avatar: profileData.avatar,
+        //             };
+
+        //             // Lưu thông tin vào localStorage
+        //             localStorage.setItem('userProfile', JSON.stringify(userProfile));
+
+        //             setUser(userProfile); // Cập nhật state với dữ liệu từ API
+        //             console.log(profileData);
+        //         } catch (error) {
+        //             console.error("Lỗi khi lấy thông tin hồ sơ:", error);
+        //         }
+        //     };
+
+        //     fetchProfile();
+        // }
 
         const fetchProfile = async () => {
+            // Kiểm tra xem dữ liệu người dùng đã có trong localStorage chưa
+
             try {
                 const profileData = await get("/account/profile"); // Gọi API
                 setUser({
@@ -27,6 +54,10 @@ function MenuProfile() {
         };
 
         fetchProfile();
+
+        do_bind_event();
+        init_menu_bar();
+
     }, [])
 
     const locat = useLocation();

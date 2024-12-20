@@ -114,6 +114,12 @@ export const get = async (url, config = {}) => {
   return response.data; // Trả về dữ liệu từ response
 };
 
+export const put = async (url, data, config = {}) => {
+
+  const response = await axiosInstance.put(url, data, config);
+  return response.data; // Trả về dữ liệu từ response
+};
+
 
 
 export const getSeatsByRoom = async (roomId) => {
