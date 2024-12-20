@@ -45,7 +45,16 @@ const Showtimes = () => {
             setLoading(false);
         }
     };
-
+    const formatDateTime = (isoString) => {
+        const date = new Date(isoString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
+    };
     // Fetch showtimes for selected movie
     const fetchShowtimes = async (movieId) => {
         try {
@@ -53,7 +62,11 @@ const Showtimes = () => {
             setLoading(true);
             const response = await axios.get(`http://localhost:8081/movie/${movieId}/showtimes`);
             console.log(response.data)
-            setShowtimes(response.data || []);
+            const formattedShowtimes = response.data.map(showtime => ({
+                ...showtime,
+                date: formatDateTime(showtime.date)
+            }));
+            setShowtimes(formattedShowtimes || []);
         } catch (error) {
             message.error('Failed to fetch showtimes');
         } finally {
