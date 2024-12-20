@@ -7,11 +7,12 @@ import { getCoupons } from '../../api/api'; // Đảm bảo đường dẫn đ�
 const VoucherCardList = () => {
   const { discountAmount, setDiscountAmount } = useContext(BookingContext);
   const [coupons, setCoupons] = useState([]);
+  const [selectedVoucher, setSelectedVoucher] = useState(null);
 
-  const handleVoucherSelect = (discount) => {
-    setDiscountAmount(discount); // Cập nhật số tiền giảm vào state
+  const handleVoucherSelect = (voucher) => {
+    setDiscountAmount(voucher.balance); // Cập nhật số tiền giảm vào state  
+    setSelectedVoucher(voucher); // Cập nhật voucher đã chọn
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,8 +35,8 @@ const VoucherCardList = () => {
             title={coupon.title}
             description={coupon.description}
             expiryDate={coupon.exp}
-            discount={coupon.balance}
-            onSelect={handleVoucherSelect}
+            isSelected={selectedVoucher === coupon}
+            onClick={() => handleVoucherSelect(coupon)} 
           />
         ))
       ) : (

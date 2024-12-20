@@ -14,9 +14,10 @@ function ConfirmPayment () {
   };
 
   const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, order, convertDateFormat, totalCorn, 
-    discountAmount, formatCurrency, handleConfirmClick} = useContext(BookingContext);
+    discountAmount, formatCurrency, handleConfirmClick, discountInput} = useContext(BookingContext);
 
-  const totalPrice = selectedSeats.length * seatPrice + totalCorn() - discountAmount;
+  const totalPrice = selectedSeats.length * seatPrice + totalCorn() - discountAmount - discountInput;
+  const discount = discountAmount + discountInput;
 
   return (
     <div className="container">
@@ -70,10 +71,10 @@ function ConfirmPayment () {
         ))}
 
       {/*Giảm giá*/}
-      {discountAmount > 0 && (
+      {discount > 0 && (
       <div className="total">
         <div className="totaltext"> Giảm giá </div>
-        <div className="totalprice"> {formatCurrency(discountAmount)} </div>
+        <div className="totalprice"> {formatCurrency(discount)} </div>
       </div> 
       )}
 

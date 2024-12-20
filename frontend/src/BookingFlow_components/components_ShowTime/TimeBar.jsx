@@ -12,7 +12,7 @@ const days = [
 ];
 
 const TimeBar = ({ onDateSelect }) => {
-  const [selectedDay, setSelectedDay] = useState();
+  const [selectedDay, setSelectedDay] = useState(null);
 
   useEffect(() => {
     if (onDateSelect && selectedDay === null) {
@@ -31,6 +31,7 @@ const TimeBar = ({ onDateSelect }) => {
   };
   
   const handleDayClick = (index) => {
+    console.log('index: ',index);
     setSelectedDay(index);
     if (onDateSelect) {
       // Truyền cả day và date trong selectedDayData
@@ -49,12 +50,12 @@ const TimeBar = ({ onDateSelect }) => {
           key={index}
           className={`day-item ${selectedDay === index ? "active" : ""}`}
           onClick={() => handleDayClick(index)}
-        >
+        > 
           <p className="day-label">{day.day}</p>
           <p className="date-label">{formatDate(day.date)}</p>
         </div>
       ))}
-      
+    
     </div>
   );
 };

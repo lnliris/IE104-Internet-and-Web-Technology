@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import './VoucherCardneba.css';
 import logo from '../../assets/img/Logo.png'
 
-const VoucherCardneba = ({ title, description, expiryDate, onSelect, discount }) => {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handleSelect = () => {
-    setIsSelected(!isSelected);
-    onSelect && onSelect(!isSelected ? discount : 0); // Truyền số tiền giảm khi chọn hoặc 0 nếu bỏ chọn
-  };
-
+const VoucherCardneba = ({ title, description, expiryDate, isSelected, onClick}) => {
   return (
     <div className={`voucher-card ${isSelected ? 'selected' : ''}`}>
       <div className="voucher-left">
@@ -29,7 +22,7 @@ const VoucherCardneba = ({ title, description, expiryDate, onSelect, discount })
       </div>
       
       <div className="voucher-select">
-        <button onClick={handleSelect}>
+        <button onClick={onClick}>
           {isSelected ? '✓' : ''}
         </button>
       </div>

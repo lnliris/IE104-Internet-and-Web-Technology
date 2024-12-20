@@ -5,15 +5,17 @@ import { BookingContext } from '../Context';
 import { checkCoupon } from '../../api/api'; // Import checkCoupon từ api.js
 
 const Promotion = () => {
-  const { discountAmount, setDiscountAmount } = useContext(BookingContext);
+  const { discountInput, setDiscountInput } = useContext(BookingContext);
   const [title, setTitle] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleCouponApply = async () => {
     try {
-      const res = await checkCoupon(title); // Gọi API checkCoupon
-      setDiscountAmount(res.balance); // Gán giá trị từ API response
+      const res = await checkCoupon(title);  // Gọi API checkCoupon 
+      setDiscountInput(res.balance); // Gán giá trị từ API response
+      alert('Áp dụng mã giảm giá thành công!'); // Hiển thị thông báo thành công
         setErrorMessage(res.message); // Hiển thị thông báo lỗi nếu coupon không hợp lệ
+
     } catch (error) {
       setErrorMessage(error.message || 'Đã xảy ra lỗi, vui lòng thử lại.');
     }
