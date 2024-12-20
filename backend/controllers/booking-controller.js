@@ -69,3 +69,68 @@ export const createBooking = async (req, res) => {
         return res.status(500).json({ message: "An error occurred", error: error.message });
     }
 };
+
+export const getBooking = async (req, res) => {
+    const accountId = req.user.id;
+
+    // Kiểm tra tính hợp lệ của accountId
+    if (!mongoose.Types.ObjectId.isValid(accountId)) {
+        return res.status(400).json({ status: false, message: "Invalid Account ID" });
+    }
+
+    try {
+        // Tìm user thông qua accountId
+        const account = await Account.findById(accountId).populate("member");
+        if (!account || !account._id) {
+            return res.status(404).json({ status: false, message: "User not found" });
+        }
+
+        const userId = account._id;
+
+        // Lấy danh sách các booking của user
+        const bookings = await BookingModel.find({ user_id: userId })
+            .populate({
+                path: "ticket_id",
+                populate: [
+                    {
+                        path: "showtime_id", // Populate thông tin về showtime từ ticket
+                        model: "showtimes",  // Đảm bảo rằng "Showtime" là tên model tương ứng
+                        populate: [
+                            {
+                                path: "movie_id", // Populate thông tin phim
+                                model: "movies",  // Tên model phim
+                            },
+                            {
+                                path: "screening_room_id", // Populate thông tin phòng chiếu
+                                model: "rooms",  
+                                populate: [
+                                    {
+                                        path: "theater_id", // Populate thông tin rạp
+                                        model: "theaters",  // Tên model phim
+                                    },
+                                ]           
+                            },
+                        ],
+                    },
+                    {
+                        path: "seat_id", // Populate thông tin ghế từ ticket
+                        model: "seats",
+                    },
+                ],
+            })
+            //.populate("FandB_id.id") // Lấy thông tin chi tiết về đồ ăn/thức uống
+            .exec();
+
+        if (!bookings || bookings.length === 0) {
+            return res.status(404).json({ message: "No bookings found for this user." });
+        }
+
+        // Trả về danh sách booking
+        return res.status(200).json({
+            bookings,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "An error occurred", error: error.message });
+    }
+};
