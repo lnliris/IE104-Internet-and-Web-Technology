@@ -48,7 +48,7 @@ const PopUP = () => {
             {/* Thông tin vé */}
             <div className="ticket-info">
               <div className="movie-details-popup">
-                <div className="title">
+                <div className="title-popup">
                     <h3>AVENGERS: INFINITY WAR</h3>
                     <p>2D Phụ đề</p>
                 </div>
