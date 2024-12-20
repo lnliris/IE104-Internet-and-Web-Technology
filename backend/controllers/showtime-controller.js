@@ -1,42 +1,47 @@
 import mongoose from "mongoose";
 import Showtime from "../models/showtime-model.js";
+import RoomModel from "../models/room-model.js";
+import TheaterModel from "../models/theater-model.js";
 
-// export const getShowtimeByMovieId = async (req, res) => {
-//     const movieId = req.params.id; // Lấy movieId từ URL
+export const getShowtimeByMovieId = async (req, res) => {
+    const movieId = req.params.id; // Lấy movieId từ URL
 
-//     // Kiểm tra xem movieId có được cung cấp không
-//     if (!movieId) {
-//         return res.status(400).json({ message: "Movie ID is required" });
-//     }
+    // Kiểm tra xem movieId có được cung cấp không
+    if (!movieId) {
+        return res.status(400).json({ message: "Movie ID is required" });
+    }
 
-//     let showtimes;
-//     try {
+    let showtimes;
+    try {
         
-//         showtimes = await Showtime.find({ movie_id: movieId }); 
+        showtimes = await Showtime.find({ movie_id: movieId }); 
 
-//         if (!showtimes || showtimes.length === 0) {
-//             return res.status(404).json({ message: "No showtimes found for this movie" });
-//         }
+        if (!showtimes || showtimes.length === 0) {
+            return res.status(404).json({ message: "No showtimes found for this movie" });
+        }
 
-//         return res.status(200).json(showtimes);
-//     } catch (error) {
-//         return res.status(500).json({ message: "Failed to retrieve showtimes", error: error.message });
-//     }
-// };
-
+        return res.status(200).json(showtimes);
+    } catch (error) {
+        return res.status(500).json({ message: "Failed to retrieve showtimes", error: error.message });
+    }
+};
 
 export const addShowtime = async (req, res) => {
-    const { id: movieId } = req.params;  // Lấy movieId từ tham số URL
-    const { screening_room_id, date, language } = req.body;  // Lấy dữ liệu từ body
+    const { id: movieId } = req.params; // Lấy movieId từ tham số URL
+    const { theaterName, roomName, date, language } = req.body; // Lấy dữ liệu từ body
 
     // Kiểm tra xem movieId có hợp lệ không
     if (!mongoose.Types.ObjectId.isValid(movieId)) {
         return res.status(400).json({ message: "Invalid Movie ID" });
     }
 
-    // Kiểm tra xem các trường dữ liệu có hợp lệ không
-    if (!screening_room_id || !mongoose.Types.ObjectId.isValid(screening_room_id)) {
-        return res.status(400).json({ message: "Invalid Screening Room ID" });
+    // Kiểm tra xem dữ liệu có hợp lệ không
+    if (!theaterName || theaterName.trim() === "") {
+        return res.status(400).json({ message: "Theater name is required" });
+    }
+
+    if (!roomName || roomName.trim() === "") {
+        return res.status(400).json({ message: "Room name is required" });
     }
 
     if (!date || new Date(date).toString() === "Invalid Date") {
@@ -48,12 +53,28 @@ export const addShowtime = async (req, res) => {
     }
 
     try {
+        // Tìm theater dựa trên theaterName
+        const theater = await TheaterModel.findOne({ name: theaterName.trim() });
+        if (!theater) {
+            return res.status(404).json({ message: "Theater not found" });
+        }
+
+        // Tìm room dựa trên roomName và theaterId
+        const room = await RoomModel.findOne({
+            name: roomName.trim(),
+            theater_id: theater._id,
+        });
+
+        if (!room) {
+            return res.status(404).json({ message: "Room not found in the specified theater" });
+        }
+
         // Tạo đối tượng showtime mới
         const newShowtime = new Showtime({
-            movie_id: movieId,  
-            screening_room_id: screening_room_id,
-            date: new Date(date),  
-            language: language.trim()  
+            movie_id: movieId,
+            screening_room_id: room._id,
+            date: new Date(date),
+            language: language.trim(),
         });
 
         // Lưu showtime mới vào cơ sở dữ liệu
@@ -62,15 +83,17 @@ export const addShowtime = async (req, res) => {
         // Trả về kết quả showtime đã được thêm mới
         return res.status(201).json({
             message: "Showtime added successfully",
-            showtime: savedShowtime
+            showtime: savedShowtime,
         });
     } catch (error) {
+        console.error("Error adding showtime:", error);
         return res.status(500).json({
             message: "Failed to add showtime",
-            error: error.message
+            error: error.message,
         });
     }
 };
+
 
 
 export const editShowtime = async (req, res) => {
