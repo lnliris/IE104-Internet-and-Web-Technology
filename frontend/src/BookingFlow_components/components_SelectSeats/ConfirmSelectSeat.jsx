@@ -12,7 +12,12 @@ function ConfirmSelectSeat () {
     navigate(-1);
   };
   const handleNext = () => {
-    navigate('/cornpage')
+    if(selectedSeats.length > 0) {
+      navigate('/cornpage')
+    } else {
+      alert('Bạn chưa chọn ghế nào !!')
+    }
+    
   };
 
   const totalPrice = selectedSeats.length * seatPrice;
