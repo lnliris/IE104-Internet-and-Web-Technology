@@ -11,13 +11,14 @@ export const BookingProvider = ({ children }) => {
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState({ day: "Thứ 2", date: "2024-12-13" });
-  const seatPrice = 80000; // Giá mỗi ghế
+  const seatPrice = 70000;
   const [selectedSeats, setSelectedSeats] = useState([]); // State lưu ghế đã chọn
   const [order, setOrder] = useState({});
   const [selectedRoomId, setSelectedRoomId]=useState(null);
   const [selectedShowtimeId, setSelectedShowtimeId]=useState([])
   const [selectedSeatIds, setSelectedSeatIds] = useState([]);
   const [fandb,setFandB]=useState([])
+
   const navigate=useNavigate()
   const totalCorn = () => {
     return Object.keys(order).reduce((total, itemId) => {
