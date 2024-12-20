@@ -5,17 +5,20 @@ export const BookingContext = createContext();
 
 // Provider để bao bọc các component con và truyền dữ liệu
 export const BookingProvider = ({ children }) => {
-  
+  const [movie_id, setMovie_id] = useState(null); 
+  const [movieTitle, setMovieTitle] = useState(""); 
+  const [movieUrl, setMovieUrl] = useState("");
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState({ day: "Thứ 2", date: "2024-12-13" });
-  const seatPrice = 80000; // Giá mỗi ghế
+  const seatPrice = 70000;
   const [selectedSeats, setSelectedSeats] = useState([]); // State lưu ghế đã chọn
   const [order, setOrder] = useState({});
   const [selectedRoomId, setSelectedRoomId]=useState(null);
   const [selectedShowtimeId, setSelectedShowtimeId]=useState([])
   const [selectedSeatIds, setSelectedSeatIds] = useState([]);
   const [fandb,setFandB]=useState([])
+
   const navigate=useNavigate()
   const totalCorn = () => {
     return Object.keys(order).reduce((total, itemId) => {
@@ -72,6 +75,9 @@ export const BookingProvider = ({ children }) => {
   return (
     <BookingContext.Provider
       value={{
+        movie_id, setMovie_id,
+        movieTitle, setMovieTitle, 
+        movieUrl, setMovieUrl,
         selectedDate, setSelectedDate,
         selectedTheater, setSelectedTheater,
         selectedTime, setSelectedTime,

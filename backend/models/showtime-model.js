@@ -11,5 +11,11 @@ const showtimeSchema = new mongoose.Schema (
     }
 )
 
+showtimeSchema.index({ theater_id: 1 });
+
+showtimeSchema.index({ date: 1 });
+
+showtimeSchema.index({ theater_id: 1, date: 1, movie_id: 1 });
+
 const ShowtimeModel= mongoose.model("showtimes",showtimeSchema)
 export default ShowtimeModel
