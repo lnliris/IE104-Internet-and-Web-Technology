@@ -241,3 +241,29 @@ export const getAllPromo = async () => {
   const data = await res.data;
   return data;
 };
+
+export const getBooking = async () => {
+  
+  try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error("User not authenticated. Token is missing.");
+      }
+      const res = await axios.get(`${BASE_URL}/booking`, {
+          headers: {
+              Authorization: `Bearer ${token}` // Đảm bảo thêm token xác thực nếu cần
+          }
+      });
+
+      if (res.status !== 200) {
+          console.log("No Data");
+          return null;
+      }
+
+      const data = await res.data;
+      return data;
+  } catch (error) {
+      console.error("An error occurred while fetching booking data:", error);
+      return null;
+  }
+};
