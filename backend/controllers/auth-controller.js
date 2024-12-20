@@ -294,7 +294,7 @@ export const resetPassword = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const accountId = req.user.id; // ID từ JWT
-        const { name, phone, dateOfBirth, email, gender, avatar } = req.body;
+        const { name, phone, dateOfBirth, email, gender } = req.body;
 
         const account = await Account.findById(accountId).populate('member');
         if (!account) {
@@ -332,7 +332,6 @@ export const updateProfile = async (req, res) => {
         if (phone) updatedFields.phone = phone;
         if (dateOfBirth) updatedFields.dateOfBirth = dateOfBirth;
         if (gender) updatedFields.gender = gender;
-        if (avatar) updatedFields.avatar = avatar;
         if (email) updatedFields.email = email;
 
 

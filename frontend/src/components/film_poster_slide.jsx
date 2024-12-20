@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
+import $ from "jquery";
 import { useEffect } from "react";
-import $ from "jquery"
-import trailer from "../assets/videos/trailer.mp4"
 
 function FimlPosterSlide(){
 

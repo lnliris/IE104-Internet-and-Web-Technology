@@ -12,7 +12,12 @@ function ConfirmSelectSeat () {
     navigate(-1);
   };
   const handleNext = () => {
-    navigate('/cornpage')
+    if(selectedSeats.length > 0) {
+      navigate('/cornpage')
+    } else {
+      alert('Bạn chưa chọn ghế nào !!')
+    }
+    
   };
 
   const totalPrice = selectedSeats.length * seatPrice;
@@ -30,7 +35,7 @@ function ConfirmSelectSeat () {
 
           {/* Thông tin rap chiếu*/}
           <div className="info">
-            <h3 className="title">AVENGERS: INFINITY WAR</h3>
+            <h3 className="title-confirm">AVENGERS: INFINITY WAR</h3>
             <p className="subtitle">2D Phụ đề</p>
             <div className="details">
               <p>Rạp: {selectedTheater}</p>
