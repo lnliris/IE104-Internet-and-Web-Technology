@@ -1,7 +1,8 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect, useContext  } from "react";
 import "./ScheduleList.css"; // Import file CSS
 import { useParams } from "react-router-dom";
 import { getShowtimeAndTheaterInfo } from "../../api/api.js";
+import { BookingContext } from "../Context"
 
 const ScheduleList = ({selectedDate, onScheduleSelect }) => {
   const [schedules, setSchedules] = useState([]);
@@ -9,10 +10,12 @@ const ScheduleList = ({selectedDate, onScheduleSelect }) => {
   const [isLoading, setIsLoading] = useState(true);
   const { movieId } = useParams(); 
   const [selectedTime, setSelectedTime] = useState(null);
+  const { movie_id, setMovie_id,setSelectedSeats,setSelectedSeatIds } = useContext(BookingContext);
   
   useEffect(() => {
     const fetchSchedules = async () => {
       setIsLoading(true); // Bắt đầu trạng thái tải dữ liệu
+      setMovie_id(movieId);
       try {
         const data = await getShowtimeAndTheaterInfo(movieId, selectedDate.date);
         setSchedules(data);

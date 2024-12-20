@@ -14,9 +14,10 @@ function ConfirmPayment () {
   };
 
   const {selectedSeats, seatPrice, selectedTheater, selectedTime, selectedDate, order, convertDateFormat, totalCorn, 
-    discountAmount, formatCurrency, handleConfirmClick} = useContext(BookingContext);
+    discountAmount, formatCurrency, handleConfirmClick, discountInput, movieTitle, movieUrl} = useContext(BookingContext);
 
-  const totalPrice = selectedSeats.length * seatPrice + totalCorn() - discountAmount;
+  const totalPrice = selectedSeats.length * seatPrice + totalCorn() - discountAmount - discountInput;
+  const discount = discountAmount + discountInput;
 
   return (
     <div className="container">
@@ -24,14 +25,14 @@ function ConfirmPayment () {
         <div className="card">
           {/* Poster */}
           <img
-            src={avengerposter} // Thay link này bằng link poster phim
+            src={movieUrl} // Thay link này bằng link poster phim
             alt="Avengers: Infinity War"
             className="poster"
           />
 
           {/* Thông tin rap chiếu*/}
           <div className="info">
-            <h3 className="title-confirm">AVENGERS: INFINITY WAR</h3>
+            <h3 className="title-confirm">{movieTitle}</h3>
             <p className="subtitle">2D Phụ đề</p>
             <div className="details">
               <p>Rạp: {selectedTheater}</p>
@@ -70,10 +71,10 @@ function ConfirmPayment () {
         ))}
 
       {/*Giảm giá*/}
-      {discountAmount > 0 && (
+      {discount > 0 && (
       <div className="total">
         <div className="totaltext"> Giảm giá </div>
-        <div className="totalprice"> {formatCurrency(discountAmount)} </div>
+        <div className="totalprice"> {formatCurrency(discount)} </div>
       </div> 
       )}
 
