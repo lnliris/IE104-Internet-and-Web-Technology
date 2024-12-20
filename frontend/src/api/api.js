@@ -289,3 +289,34 @@ export const getBooking = async () => {
     return null;
   }
 };
+
+export const getShowtimesByTheaterAndMovie = async ({ theaterId, movieId, date }) => {
+  try {
+    console.log(theaterId);
+    console.log(movieId);
+    console.log(date);
+    const body = { theaterId, movieId };
+    if (date) {
+      body.date = date;
+    }
+
+    // Gửi request POST tới API
+    const res = await axios.post(`${BASE_URL}/movie/showtimes`, body, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (res.status !== 200) {
+      console.log("No showtimes found");
+      return null;
+    }
+
+    // Lấy dữ liệu từ response
+    const data = res.data.showtimes;
+    return data;
+  } catch (error) {
+    console.error("An error occurred while fetching showtimes:", error.message);
+    return null;
+  }
+};
