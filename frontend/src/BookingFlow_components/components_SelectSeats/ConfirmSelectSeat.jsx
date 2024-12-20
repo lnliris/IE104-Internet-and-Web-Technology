@@ -54,9 +54,11 @@ function ConfirmSelectSeat () {
             <p> Số lượng ghế: {selectedSeats.length}</p>
             <p> Vị trí ghế: {selectedSeats.join(", ")}</p>
           </div>
-          <div className="seatprice"> {selectedSeats.length} x {new Intl.NumberFormat("vi-VN").format(seatPrice)}</div>
+          {selectedSeats.length>0&&
+          <div className="seatprice"> {selectedSeats.length} x {new Intl.NumberFormat("vi-VN").format(seatPrice)}</div>}
         </div>
       </div>
+
 
       {/*Tổng tiền*/}
       <div className="total">
