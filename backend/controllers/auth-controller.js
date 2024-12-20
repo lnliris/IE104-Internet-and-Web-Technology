@@ -360,7 +360,7 @@ export const updateAvatar = async (req, res) => {
         }
 
         // Đường dẫn file
-        const avatarPath = `/uploads/${req.file.filename}`;
+        const avatarPath = req.file.path;
 
         // Tìm tài khoản
         const account = await Account.findById(accountId).populate("member");
