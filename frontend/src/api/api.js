@@ -98,19 +98,22 @@ export const post = async (url, data, config = {}) => {
   return response; // Trả về dữ liệu response từ server
 
 };
-// export const post = (endpoint, data, options = {}) => {
-//   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
-//   const headers = token
-//     ? { Authorization: `Bearer ${token}`, ...options.headers }
-//     : { ...options.headers };
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token'); // Lấy token từ localStorage hoặc sessionStorage
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`; // Gắn token vào header
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
-//   return axios.post(endpoint, data, {
-//     headers,
-//     withCredentials: true, // Gửi kèm cookie nếu cần
-//     ...options, // Bổ sung các cấu hình khác từ options
-//   });
-// };
+export const get = async (url, config = {}) => {
+  const response = await axiosInstance.get(url, config);
+  return response.data; // Trả về dữ liệu từ response
+};
+
 
 
 export const getSeatsByRoom = async (roomId) => {
