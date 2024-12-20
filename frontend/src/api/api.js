@@ -1,5 +1,8 @@
 import axios from "axios";
-const BASE_URL='http://localhost:8081'
+
+// axios.defaults.baseURL = 'http://localhost:8081'
+
+const BASE_URL = 'http://localhost:8081'
 export const getMoviesInHomepage = async () => {
   const res = await axios.get(`${BASE_URL}/movie`).catch((err) => console.log(err));
 
@@ -26,7 +29,7 @@ export const getSearchMovie = async (title) => {
   if (res.status !== 200) {
     return console.log("No Data");
   }
- 
+
   const data = await res.data;
   return data;
 };
@@ -71,30 +74,52 @@ export const getPromotionInHompage = async () => {
   return data;
 };
 
-export const getFoodList =async()=>{
-  const res=await axios.get(`${BASE_URL}/food/`).catch((err)=>console.log(err));
+export const getFoodList = async () => {
+  const res = await axios.get(`${BASE_URL}/food/`).catch((err) => console.log(err));
 
-  if(res.status !==200) {
+  if (res.status !== 200) {
     return console.log("No data");
   }
-  const data=await res.data;
+  const data = await res.data;
   return data;
 }
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8081/',
+  baseURL: 'http://localhost:8081',
   headers: {
-      'Content-Type': 'application/json',
+    'Content-Type': 'application/json',
   },
 });
 
 // Hàm POST để gửi request
 export const post = async (url, data, config = {}) => {
- 
+
   const response = await axiosInstance.post(url, data, config);
   return response; // Trả về dữ liệu response từ server
-  
+
 };
+
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token'); // Lấy token từ localStorage hoặc sessionStorage
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`; // Gắn token vào header
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
+export const get = async (url, config = {}) => {
+  const response = await axiosInstance.get(url, config);
+  return response.data; // Trả về dữ liệu từ response
+};
+
+export const put = async (url, data, config = {}) => {
+
+  const response = await axiosInstance.put(url, data, config);
+  return response.data; // Trả về dữ liệu từ response
+};
+
 
 
 export const getSeatsByRoom = async (roomId) => {
@@ -145,8 +170,8 @@ export const createBooking = async ({ ticket_ids, fandb_items }) => {
       throw new Error('Token không tồn tại');
     }
     const payload = {
-      ticket_ids, 
-      fandb_items 
+      ticket_ids,
+      fandb_items
     };
     const response = await axios.post(`${BASE_URL}/booking`, payload, {
       headers: {
@@ -154,11 +179,11 @@ export const createBooking = async ({ ticket_ids, fandb_items }) => {
         "Content-Type": "application/json" // Định dạng dữ liệu gửi là JSON
       }
     });
-    console.log('booking',response.data)
+    console.log('booking', response.data)
     return response.data;
   } catch (error) {
     console.error("Error creating booking:", error.response?.data || error.message);
-    throw error; 
+    throw error;
   }
 };
 
@@ -187,7 +212,7 @@ export const getMovieDetails = async (movieId) => {
 
 
 
-export const getCoupons = async ()=>{
+export const getCoupons = async () => {
   const res = await axios.get(`${BASE_URL}/coupon/`).catch((err) => console.log(err));
 
   if (res.status !== 200) {
@@ -224,4 +249,30 @@ export const getAllPromo = async () => {
   }
   const data = await res.data;
   return data;
+};
+
+export const getBooking = async () => {
+  
+  try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error("User not authenticated. Token is missing.");
+      }
+      const res = await axios.get(`${BASE_URL}/booking`, {
+          headers: {
+              Authorization: `Bearer ${token}` // Đảm bảo thêm token xác thực nếu cần
+          }
+      });
+
+      if (res.status !== 200) {
+          console.log("No Data");
+          return null;
+      }
+
+      const data = await res.data;
+      return data;
+  } catch (error) {
+      console.error("An error occurred while fetching booking data:", error);
+      return null;
+  }
 };

@@ -111,7 +111,7 @@ function Login(prop) {
         <button className="w-100 btn_cus auth_btn" id="loginbtn"><p>Đăng nhập</p></button>
       </div>
       <div className="flex f-col text-center mt-10">
-        <span className="nav-auth">Quên mật khẩu?</span>
+        <span className="nav-auth" onClick={prop.changetoForgetPass}>Quên mật khẩu?</span>
       </div>
 
       <div className="w-100 flex cenhor cenver text-center mt-10 gap10">

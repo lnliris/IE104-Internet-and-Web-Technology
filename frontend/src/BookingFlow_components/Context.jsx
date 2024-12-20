@@ -31,7 +31,7 @@ export const BookingProvider = ({ children }) => {
 
   function convertDateFormat(dateString) {
     const parts = dateString.split('-'); // Tách chuỗi theo dấu '-'
-    return `${parts[2]}/${parts[1]}/${parts[0]}`; // Đổi thứ tự thành ngày-tháng-năm
+    return `${parts[2]}/${parts[1]}/${parts[0]}`; // Đổi thứ tự thành ngày/tháng/năm
   }
 
   const formatCurrency = (value) => new Intl.NumberFormat("vi-VN").format(value);
@@ -39,9 +39,15 @@ export const BookingProvider = ({ children }) => {
   // PopUp Context
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [isPaymentPopup, setIsPaymentPopup] = useState(false);
+  // Kiểm tra trường input thông tin thanh toán có trống không
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);  
 
   const handleConfirmClick = () => {
-    setIsConfirmPopupOpen(true); // Mở popup xác nhận
+    if( isButtonDisabled ) {
+      setIsConfirmPopupOpen(true); // Mở popup xác nhận
+    } else {
+      alert('Bạn chưa điền thông tin thanh toán !! \nVui lòng kiểm tra các trường bị thiếu !! ');
+    }
   };
 
   const handleConfirmClose = () => {
@@ -60,6 +66,8 @@ export const BookingProvider = ({ children }) => {
 
   // Input Discount
   const [discountInput, setDiscountInput] = useState(0);
+  
+
 
   
   return (
@@ -81,7 +89,8 @@ export const BookingProvider = ({ children }) => {
         selectedRoomId,setSelectedRoomId,
         selectedShowtimeId, setSelectedShowtimeId,
         selectedSeatIds, setSelectedSeatIds ,
-        fandb,setFandB  
+        fandb,setFandB,
+        isButtonDisabled, setIsButtonDisabled
       }}
     >
       {children}

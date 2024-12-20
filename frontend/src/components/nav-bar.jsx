@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import $ from 'jquery'
 import logo from '../assets/img/logo.png'
 import DropDownMenu from '../components/drop-down-menu'
 import SearchBar from './SearchBar'
+import { get } from '../api/api'
+
 function navbar() {
     const navigate = useNavigate()
 
@@ -13,6 +15,7 @@ function navbar() {
     const locat = useLocation();
     const token = localStorage.getItem('token')
     const expires = sessionStorage.getItem('expires')
+    const [user, setUser] = useState({ avatar: '' });
 
     const nav_config = () => {
         if (locat.pathname === "/") {
@@ -30,27 +33,62 @@ function navbar() {
         }
     }
 
+    // useEffect(() => {
+    //     if (token && expires) {
+    //         const currentTime = Date.now()
+    //         if (currentTime < expires) {
+    //             $('#login').addClass('hide')
+    //             $('#img_account_top').removeClass('hide')
+    //         } else {
+    //             localStorage.removeItem('token')
+    //             sessionStorage.removeItem('token')
+    //             sessionStorage.removeItem('expires')
+    //             $('#login').removeClass('hide')
+    //             $('#img_account_top').addClass('hide')
+    //         }
+    //     } else {
+    //         $('#login').removeClass('hide')
+    //         $('#img_account_top').addClass('hide')
+    //     }
+    //     nav_config();
 
+    // }, [token, expires, locat.pathname])
     useEffect(() => {
-        if (token && expires) {
-            const currentTime = Date.now()
-            if (currentTime < expires) {
-                $('#login').addClass('hide')
-                $('#img_account_top').removeClass('hide')
-            } else {
-                localStorage.removeItem('token')
-                sessionStorage.removeItem('token')
-                sessionStorage.removeItem('expires')
-                $('#login').removeClass('hide')
-                $('#img_account_top').addClass('hide')
+        const fetchProfile = async () => {
+            try {
+                // Chỉ gọi API nếu token tồn tại và hợp lệ
+                if (token && expires) {
+                    const currentTime = Date.now();
+                    if (currentTime < expires) {
+                        const profileData = await get('/account/profile');
+                        setUser({
+                            avatar: profileData.avatar, // Lấy avatar từ API
+                        });
+                        $('#login').addClass('hide');
+                        $('#img_account_top').removeClass('hide');
+                    } else {
+                        // Token đã hết hạn
+                        localStorage.removeItem('token');
+                        sessionStorage.removeItem('token');
+                        sessionStorage.removeItem('expires');
+                        $('#login').removeClass('hide');
+                        $('#img_account_top').addClass('hide');
+                    }
+                } else {
+                    // Không có token
+                    $('#login').removeClass('hide');
+                    $('#img_account_top').addClass('hide');
+                }
+            } catch (error) {
+                console.error('Lỗi khi lấy thông tin hồ sơ:', error);
+                $('#login').removeClass('hide');
+                $('#img_account_top').addClass('hide');
             }
-        } else {
-            $('#login').removeClass('hide')
-            $('#img_account_top').addClass('hide')
-        }
-        nav_config();
+        };
 
-    }, [token, expires])
+        fetchProfile();
+        nav_config();
+    }, [token, expires, locat.pathname]);
 
     return (
         <>
@@ -128,7 +166,8 @@ function navbar() {
                         >
                             {/* onClick={()=>{navigate("/profile/info")}} */}
                             <img
-                                src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4CK8JotmDXKFp9CRdwf5J06VFbgY_BENmnw&s'
+                                src={user.avatar}
+                                alt='User Avatar'
                                 className='userimg-prod'
                                 style={{ width: '35px', height: '35px', marginRight: '5px' }}
                             />

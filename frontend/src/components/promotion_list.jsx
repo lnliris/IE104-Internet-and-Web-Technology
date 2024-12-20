@@ -12,6 +12,9 @@ function Promolist(prop){
                     <img className="w-100 h-100 img-promo" key={d.id} src={d.url}/>
             )) : ""}
             </div>
+            <button className='btn_cus' id='more_films' onClick={()=>{prop.promotenav()}}>
+                <p className='text_upper'>Xem thêm</p>
+            </button>
         </div>
         </section>
     )
