@@ -11,7 +11,12 @@ function Confirm () {
     navigate(-1);
   };
   const handleNext = () => {
-    navigate(`/selectseats/${selectedRoomId}`)
+    if(selectedTime) {
+      navigate(`/selectseats/${selectedRoomId}`)
+    } else {
+      alert('Bạn chưa chọn suất chiếu !')
+    }
+    
   };
   
   return (
@@ -26,7 +31,7 @@ function Confirm () {
 
         {/* Thông tin */}
         <div className="info">
-          <h3 className="title">AVENGERS: INFINITY WAR</h3>
+          <h3 className="title-confirm">AVENGERS: INFINITY WAR</h3>
           <p className="subtitle">2D Phụ đề</p>
           <div className="details">
             {selectedTheater && <p>Rạp: {selectedTheater}</p>}
