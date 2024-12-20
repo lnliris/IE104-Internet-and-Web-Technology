@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, Modal, Space, Table, message } from 'antd';
+import { Button, DatePicker, Form, Input, Modal, Space, Table, message, Select } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -14,6 +14,9 @@ const Showtimes = () => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentShowtime, setCurrentShowtime] = useState(null);
     const [form] = Form.useForm();
+    const [theaters, setTheaters] = useState([]);
+    const [rooms, setRooms] = useState([]);
+    const [selectedTheater, setSelectedTheater] = useState(null);
 
     // Updated fetchMovies function
     const fetchMovies = async () => {
@@ -120,8 +123,29 @@ const Showtimes = () => {
         }
     };
 
+    const fetchTheaters = async () => {
+        try {
+            const response = await axios.get('http://localhost:8081/theaters');
+            setTheaters(response.data);
+        } catch (error) {
+            console.error("Error fetching theaters:", error);
+            message.error('Failed to fetch theaters');
+        }
+    };
+
+    const fetchRooms = async (theaterId) => {
+        try {
+            const response = await axios.get(`http://localhost:8081/theaters/${theaterId}/rooms`);
+            setRooms(response.data);
+        } catch (error) {
+            console.error("Error fetching rooms:", error);
+            message.error('Failed to fetch rooms');
+        }
+    };
+
     useEffect(() => {
         fetchMovies();
+        fetchTheaters();
     }, []);
 
     useEffect(() => {
@@ -186,6 +210,12 @@ const Showtimes = () => {
     const handleCancel = () => {
         setIsModalVisible(false);
         form.resetFields();
+    };
+
+    const handleTheaterChange = (value) => {
+        setSelectedTheater(value);
+        form.setFieldValue('roomName', undefined); // Reset room selection
+        fetchRooms(value);
     };
 
     const movieColumns = [
@@ -284,11 +314,43 @@ const Showtimes = () => {
                 onCancel={handleCancel}
             >
                 <Form form={form} layout="vertical">
-                    <Form.Item name="theaterName" label="Theater Name" rules={[{ required: true }]}>
-                        <Input />
+                    <Form.Item 
+                        name="theaterName" 
+                        label="Theater Name" 
+                        rules={[{ required: true }]}
+                    >
+                        <Select
+                            placeholder="Select a theater"
+                            onChange={handleTheaterChange}
+                        >
+                            {theaters.map(theater => (
+                                <Select.Option 
+                                    key={theater._id} 
+                                    value={theater._id}
+                                >
+                                    {theater.name}
+                                </Select.Option>
+                            ))}
+                        </Select>
                     </Form.Item>
-                    <Form.Item name="roomName" label="Room Name" rules={[{ required: true }]}>
-                        <Input />
+                    <Form.Item 
+                        name="roomName" 
+                        label="Room Name" 
+                        rules={[{ required: true }]}
+                    >
+                        <Select
+                            placeholder="Select a room"
+                            disabled={!selectedTheater}
+                        >
+                            {rooms.map(room => (
+                                <Select.Option 
+                                    key={room._id} 
+                                    value={room._id}
+                                >
+                                    {room.name}
+                                </Select.Option>
+                            ))}
+                        </Select>
                     </Form.Item>
                     <Form.Item name="language" label="Language" rules={[{ required: true }]}>
                         <Input />
