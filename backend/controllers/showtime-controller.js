@@ -14,8 +14,20 @@ export const getShowtimeByMovieId = async (req, res) => {
     let showtimes;
     try {
         
-        showtimes = await Showtime.find({ movie_id: movieId }); 
-
+        // Tìm showtimes liên quan đến movie_id và sử dụng populate để lấy thông tin roomName và theaterName thông qua roomId và theaterId
+        showtimes = await Showtime.find({ movie_id: movieId })
+                                  .populate({
+                                    path: "screening_room_id", // Populate thông tin phòng chiếu
+                                    model: "rooms",  
+                                    populate: [
+                                        {
+                                            path: "theater_id", // Populate thông tin rạp
+                                            model: "theaters",  // Tên model phim
+                                        },
+                                    ]           
+                                })
+                                .exec();
+                                
         if (!showtimes || showtimes.length === 0) {
             return res.status(404).json({ message: "No showtimes found for this movie" });
         }
@@ -25,6 +37,10 @@ export const getShowtimeByMovieId = async (req, res) => {
         return res.status(500).json({ message: "Failed to retrieve showtimes", error: error.message });
     }
 };
+
+
+
+
 
 export const addShowtime = async (req, res) => {
     const { id: movieId } = req.params; // Lấy movieId từ tham số URL
@@ -54,25 +70,25 @@ export const addShowtime = async (req, res) => {
 
     try {
         // Tìm theater dựa trên theaterName
-        const theater = await TheaterModel.findOne({ name: theaterName.trim() });
-        if (!theater) {
-            return res.status(404).json({ message: "Theater not found" });
-        }
+        // const theater = await TheaterModel.findOne({ name: theaterName.trim() });
+        // if (!theater) {
+        //     return res.status(404).json({ message: "Theater not found" });
+        // }
 
-        // Tìm room dựa trên roomName và theaterId
-        const room = await RoomModel.findOne({
-            name: roomName.trim(),
-            theater_id: theater._id,
-        });
+        // // Tìm room dựa trên roomName và theaterId
+        // const room = await RoomModel.findOne({
+        //     name: roomName.trim(),
+        //     theater_id: theater._id,
+        // });
 
-        if (!room) {
-            return res.status(404).json({ message: "Room not found in the specified theater" });
-        }
+        // if (!room) {
+        //     return res.status(404).json({ message: "Room not found in the specified theater" });
+        // }
 
         // Tạo đối tượng showtime mới
         const newShowtime = new Showtime({
             movie_id: movieId,
-            screening_room_id: room._id,
+            screening_room_id: roomName,
             date: new Date(date),
             language: language.trim(),
         });
@@ -95,61 +111,55 @@ export const addShowtime = async (req, res) => {
 };
 
 
-
 export const editShowtime = async (req, res) => {
     const { id: movieId, showtimeId } = req.params;   // Lấy showtimeId từ tham số URL
-    const { movie_id, screening_room_id, date, language } = req.body;  // Lấy dữ liệu từ body
+    const { theaterName, roomName, date, language } = req.body;  // Lấy dữ liệu từ body
 
-    // Kiểm tra xem showtimeId và các trường cần cập nhật có hợp lệ không
+    // Kiểm tra showtimeId hợp lệ
     if (!mongoose.Types.ObjectId.isValid(showtimeId)) {
         return res.status(400).json({ message: "Invalid Showtime ID" });
     }
 
-   
+    // Kiểm tra các giá trị theaterName, roomName hợp lệ
+    const theater = await Theater.findOne({ name: theaterName });
+    if (!theater) {
+        return res.status(400).json({ message: "Theater not found" });
+    }
+
+    const room = await Room.findOne({ name: roomName, theater_id: theater._id });
+    if (!room) {
+        return res.status(400).json({ message: "Room not found in the selected theater" });
+    }
+
     // Tạo đối tượng lưu trữ các trường cần cập nhật
-    const updateFields = {};
+    const updateFields = {
+        theater_id: theater._id,          // Lưu ID theater
+        screening_room_id: room._id,      // Lưu ID room
+        date: new Date(date),              // Cập nhật ngày chiếu
+        language: language.trim()          // Cập nhật ngôn ngữ
+    };
 
-    if (movie_id && mongoose.Types.ObjectId.isValid(movie_id)) {
-        updateFields.movie_id = new mongoose.Types.ObjectId(movie_id);  // Cập nhật movie_id
-    }
-
-    if (screening_room_id && mongoose.Types.ObjectId.isValid(screening_room_id)) {
-        updateFields.screening_room_id = new mongoose.Types.ObjectId(screening_room_id);  // Cập nhật screening_room_id
-    }
-
-    if (date && new Date(date).toString() !== "Invalid Date") {
-        updateFields.date = new Date(date);  // Cập nhật ngày chiếu
-    }
-
-    if (language && language.trim() !== "") {
-        updateFields.language = language.trim();  // Cập nhật ngôn ngữ
-    }
-
-    // Nếu không có trường hợp nào hợp lệ để cập nhật
-    if (Object.keys(updateFields).length === 0) {
-        return res.status(422).json({ message: "No valid fields to update" });
-    }
-
-    let updatedShowtime;
     try {
-        
-        // Cập nhật showtime với showtimeId và các trường hợp cần thiết
-        updatedShowtime = await Showtime.findByIdAndUpdate(
+        // Cập nhật showtime với showtimeId và các trường cập nhật
+        const updatedShowtime = await Showtime.findByIdAndUpdate(
             showtimeId,
             updateFields,
             { new: true }  // Trả về dữ liệu đã cập nhật
         );
-        
-        // Kiểm tra xem showtime có tồn tại hay không
+
         if (!updatedShowtime) {
             return res.status(404).json({ message: "Showtime not found" });
         }
 
-        return res.status(200).json({ message: "Showtime updated successfully", showtime: updatedShowtime });
+        return res.status(200).json({
+            message: "Showtime updated successfully",
+            showtime: updatedShowtime
+        });
     } catch (error) {
         return res.status(500).json({ message: "Failed to update showtime", error: error.message });
     }
 };
+
 
 export const deleteShowtime = async (req, res) => { 
     const { id: movieId, showtimeId } = req.params;  // Lấy movieId và showtimeId từ tham số URL

@@ -63,7 +63,7 @@ const Showtimes = () => {
         try {
             console.log(movieId)
             setLoading(true);
-            const response = await axios.get(`http://localhost:8081/movie/${movieId}/showtimes`);
+            const response = await axios.get(`http://localhost:8081/movie/${movieId}/showtimeIds`);
             console.log(response.data)
             const formattedShowtimes = response.data.map(showtime => ({
                 ...showtime,
@@ -79,54 +79,74 @@ const Showtimes = () => {
     
 
     // Modified to include movieId
-    const createShowtime = async (values) => {
+    const createShowtime = async (values,id) => {
         try {
             setLoading(true);
-            // TODO: Implement API call
-            // await api.post(`/movies/${selectedMovie.id}/showtimes`, values);
-            // await fetchShowtimes(selectedMovie.id);
+            console.log('huhu',values)
+            // API request to create a new showtime
+            const response = await axios.post(`http://localhost:8081/movie/${id}/showtimes`, {
+                theaterName: values.theaterName,
+                roomName: values.roomName,
+                date: values.date.format('YYYY-MM-DD'),  // Định dạng ngày cho đúng yêu cầu backend
+                language: values.language,
+            });
+    
+            // On success, fetch updated showtimes
+            await fetchShowtimes(selectedMovie.id);
             message.success('Showtime created successfully');
         } catch (error) {
             message.error('Failed to create showtime');
-            throw error;
+            console.log(error)
+            throw error;  // Propagate error for further handling if needed
         } finally {
             setLoading(false);
         }
     };
+    
 
     const updateShowtime = async (id, values) => {
         try {
             setLoading(true);
-            // TODO: Implement API call
-            // await api.put(`/showtimes/${id}`, values);
-            // await fetchShowtimes();
+    
+            // API request to update a showtime
+            const response = await axios.put(`http://localhost:8081/movie/showtimes/${id}`, {
+                theaterName: values.theaterName,
+                roomName: values.roomName,
+                date: values.date.format('YYYY-MM-DD'),  // Format date to match backend expected format
+                language: values.language,
+            });
+    
+            // On success, fetch updated showtimes
+            await fetchShowtimes();
             message.success('Showtime updated successfully');
         } catch (error) {
             message.error('Failed to update showtime');
-            throw error;
+            throw error;  // Propagate error for further handling if needed
         } finally {
             setLoading(false);
         }
     };
+    
 
-    const deleteShowtime = async (id) => {
+    const deleteShowtime = async (id,movieId) => {
         try {
+            console.log('showtime',id)
             setLoading(true);
-            // TODO: Implement API call
-            // await api.delete(`/showtimes/${id}`);
-            // await fetchShowtimes();
+            await axios.delete(`http://localhost:8081/movie/${movieId}/showtimes/${id}`);  // Gọi API xóa showtime
+            await fetchShowtimes(selectedMovie.id);  // Lấy lại showtimes sau khi xóa
             message.success('Showtime deleted successfully');
         } catch (error) {
-            message.error('Failed to delete showtime');
+            message.error('Failed to delete showtime',error);
         } finally {
             setLoading(false);
         }
     };
-
+    
     const fetchTheaters = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/theaters');
+            const response = await axios.get('http://localhost:8081/theater/all');
             setTheaters(response.data);
+            console.log(theaters)
         } catch (error) {
             console.error("Error fetching theaters:", error);
             message.error('Failed to fetch theaters');
@@ -135,8 +155,9 @@ const Showtimes = () => {
 
     const fetchRooms = async (theaterId) => {
         try {
-            const response = await axios.get(`http://localhost:8081/theaters/${theaterId}/rooms`);
-            setRooms(response.data);
+            console.log('fetchrooom',theaterId)
+            const response = await axios.get(`http://localhost:8081/theater/${theaterId}/rooms`);
+            setRooms(response.data.rooms);
         } catch (error) {
             console.error("Error fetching rooms:", error);
             message.error('Failed to fetch rooms');
@@ -166,56 +187,61 @@ const Showtimes = () => {
         setIsModalVisible(true);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id,movieId) => {
         try {
-            await deleteShowtime(id);
-            setShowtimes(showtimes.filter(showtime => showtime.id !== id));
+            console.log('hihi',id)
+            await deleteShowtime(id,movieId);  // Gọi hàm xóa showtime
+            setShowtimes(showtimes.filter(showtime => showtime.id !== id));  // Cập nhật danh sách showtimes
         } catch (error) {
-            // Error already handled in deleteShowtime
+            // Lỗi đã được handle trong hàm deleteShowtime
         }
     };
+    
 
     const handleAdd = () => {
         setIsEditMode(false);
         setIsModalVisible(true);
+        setCurrentShowtime({}); // Reset currentShowtime
+        form.setFieldsValue({}); // Reset form fields
     };
-
+    
     const handleOk = async () => {
         try {
-            const values = await form.validateFields();
+            const values = await form.validateFields();  // Validate form fields
             const formattedValues = {
                 ...values,
-                date: values.date.format('YYYY-MM-DD'),
-                time: values.time.format('HH:mm')
+                date: values.date instanceof moment ? values.date.format('YYYY-MM-DD') : values.date,  // Check and format date if it's a moment instance
+                time: values.time instanceof moment ? values.time.format('HH:mm') : values.time,  // Format time if it's a moment instance
             };
-
+    
             if (isEditMode) {
+                // Nếu đang ở chế độ chỉnh sửa, gọi updateShowtime
                 await updateShowtime(currentShowtime.id, formattedValues);
                 setShowtimes(showtimes.map(showtime => 
                     showtime.id === currentShowtime?.id ? { ...showtime, ...formattedValues } : showtime
                 ));
             } else {
-                await createShowtime(formattedValues);
-                const newShowtime = { id: Date.now(), ...formattedValues };
-                setShowtimes([...showtimes, newShowtime]);
+                console.log(selectedMovie)
+                await createShowtime(formattedValues,selectedMovie.id);  // Nếu không thì tạo showtime mới
             }
-
-            setIsModalVisible(false);
-            form.resetFields();
+    
+            setIsModalVisible(false);  // Ẩn modal
+            form.resetFields();         // Reset form fields
         } catch (error) {
-            // Errors already handled in createShowtime/updateShowtime
+            // Handle errors from form validation or API calls
         }
     };
+    
 
     const handleCancel = () => {
         setIsModalVisible(false);
         form.resetFields();
     };
 
-    const handleTheaterChange = (value) => {
-        setSelectedTheater(value);
-        form.setFieldValue('roomName', undefined); // Reset room selection
-        fetchRooms(value);
+    const handleTheaterChange = (theaterId) => {
+        setSelectedTheater(theaterId); 
+        form.setFieldsValue({ roomName: undefined }); 
+        fetchRooms(theaterId); 
     };
 
     const movieColumns = [
@@ -238,23 +264,18 @@ const Showtimes = () => {
     const columns = [
         {
             title: 'Theater Name',
-            dataIndex: 'theaterName',
+            dataIndex: ['screening_room_id', 'theater_id', 'name'],
             key: 'theaterName',
         },
         {
             title: 'Room Name',
-            dataIndex: 'roomName',
+            dataIndex: ['screening_room_id', 'name'],
             key: 'roomName',
         },
         {
             title: 'Date',
             dataIndex: 'date',
             key: 'date',
-        },
-        {
-            title: 'Time',
-            dataIndex: 'time',
-            key: 'time',
         },
         {
             title: 'Language',
@@ -264,10 +285,10 @@ const Showtimes = () => {
         {
             title: 'Action',
             key: 'action',
-            render: (_: any, record: { id: any; }) => (
+            render: (_: any, record: { _id: any; }) => (
                 <Space size="middle">
                     <Button onClick={() => handleEdit(record)}>Edit</Button>
-                    <Button onClick={() => handleDelete(record.id)}>Delete</Button>
+                    <Button onClick={() => handleDelete(record._id,selectedMovie.id)}>Delete</Button>
                 </Space>
             ),
         },
