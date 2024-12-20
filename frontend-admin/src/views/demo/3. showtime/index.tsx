@@ -207,11 +207,6 @@ const Showtimes = () => {
 
     const columns = [
         {
-            title: 'Movie Name',
-            dataIndex: 'movieName',
-            key: 'movieName',
-        },
-        {
             title: 'Theater Name',
             dataIndex: 'theaterName',
             key: 'theaterName',
