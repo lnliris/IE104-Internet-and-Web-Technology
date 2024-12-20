@@ -222,3 +222,51 @@ export const getShowtimeAndTheaterInfo = async (req, res) => {
         return res.status(500).json({ message: "Failed to retrieve showtimes", error: error.message });
     }
 };
+
+
+export const getShowtimesByTheaterAndMovie = async (req, res) => {
+    const { theaterId, movieId, date } = req.body;
+
+    // Validate theaterId and movieId formats
+    if (!mongoose.Types.ObjectId.isValid(theaterId) || !mongoose.Types.ObjectId.isValid(movieId)) {
+        return res.status(400).json({ message: 'Invalid theaterId or movieId format' });
+    }
+
+    let showtimes;
+
+    try {
+        // Base query: Find showtimes by theaterId and movieId
+        showtimes = await Showtime.find()
+            .populate({
+                path: 'screening_room_id',
+                match: { theater_id: theaterId },
+                select: 'name capacity theater_id',
+            })
+            .populate('movie_id', 'title duration genre')
+            .where('movie_id').equals(movieId);
+
+        // Filter out showtimes with no matching screening room
+        showtimes = showtimes.filter((showtime) => showtime.screening_room_id);
+
+        // Additional filtering by date if provided
+        if (date) {
+            const parsedDate = new Date(date).toISOString().split('T')[0]; // Convert to 'YYYY-MM-DD' format
+            showtimes = showtimes.filter(
+                (showtime) =>
+                    new Date(showtime.date).toISOString().split('T')[0] === parsedDate
+            );
+        }
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'An error occurred while fetching showtimes' });
+    }
+
+    // Handle no showtimes found
+    if (!showtimes || showtimes.length === 0) {
+        return res.status(404).json({ message: 'No showtimes found for the given theaterId and movieId' });
+    }
+
+    // Return showtimes
+    return res.status(200).json({ showtimes });
+};
