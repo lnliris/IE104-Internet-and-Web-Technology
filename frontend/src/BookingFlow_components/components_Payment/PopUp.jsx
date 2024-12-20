@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import "./PopUp.css";
 import { BookingContext } from "../Context";
 import logo from "../../assets/img/Logo.png";
-import moviePoster from "../../assets/img/avengerposter.jpg"; // Đường dẫn tới hình ảnh phim
 import qrCodeImage from "../../assets/img/QR_code.png"; // Đường dẫn tới hình ảnh QR
 
 const PopUP = () => {
@@ -13,7 +12,7 @@ const PopUP = () => {
     handleClosePaymentPopup,
     isConfirmPopupOpen,
     isPaymentPopup,
-    selectedDate,selectedTheater, selectedTime, selectedSeats, convertDateFormat
+    selectedDate,selectedTheater, selectedTime, selectedSeats, convertDateFormat,movieTitle,movieUrl
   } = useContext(BookingContext);
   return (
     <div>
@@ -49,7 +48,7 @@ const PopUP = () => {
             <div className="ticket-info">
               <div className="movie-details-popup">
                 <div className="title-popup">
-                    <h3>AVENGERS: INFINITY WAR</h3>
+                    <h3>{movieTitle}</h3>
                     <p>2D Phụ đề</p>
                 </div>
                 <p>
@@ -66,7 +65,7 @@ const PopUP = () => {
 
               <div className="poster-container">
                 <img
-                  src={moviePoster}
+                  src={movieUrl}
                   alt="Avengers"
                   className="movie-poster-popup"
                 />
