@@ -1,14 +1,15 @@
-import multer from "multer"
+import multer from 'multer';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import cloudinary from '../configs/cloudinaryConfig.js';
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads')
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'avatars', // Thư mục trong Cloudinary để lưu ảnh
+        allowed_formats: ['jpg', 'jpeg', 'png'], // Định dạng cho phép
     },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + file.originalname)
-    }
-})
+});
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage });
 
-export default upload
+export default upload;
