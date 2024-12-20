@@ -1,5 +1,5 @@
 /* Toàn bộ container */
-.container {
+.container{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,7 +50,7 @@
   }
   
   /* Tiêu đề */
-  .title {
+  .title-confirm {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;

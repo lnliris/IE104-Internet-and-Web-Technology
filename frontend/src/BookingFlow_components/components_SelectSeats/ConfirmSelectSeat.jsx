@@ -35,7 +35,7 @@ function ConfirmSelectSeat () {
 
           {/* Thông tin rap chiếu*/}
           <div className="info">
-            <h3 className="title">AVENGERS: INFINITY WAR</h3>
+            <h3 className="title-confirm">AVENGERS: INFINITY WAR</h3>
             <p className="subtitle">2D Phụ đề</p>
             <div className="details">
               <p>Rạp: {selectedTheater}</p>
