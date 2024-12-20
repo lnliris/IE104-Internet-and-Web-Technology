@@ -11,7 +11,12 @@ function Confirm () {
     navigate(-1);
   };
   const handleNext = () => {
-    navigate(`/selectseats/${selectedRoomId}`)
+    if(selectedTime) {
+      navigate(`/selectseats/${selectedRoomId}`)
+    } else {
+      alert('Bạn chưa chọn suất chiếu !')
+    }
+    
   };
   
   return (
