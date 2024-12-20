@@ -120,6 +120,19 @@ export const put = async (url, data, config = {}) => {
   return response.data; // Trả về dữ liệu từ response
 };
 
+export const postWithFile = async (url, formData, config = {}) => {
+  const finalConfig = {
+    ...config,
+    headers: {
+      ...(config.headers || {}),
+      "Content-Type": "multipart/form-data",
+    },
+  }
+  const response = await axiosInstance.post(url, formData, finalConfig);
+
+  // Trả về dữ liệu từ response
+  return response.data;
+};
 
 
 export const getSeatsByRoom = async (roomId) => {
@@ -252,27 +265,27 @@ export const getAllPromo = async () => {
 };
 
 export const getBooking = async () => {
-  
+
   try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error("User not authenticated. Token is missing.");
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error("User not authenticated. Token is missing.");
+    }
+    const res = await axios.get(`${BASE_URL}/booking`, {
+      headers: {
+        Authorization: `Bearer ${token}` // Đảm bảo thêm token xác thực nếu cần
       }
-      const res = await axios.get(`${BASE_URL}/booking`, {
-          headers: {
-              Authorization: `Bearer ${token}` // Đảm bảo thêm token xác thực nếu cần
-          }
-      });
+    });
 
-      if (res.status !== 200) {
-          console.log("No Data");
-          return null;
-      }
-
-      const data = await res.data;
-      return data;
-  } catch (error) {
-      console.error("An error occurred while fetching booking data:", error);
+    if (res.status !== 200) {
+      console.log("No Data");
       return null;
+    }
+
+    const data = await res.data;
+    return data;
+  } catch (error) {
+    console.error("An error occurred while fetching booking data:", error);
+    return null;
   }
 };

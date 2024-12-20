@@ -350,3 +350,40 @@ export const updateProfile = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+export const updateAvatar = async (req, res) => {
+    try {
+        const accountId = req.user.id; // ID từ JWT
+        if (!req.file) {
+            console.log("Chưa tải file lên được")
+            return res.status(400).json({ message: "Chưa tải file avatar lên" });
+        }
+
+        // Đường dẫn file
+        const avatarPath = `/uploads/${req.file.filename}`;
+
+        // Tìm tài khoản
+        const account = await Account.findById(accountId).populate("member");
+        if (!account) {
+            return res.status(404).json({ message: "Không tìm thấy tài khoản" });
+        }
+
+        const memberId = account.member;
+
+        // Cập nhật avatar trong Member
+        const updatedMember = await Member.findByIdAndUpdate(
+            memberId,
+            { avatar: avatarPath },
+            { new: true }
+        );
+        await updatedMember.save()
+
+        res.status(200).json({
+            message: "Cập nhật avatar thành công",
+            avatar: updatedMember.avatar,
+        });
+    } catch (error) {
+        console.error("Lỗi khi cập nhật avatar:", error);
+        res.status(500).json({ message: "Lỗi khi cập nhật avatar", error: error.message });
+    }
+};

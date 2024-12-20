@@ -1,5 +1,5 @@
 import express from "express";
-import { loginAdmin, register, login, getProfile, logout, forgotPassword, verifyOTP, resetPassword, updateProfile } from '../controllers/auth-controller.js';
+import { loginAdmin, register, login, getProfile, logout, forgotPassword, verifyOTP, resetPassword, updateProfile, updateAvatar } from '../controllers/auth-controller.js';
 import authMiddleware from '../middlewares/auth-middlewares.js';
 import loginLimiter from '../middlewares/rate-limit-middleware.js';
 import upload from '../middlewares/uploadMiddleware.js';
@@ -12,10 +12,10 @@ AccountRouter.post('/login', loginLimiter, login); // // Route đăng nhập (á
 AccountRouter.get('/profile', authMiddleware, getProfile)
 AccountRouter.post('/logout', logout);
 AccountRouter.post('/forgot-password', forgotPassword);
-AccountRouter.post('/verify-otp', verifyOTP );
+AccountRouter.post('/verify-otp', verifyOTP);
 AccountRouter.post('/reset-password', resetPassword);
 AccountRouter.put('/update-profile', authMiddleware, updateProfile);
 AccountRouter.post('/admin/login', loginLimiter, loginAdmin)
-
+AccountRouter.post("/update-avatar", authMiddleware, upload.single("avatar"), updateAvatar);
 
 export default AccountRouter;

@@ -1,11 +1,12 @@
 import { useLocation, useNavigate } from "react-router";
 import $ from "jquery"
 import { useEffect, useState } from "react";
-import { get } from "../api/api";
+import { get, postWithFile } from "../api/api";
 
 function MenuProfile() {
     // Kiểm tra xem dữ liệu
     const [user, setUser] = useState({ name: "", avatar: "" });
+    const [selectedFile, setSelectedFile] = useState(null);
     useEffect(() => {
         // const storedUser = JSON.parse(localStorage.getItem('userProfile'));
 
@@ -35,7 +36,7 @@ function MenuProfile() {
         // }
 
         const fetchProfile = async () => {
-            // Kiểm tra xem dữ liệu người dùng đã có trong localStorage chưa
+
 
             try {
                 const profileData = await get("/account/profile"); // Gọi API
@@ -46,10 +47,6 @@ function MenuProfile() {
                 console.log(profileData)
             } catch (error) {
                 console.error("Lỗi khi lấy thông tin hồ sơ:", error);
-                // alert(
-                //     error.response?.data?.message ||
-                //     "Có lỗi xảy ra khi lấy thông tin hồ sơ. Vui lòng thử lại!"
-                // );
             }
         };
 
@@ -78,7 +75,40 @@ function MenuProfile() {
         })
     }
 
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+        }
+    };
 
+    const handleAvatarUpload = async () => {
+        if (!selectedFile) {
+            alert("Vui lòng chọn file avatar");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("avatar", selectedFile);
+
+        try {
+            const response = await postWithFile("/account/update-avatar", formData);
+            setUser((prevUser) => ({
+                ...prevUser,
+                avatar: response.avatar,
+            }));
+            alert(response.message || "Cập nhật avatar thành công!");
+        } catch (error) {
+            console.error("Lỗi khi cập nhật avatar:", error);
+            alert("Cập nhật avatar thất bại!");
+        }
+    };
+
+    useEffect(() => {
+        if (selectedFile) {
+            handleAvatarUpload();
+        }
+    }, [selectedFile]);
 
     return (
         <section>
@@ -94,12 +124,36 @@ function MenuProfile() {
                         src={user.avatar}
                         alt="User Avatar"
                     />
+
+                    <label
+                        htmlFor="upload-avatar"
+                        style={{
+                            position: "absolute",
+                            bottom: "10px",
+                            right: "20px",
+                            background: "white",
+                            borderRadius: "50%",
+                            padding: "10px",
+                            cursor: "pointer",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        }}
+                    >
+                        <i className="fas fa-camera" style={{ fontSize: "18px" }}></i>
+                    </label>
+                    <input
+                        type="file"
+                        id="upload-avatar"
+                        accept="image/*"
+                        style={{ display: "none" }}
+                        onChange={handleFileChange} // Khi chọn file, gọi hàm xử lý
+                    />
+
                     <div className="flex f-col gap10">
                         <h1
                             className="p-0 product-name mb-5 m-0"
                             style={{ "fontSize": "30px" }}
                         >
-                            {user.name || "Đang tải..."}
+                            {user.name}
                         </h1>
                     </div>
 
