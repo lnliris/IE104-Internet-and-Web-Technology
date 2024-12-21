@@ -10,7 +10,7 @@ function FilmOrder({showtime,seats}){
                 <div style={{"flex":"1","backgroundColor":"#00000099","padding":"15px","borderRadius":"10px"}}>
                     <div className="flex spa-bet-ver cenhor">
                         <h1 className="product-name" style={{"fontSize":"40px"}}>{showtime.movie_id.title}</h1>
-                        <p className="text-badge" style={{"backgroundColor":"#B28FFF"}}>T{showtime.movie_id.limit_age}</p>
+                        <p className="text-badge" style={{"backgroundColor":"#B28FFF"}}>{showtime.movie_id.limit_age}</p>
                     </div>
                     <div className="flex f-col gap20" style={{"padding":"5px"}}>
                         <div className="flex startver cenhor gap20">
