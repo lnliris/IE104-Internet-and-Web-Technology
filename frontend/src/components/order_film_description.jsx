@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getMovieDetails } from "../api/api.js"; // Import hàm API
 import $ from "jquery"
 
 function OrderFilmDescript() {
   const { movieId } = useParams();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   // Hàm chuyển đổi định dạng ngày tháng năm
   const formatDate = (dateString) => {
@@ -52,6 +54,17 @@ function OrderFilmDescript() {
     })
   }
 
+  const handleBookingClick = () => {
+    // Check if user is logged in (you'll need to implement your own logic here)
+    const isLoggedIn = localStorage.getItem('token'); // or your auth check method
+    
+    if (isLoggedIn) {
+      navigate(`/booking/${movieId}`); // Navigate to booking page
+    } else {
+      setShowLoginPopup(true);
+    }
+  };
+
   return (
     <section className="flex f-col w-100">
       <section className="w-100 h-100 flex cenhor cenver" style={{"position": "relative"}} >
@@ -86,6 +99,22 @@ function OrderFilmDescript() {
             src={movie?.poster_url}
             alt={movie?.title}
           />
+          <button 
+            onClick={handleBookingClick}
+            className="w-100 mt-20"
+            style={{
+              padding: "15px",
+              backgroundColor: "#B28FFF",
+              border: "none",
+              borderRadius: "10px",
+              color: "white",
+              fontSize: "18px",
+              cursor: "pointer",
+              fontWeight: "bold"
+            }}
+          >
+            Đặt vé ngay
+          </button>
         </div>
         <div
           style={{
@@ -142,6 +171,58 @@ function OrderFilmDescript() {
           <div className="line w-100" style={{"height":"1px", "backgroundColor":"white"}}></div>
           <p style={{"fontSize":"14px","color":"white"}}>{movie?.description}</p>
       </div>  
+
+      {/* Login Popup */}
+      {showLoginPopup && (
+        <div className="flex cenhor cenver" style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0,0,0,0.8)",
+          zIndex: 10001
+        }}>
+          <div style={{
+            backgroundColor: "#fff",
+            padding: "30px",
+            borderRadius: "10px",
+            textAlign: "center",
+          }}>
+            <h2 style={{ color: "#000", marginBottom: "20px" }}>Vui lòng đăng nhập</h2>
+            <button 
+              onClick={() => {
+                setShowLoginPopup(false); // Hide current popup
+                $('#authpopup').removeClass('hide'); // Show auth popup
+            }}
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#B28FFF",
+                border: "none",
+                borderRadius: "5px",
+                color: "white",
+                marginRight: "10px",
+                cursor: "pointer"
+              }}
+            >
+              Đăng nhập
+            </button>
+            <button 
+              onClick={() => setShowLoginPopup(false)}
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#ccc",
+                border: "none",
+                borderRadius: "5px",
+                color: "white",
+                cursor: "pointer"
+              }}
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -14,7 +14,7 @@ function Product(prop){
         if(localStorage.getItem('token')){
             navigate(`/booking/${prop.id}`);
             return;
-          }
+        }
         $("#authpopup").removeClass("hide");
     };
 
