@@ -11,7 +11,7 @@ const movieRouter = express.Router();
     movieRouter.get("/:id", getMovieDetails);
     movieRouter.post("/:id/showtimes",addShowtime);
     movieRouter.get("/:id/showtimes",getShowtimeAndTheaterInfo);
-    movieRouter.put("/showtimes/:showtimeId",editShowtime);
+    movieRouter.put(":id/showtimes/:showtimeId",editShowtime);
     movieRouter.delete("/:id/showtimes/:showtimeId",deleteShowtime);
     movieRouter.get("/:id/showtimeIds",getShowtimeByMovieId)
     movieRouter.post("/showtimes",getShowtimesByTheaterAndMovie);

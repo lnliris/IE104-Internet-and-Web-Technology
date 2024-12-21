@@ -22,8 +22,10 @@ const DemoTable: React.FC = () => {
       const response = await axios.get("http://localhost:8081/theater/all");
       const transformedData = response.data.map((theater: any) => ({
         key: theater._id, // key từ backend (MongoDB ID)
+        brandName:theater.brand_id.name,
         name: theater.name,
         location: theater.location,
+        img:theater.img
       }));
       setData(transformedData); // Cập nhật state với dữ liệu đã chuyển đổi
     } catch (error) {
@@ -135,6 +137,11 @@ const columns: TableProps<DataType>["columns"] = [
     title: "Theater Image Link",
     dataIndex: "img",
     key: "img",
+    render: (text) => (
+      <a href={text} target="_blank" rel="noopener noreferrer">
+        {text.length > 30 ? `${text.slice(0, 30)}...` : text}
+      </a>
+    ), // Chỉ hiển thị 30 ký tự đầu và cho phép mở URL
   },
   {
     title: "Action",
