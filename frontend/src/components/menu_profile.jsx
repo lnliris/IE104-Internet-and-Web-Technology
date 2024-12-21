@@ -1,81 +1,78 @@
 import { useLocation, useNavigate } from "react-router";
-import $ from "jquery";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { get, postWithFile } from "../api/api";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+const MENU_ITEMS = [
+    { name: 'info', label: 'Thông tin cá nhân' },
+    { name: 'history', label: 'Lịch sử giao dịch' },
+    { name: 'myorder', label: 'Vé của tôi' },
+    { name: 'notify', label: 'Thông báo' }
+];
+
+const styles = {
+    menuItem: {
+        fontSize: "18px",
+        color: "white"
+    },
+    avatarUploadButton: {
+        position: "absolute",
+        bottom: "10px",
+        right: "20px",
+        background: "white",
+        borderRadius: "50%",
+        padding: "10px",
+        cursor: "pointer",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
+    }
+};
 
 function MenuProfile() {
     const [user, setUser] = useState({ name: "", avatar: "" });
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [isUploading, setIsUploading] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const profileData = await get("/account/profile");
-                setUser({
-                    name: profileData.name,
-                    avatar: profileData.avatar,
-                });
-            } catch (error) {
-                console.error("Lỗi khi lấy thông tin hồ sơ:", error);
-            }
-        };
-
-        fetchProfile();
-        do_bind_event();
-        init_menu_bar();
+    const fetchProfile = useCallback(async () => {
+        try {
+            const profileData = await get("/account/profile");
+            setUser({
+                name: profileData.name,
+                avatar: profileData.avatar,
+            });
+        } catch (error) {
+            console.error("Lỗi khi lấy thông tin hồ sơ:", error);
+        }
     }, []);
 
-    const locat = useLocation();
-    const navi = useNavigate();
+    const handleMenuClick = useCallback((name) => {
+        navigate(`/profile/${name}`);
+    }, [navigate]);
 
-    const init_menu_bar = () => {
-        const path = locat.pathname.split("/")[2];
-        $(`.menu_profile[data-name='${path}']`).addClass("menu_profile_active");
-    };
+    const handleAvatarUpload = async (file) => {
+        if (!file || isUploading) return;
 
-    const do_bind_event = () => {
-        $(".menu_profile").on("click", function () {
-            const { name } = $(this).data();
-            navi(`/profile/${name}`);
-        });
-    };
-
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setSelectedFile(file);
-        }
-    };
-
-    const handleAvatarUpload = async () => {
-        if (!selectedFile) {
-            alert("Vui lòng chọn file avatar");
-            return;
-        }
-
+        setIsUploading(true);
         const formData = new FormData();
-        formData.append("avatar", selectedFile);
+        formData.append("avatar", file);
 
         try {
             const response = await postWithFile("/account/update-avatar", formData);
-            setUser((prevUser) => ({
-                ...prevUser,
-                avatar: response.avatar,
-            }));
-            alert(response.message || "Cập nhật avatar thành công!");
+            setUser(prev => ({ ...prev, avatar: response.avatar }));
         } catch (error) {
             console.error("Lỗi khi cập nhật avatar:", error);
             alert("Cập nhật avatar thất bại!");
+        } finally {
+            setIsUploading(false);
         }
     };
 
     useEffect(() => {
-        if (selectedFile) {
-            handleAvatarUpload();
-        }
-    }, [selectedFile]);
+        fetchProfile();
+        const currentPath = location.pathname.split("/")[2];
+        document.querySelector(`.menu_profile[data-name='${currentPath}']`)?.classList.add("menu_profile_active");
+    }, [fetchProfile, location.pathname]);
 
     return (
         <section>
@@ -87,83 +84,80 @@ function MenuProfile() {
                     alt="Background"
                 />
             </div>
-            <div
-                className="flex f-col"
-                style={{ transform: "translateY(-120px)", position: "relative", padding: "0 5%" }}
-            >
+            <div className="flex f-col" style={{ transform: "translateY(-120px)", position: "relative", padding: "0 5%" }}>
                 <div className="flex cenhor gap20">
-                    <img
-                        width="200"
-                        height="200"
-                        style={{ objectFit: "cover", borderRadius: "50%" }}
-                        src={user.avatar}
-                        alt="User Avatar"
-                    />
-
-                    <label
-                        htmlFor="upload-avatar"
-                        style={{
-                            position: "absolute",
-                            bottom: "10px",
-                            right: "20px",
-                            background: "white",
-                            borderRadius: "50%",
-                            padding: "10px",
-                            cursor: "pointer",
-                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                        }}
-                    >
-                        <FontAwesomeIcon icon={faCamera} style={{ fontSize: "18px" }} />
-                    </label>
-                    <input
-                        type="file"
-                        id="upload-avatar"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={handleFileChange}
-                    />
-
-                    <div className="flex f-col gap10">
-                        <h1 className="p-0 product-name mb-5 m-0" style={{ fontSize: "30px" }}>
-                            {user.name}
-                        </h1>
+                    <div style={{ position: 'relative' }}>
+                        <img
+                            width="200"
+                            height="200"
+                            style={{ 
+                                objectFit: "cover", 
+                                borderRadius: "50%",
+                                opacity: isUploading ? 0.7 : 1,
+                                transition: 'opacity 0.3s'
+                            }}
+                            src={user.avatar}
+                            alt="User Avatar"
+                        />
+                        <label 
+                            htmlFor="upload-avatar" 
+                            style={{
+                                ...styles.avatarUploadButton,
+                                cursor: isUploading ? 'not-allowed' : 'pointer'
+                            }}
+                        >
+                            <FontAwesomeIcon 
+                                icon={isUploading ? faSpinner : faCamera} 
+                                style={{ 
+                                    fontSize: "18px",
+                                    animation: isUploading ? 'spin 1s linear infinite' : 'none'
+                                }} 
+                            />
+                        </label>
+                        <input
+                            type="file"
+                            id="upload-avatar"
+                            accept="image/*"
+                            style={{ display: "none" }}
+                            onChange={(e) => handleAvatarUpload(e.target.files[0])}
+                            disabled={isUploading}
+                        />
+                        {isUploading && (
+                            <div style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                color: '#fff',
+                                backgroundColor: 'rgba(0,0,0,0.5)',
+                                padding: '10px',
+                                borderRadius: '5px'
+                            }}>
+                                Đang tải...
+                            </div>
+                        )}
                     </div>
+
+                    <h1 className="p-0 product-name mb-5 m-0" style={{ fontSize: "30px" }}>
+                        {user.name}
+                    </h1>
                 </div>
+
                 <div className="w-100 flex f-col cenhor" style={{ padding: "3% 2%" }}>
                     <div className="flex spa-bet-ver w-100 mb-10">
-                        <p
-                            data-name="info"
-                            className="menu_profile"
-                            style={{ fontSize: "18px", color: "white" }}
-                        >
-                            Thông tin cá nhân
-                        </p>
-                        <p
-                            data-name="history"
-                            className="menu_profile"
-                            style={{ fontSize: "18px", color: "white" }}
-                        >
-                            Lịch sử giao dịch
-                        </p>
-                        <p
-                            data-name="myorder"
-                            className="menu_profile"
-                            style={{ fontSize: "18px", color: "white" }}
-                        >
-                            Vé của tôi
-                        </p>
-                        <p
-                            data-name="notify"
-                            className="menu_profile"
-                            style={{ fontSize: "18px", color: "white" }}
-                        >
-                            Thông báo
-                        </p>
+                        {MENU_ITEMS.map(item => (
+                            <p
+                                key={item.name}
+                                data-name={item.name}
+                                className="menu_profile"
+                                style={styles.menuItem}
+                                onClick={() => handleMenuClick(item.name)}
+                            >
+                                {item.label}
+                            </p>
+                        ))}
                     </div>
-                    <div
-                        className="line w-100 mt-10"
-                        style={{ height: "2px", backgroundColor: "white" }}
-                    ></div>
+                    <div className="line w-100 mt-10" style={{ height: "2px", backgroundColor: "white" }}></div>
                 </div>
             </div>
         </section>
