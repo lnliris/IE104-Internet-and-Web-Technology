@@ -51,15 +51,6 @@ export const addShowtime = async (req, res) => {
         return res.status(400).json({ message: "Invalid Movie ID" });
     }
 
-    // Kiểm tra xem dữ liệu có hợp lệ không
-    if (!theaterName || theaterName.trim() === "") {
-        return res.status(400).json({ message: "Theater name is required" });
-    }
-
-    if (!roomName || roomName.trim() === "") {
-        return res.status(400).json({ message: "Room name is required" });
-    }
-
     if (!date || new Date(date).toString() === "Invalid Date") {
         return res.status(400).json({ message: "Invalid Date" });
     }
@@ -120,21 +111,9 @@ export const editShowtime = async (req, res) => {
         return res.status(400).json({ message: "Invalid Showtime ID" });
     }
 
-    // Kiểm tra các giá trị theaterName, roomName hợp lệ
-    const theater = await Theater.findOne({ name: theaterName });
-    if (!theater) {
-        return res.status(400).json({ message: "Theater not found" });
-    }
-
-    const room = await Room.findOne({ name: roomName, theater_id: theater._id });
-    if (!room) {
-        return res.status(400).json({ message: "Room not found in the selected theater" });
-    }
-
-    // Tạo đối tượng lưu trữ các trường cần cập nhật
-    const updateFields = {
-        theater_id: theater._id,          // Lưu ID theater
-        screening_room_id: room._id,      // Lưu ID room
+    const updateFields = {      
+        movie_id:movieId,
+        screening_room_id: roomName,      // Lưu ID room
         date: new Date(date),              // Cập nhật ngày chiếu
         language: language.trim()          // Cập nhật ngôn ngữ
     };
