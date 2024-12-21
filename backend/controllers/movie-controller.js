@@ -86,17 +86,19 @@ export const addMovie = async (req, res, next) => {
     poster_url, 
     release_date, 
     cast, 
-    crew
+    crew,
+    vid_url
   } = req.body;
 
   if (
     !title || title.trim() === "" ||
-    !description || description.trim() === "" ||
+    !description || description.trim() === ""|| 
     !duration || duration.trim() === "" ||
-    !genre || genre.trim() === "" ||
+    !genre || genre.trim() === ""|| 
     !rating || rating.trim() === "" ||
-    !limit_age || isNaN(limit_age) ||
+    !limit_age || limit_age.trim() === ""||
     !poster_url || poster_url.trim() === "" ||
+    !vid_url || vid_url.trim() === "" ||
     !release_date || new Date(release_date).toString() === "Invalid Date" ||
     !cast || cast.trim() === "" ||
     !crew || crew.trim() === ""
@@ -117,6 +119,7 @@ export const addMovie = async (req, res, next) => {
       release_date: new Date(release_date), 
       cast,
       crew,
+      vid_url
     });
 
     await movie.save();
