@@ -12,6 +12,7 @@ const FormPage: React.FC = () => {
     const onFinish = async (values: any) => {
         try {
             // Gửi request POST đến backend API
+            console.log(values);
             const response = await axios.post("http://localhost:8081/movie", values);
     
             // Reset form và hiển thị thông báo
@@ -147,6 +148,16 @@ const FormPage: React.FC = () => {
                 tooltip="This is a required field"
             >
                 <Input placeholder="Enter poster URL" />
+            </Form.Item>
+
+            <Form.Item
+                label="Video URL"
+                name="vid_url"
+                rules={[{ required: true, message: 'Please enter the video URL' }]}
+                required
+                tooltip="This is a required field"
+            >
+                <Input placeholder="Enter video URL" />
             </Form.Item>
 
             <Form.Item label="Upload Film List" tooltip="Upload an Excel file with a list of films">
