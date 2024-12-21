@@ -17,6 +17,7 @@ import PromotionPage from "./pages/Promotion_Page";
 import PhimSapChieu from './components/film_sapchieu'
 import PhimDangChieu from './components/film_dangchieu'
 import AuthContent from "./layouts/auth-content";
+import ScrollToTop from './components/ScrollToTop'
 
 function App () {
   return (
@@ -26,6 +27,7 @@ function App () {
       <PopSuc />
       <AuthContent/>
 
+      <ScrollToTop />
       <Routes>
         <Route path='/' element={<Index />} />
         <Route path='/search' element={<SearchPage />} />
