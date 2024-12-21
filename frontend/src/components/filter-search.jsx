@@ -5,9 +5,6 @@ import { BookingContext } from "../BookingFlow_components/Context";
 import { useNavigate } from "react-router-dom";
 import $ from 'jquery'
   
-  
-
-
 function FilterSearch(prop) {
     const navigate = useNavigate();
     const { setMovie_id, setSelectedDate,setSelectedTime, setSelectedTheater,selectedRoomId,setSelectedRoomId, setSelectedShowtimeId} = useContext(BookingContext);
