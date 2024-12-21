@@ -18,6 +18,9 @@ const Showtimes = () => {
 
     // Utility function to combine date and time
     const combineDateTime = (date, time) => {
+        if (!date || !time) {
+            throw new Error('Date or time is undefined');
+        }
         return moment(`${date.format('YYYY-MM-DD')}T${time.format('HH:mm')}:00.000Z`).toISOString();
     };
 
@@ -65,15 +68,17 @@ const Showtimes = () => {
     const createShowtime = async (values, movieId) => {
         try {
             setLoading(true);
-            const response = await axios.post(`http://localhost:8081/movie/${movieId}/showtimes`, {
+            const dateTime = combineDateTime(values.date, values.time);
+            await axios.post(`http://localhost:8081/movie/${movieId}/showtimes`, {
                 theaterName: values.theaterName,
                 roomName: values.roomName,
-                date: combineDateTime(values.date, values.time),
+                date: dateTime,
                 language: values.language,
             });
             await fetchShowtimes(movieId);
             message.success('Showtime created successfully');
         } catch (error) {
+            console.error('Error creating showtime:', error);
             message.error('Failed to create showtime');
         } finally {
             setLoading(false);
@@ -81,18 +86,20 @@ const Showtimes = () => {
     };
 
     // Update an existing showtime
-    const updateShowtime = async (id, values, movieId) => {
+    const updateShowtime = async (movieId, showtimeId, values) => {
         try {
             setLoading(true);
-            await axios.put(`http://localhost:8081/movie/${movieId}/showtimes/${id}`, {
+            const dateTime = combineDateTime(values.date, values.time);
+            await axios.put(`http://localhost:8081/movie/${movieId}/showtimes/${showtimeId}`, {
                 theaterName: values.theaterName,
                 roomName: values.roomName,
-                date: combineDateTime(values.date, values.time),
+                date: dateTime,
                 language: values.language,
             });
             await fetchShowtimes(movieId);
             message.success('Showtime updated successfully');
         } catch (error) {
+            console.error('Error updating showtime:', error);
             message.error('Failed to update showtime');
         } finally {
             setLoading(false);
@@ -107,6 +114,7 @@ const Showtimes = () => {
             await fetchShowtimes(movieId);
             message.success('Showtime deleted successfully');
         } catch (error) {
+            console.error('Error deleting showtime:', error);
             message.error('Failed to delete showtime');
         } finally {
             setLoading(false);
@@ -147,36 +155,31 @@ const Showtimes = () => {
     const handleEdit = async (showtime) => {
         try {
             setCurrentShowtime(showtime);
-    
-            // Tách ngày và giờ từ showtime.date
+
             const dateTime = moment(showtime.date, "DD/MM/YYYY HH:mm");
-            const date = dateTime.format('YYYY-MM-DD');
-            const time = dateTime.format('HH:mm');
-    
+            const date = moment(dateTime.format('YYYY-MM-DD'));
+            const time = moment(dateTime.format('HH:mm'), "HH:mm");
+
             setSelectedTheater(showtime.screening_room_id.theater_id._id);
             await fetchRooms(showtime.screening_room_id.theater_id._id);
-    
+
             form.setFieldsValue({
                 theaterName: showtime.screening_room_id.theater_id._id,
                 roomName: showtime.screening_room_id._id,
                 language: showtime.language,
-                date: moment(date), // Set date field
-                time: moment(time, "HH:mm"), // Set time field
+                date,
+                time,
             });
-    
+
             setIsEditMode(true);
             setIsModalVisible(true);
         } catch (error) {
             message.error('Failed to load showtime details');
         }
     };
-    
+
     const handleDelete = async (id) => {
-        try {
-            await deleteShowtime(id, selectedMovie.id);
-        } catch (error) {
-            console.error(error);
-        }
+        await deleteShowtime(id, selectedMovie.id);
     };
 
     const handleAdd = () => {
@@ -189,7 +192,7 @@ const Showtimes = () => {
         try {
             const values = await form.validateFields();
             if (isEditMode) {
-                await updateShowtime(currentShowtime._id, values, selectedMovie.id);
+                await updateShowtime(selectedMovie.id, currentShowtime._id, values);
             } else {
                 await createShowtime(values, selectedMovie.id);
             }
@@ -197,6 +200,7 @@ const Showtimes = () => {
             form.resetFields();
         } catch (error) {
             console.error(error);
+            message.error('Please check the form inputs');
         }
     };
 
