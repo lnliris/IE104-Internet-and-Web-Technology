@@ -320,10 +320,8 @@ export const updateProfile = async (req, res) => {
             }
 
             // Cập nhật username trong Account
-            await Account.findOneAndUpdate(
-                { username: email },
-                { new: true }
-            );
+            account.username = email;
+            await account.save();
         }
 
         // Cập nhật các trường được gửi trong req.body
