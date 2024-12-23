@@ -104,7 +104,7 @@ function OrderFilmDescript() {
             className="w-100 mt-20"
             style={{
               padding: "15px",
-              backgroundColor: "#B28FFF",
+              backgroundColor: "red",
               border: "none",
               borderRadius: "10px",
               color: "white",
@@ -137,13 +137,13 @@ function OrderFilmDescript() {
             <div className="flex startver cenhor gap20">
               <div className="flex cenhor gap10">
                 <p style={{ fontSize: "20px", color: "white" }}>
-                  <b>{movie?.duration} phút</b>
+                  <b>🕒{movie?.duration} phút</b>
                 </p>
               </div>
               <div className="flex cenhor gap10">
                 <p style={{ fontSize: "20px", color: "white" }}>
                   {/* Định dạng ngày tháng năm */}
-                  <b>{movie?.release_date ? formatDate(movie.release_date) : ""}</b>
+                  <b>📅{movie?.release_date ? formatDate(movie.release_date) : ""}</b>
                 </p>
               </div>
             </div>
